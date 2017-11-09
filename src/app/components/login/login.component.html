@@ -6,15 +6,20 @@
         <i>Take it easy, enjoy life </i>
       </p>
     </div>
-    <div class="form-group login-inputs">
+    <div class="form-group login-inputs" >
       <label class="col-form-label" for="inputDefault">Username</label>
-      <input type="text" class="form-control" id="inputDefault">
+      <input type="text" class="form-control" id="inputDefault"  />
       <label class="col-form-label" for="inputDefault">Email</label>
-      <input type="text" class="form-control" id="inputDefault">
+      <input type="text" class="form-control" id="inputDefault" [(ngModel)]="data.email" />
       <label class="col-form-label" for="inputDefault">Password</label>
-      <input type="text" class="form-control" id="inputDefault">
+      <input type="password" class="form-control" id="inputDefault"  />
     </div>
-    <button type="button" class="btn btn-success">Login</button>
+    <button type="button" (click)="loginSubmit()" class="btn btn-success">Login</button>
     <button type="button" class="btn btn-info">Sign in</button>
   </div>
 </form>
+<!--
+  [(ngModel)]="data.username"
+  
+  [(ngModel)]="data.password"
+-->
