@@ -38,8 +38,9 @@
 }
 
 div.footer-elements{
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: auto;
+	margin-right: auto;
+	max-width: 1100px;
 }
 /* Footer links */
 
