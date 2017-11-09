@@ -12,7 +12,10 @@
     <th>{{ user['firstName'] }}</th>
     <th>{{ user['lastName'] }}</th>
     <th>{{ user['email'] }}</th>
-    <th><button class="btn btn-sm btn-primary">Edit</button> <button class="btn btn-sm  btn-danger" >Delete</button></th>
+    <th>
+      <button class="btn btn-sm btn-primary">Edit</button>
+      <button class="btn btn-sm  btn-danger" (click)="deleteUser(user['_id'])">Delete</button>
+    </th>
   </tr>
 </table>
 
