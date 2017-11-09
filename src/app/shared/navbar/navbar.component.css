@@ -2,3 +2,7 @@ nav.navbar.bg-primary {
 background-color: #6aa84f !important;
 border-color:#598943 !important;
 }
+div.body-component{
+    margin-left: 10%;
+    margin-right: 10%
+}
