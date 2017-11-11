@@ -1,31 +1,26 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppComponent } from './app-root/app.component';
+import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
-import {ManagementComponent} from "./app-root/management/management.component";
-import { SignupComponent } from './app-root/signup/signup.component';
-import { RestaurantFinderComponent } from './app-root/restaurantFinder/restaurantFinder.component';
-import {FormsModule} from "@angular/forms";
+import {LoginComponent} from "./login.component";
+import {ManagementComponent} from "./management.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     ManagementComponent,
-    SignupComponent,
-    RestaurantFinderComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
-    FormsModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [
     AppComponent,
     ManagementComponent,
-    SignupComponent,
-    RestaurantFinderComponent
+    LoginComponent
   ]
 })
 export class AppModule { }
