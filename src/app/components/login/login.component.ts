@@ -9,17 +9,22 @@ import { User } from '../../models/user';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  public data: User;
+export class LoginComponent implements OnInit {
+  private data: User;
   constructor(private http: HttpClient) {
     this.data = new User(); 
   } 
+  ngOnInit() {
+  }
   
 
-  loginSubmit() {
+  loginSubmit(username, email, password) {
+    this.data.username = username
+    this.data.email = email
+    this.data.password = password;
+
     this.http.post('http://localhost:3001/user', JSON.stringify(this.data))
       .subscribe();
     alert("loginSubmit done! " + JSON.stringify(this.data))
   }
-
 }
