@@ -2,11 +2,11 @@
 <div>
   <input class="form-control"  type="text" #username (keyup)="OnChange(username.value)"/>
 </div>
-<div class="card text-white bg-success">
+<div class="card text-white success">
   <div *ngIf="!edit">
     <div class="card-body">
       <tr>
-        <td width="70%"><h2>{{ user?.username }}</h2></td> <td><button (click)="Edit()">Edit</button></td></tr>
+        <td width="70%"><h2>{{ user?.username }}</h2></td> <td><button class="btn btn-danger" (click)="Edit()">Edit</button></td></tr>
       <tr>
         <td width="70%">
         <p class="inside"><strong>Firtsname: </strong>{{ user?.firstName }} </p>
@@ -18,7 +18,7 @@
     </div>
   </div>
   <div *ngIf="edit">
-    <div class="card-body">
+    <div class="card-body success">
       <td style="width: 70%">
         <p>Username: </p><input [(ngModel)]="user.username">
       <p>Firtsname: </p> <input [(ngModel)]="user.firstName">
@@ -26,7 +26,7 @@
       <p>Email: </p> <input [(ngModel)]="user.email">
       </td>
       <td style="margin-left: 5px">
-        <tr align="center"><button (click)="Edit()">Cancel</button> <button (click)="Update()">Aply</button></tr>
+        <tr align="center"><button class="btn btn-danger" (click)="Edit()">Cancel</button> <button class="btn btn-info"(click)="Update()">Aply</button></tr>
         <img src="http://www.elcampico.org/wp-content/uploads/2017/02/profile.png" width="60%" align="center" style="margin-top: 30px">
       </td>
     </div>
@@ -34,7 +34,7 @@
 </div>
 
 <br>
-<div class="card text-white bg-success">
+<div class="card text-white success">
   <table>
     <th><h3>Allergies</h3></th>
     <th align="right"><button  class="btn btn-danger" >Edit</button></th>
@@ -45,7 +45,7 @@
 </div>
 
 <br>
-<div class="card text-white bg-success">
+<div class="card text-white success">
   <h3>Orders</h3>
   <div class="circle">
     <tr *ngFor="let order of user.orders">
