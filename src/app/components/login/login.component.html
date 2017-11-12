@@ -1,4 +1,13 @@
-<form class="form-login">
+<form class="form-welcome">
+  <ul class="nav nav-tabs">
+    <li class="nav-item" (click)="changeShowStatus()">
+      <a class="nav-link active" data-toggle="tab">Login</a>
+    </li>
+    <li class="nav-item" (click)="changeShowStatus()">
+      <a class="nav-link active">Signup</a>
+    </li>
+  </ul>
+
   <div class="jumbotron">
     <div class="company-title">
       <h2 class="display-3">Feel Food</h2>
@@ -6,21 +15,26 @@
         <i>Take it easy, enjoy life </i>
       </p>
     </div>
-    <div class="form-group login-inputs" >
-      <label class="col-form-label">Username</label>
-      <input type="text" class="form-control" #username />
-      <label class="col-form-label">Email</label>
-      <input type="text" class="form-control"  #email />
-      <label class="col-form-label">Password</label>
-      <input type="password" class="form-control" #password/>
+    <div class="form-group login-inputs" *ngIf="showLogin">
+      <div class="input-form">
+        <label class="col-form-label">Email</label>
+        <input type="text" class="form-control" #email />
+        <label class="col-form-label">Password</label>
+        <input type="password" class="form-control" #password/>
+      </div>
+      <button type="button" (click)="loginSubmit(email.value, password.value)" class="btn btn-success">Login</button>
     </div>
-    <button type="button" (click)="loginSubmit(username.value, email.value, password.value)" class="btn btn-success">Login</button>
-    <button type="button" class="btn btn-info">Sign in</button>
+
+    <div class="form-group login-inputs" *ngIf="showSignup">
+      <div class="input-form">
+        <label class="col-form-label">Username</label>
+        <input type="text" class="form-control" #username />
+        <label class="col-form-label">Email</label>
+        <input type="text" class="form-control" #email />
+        <label class="col-form-label">Password</label>
+        <input type="password" class="form-control" #password/>
+      </div>
+      <button type="button" (click)="singupSubmit(username.value, email.value, password.value)" class="btn btn-info">Signup</button>
+    </div>
   </div>
 </form>
-
-<!--
-  [(ngModel)]="data.username"
-  
-  [(ngModel)]="data.password"
--->
