@@ -4,4 +4,12 @@ export class Location {
     postalCode: Number
     country: String
     city: String;
+
+  constructor() {
+    this.locationName = '';
+    this.address = '';
+    this.postalCode = null;
+    this.country = '';
+    this.city = '';
+  }
 }

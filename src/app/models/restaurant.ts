@@ -3,6 +3,7 @@ import { Menu } from './menu';
 import { Dish } from './dish';
 
 export class Restaurant {
+    id: String
     username: String
     password: String
     email: String
@@ -10,5 +11,16 @@ export class Restaurant {
     phone: Number
     location: Location[]
     menus: Menu[]
-    dishes: Dish[]
+    dishes: Dish[];
+    constructor() {
+      this.id = ''
+      this.username = ''
+      this.password = ''
+      this.email = ''
+      this. name = ''
+      this.phone = null
+      this.location = []
+      this.menus = []
+      this.dishes = [];
+    }
 }

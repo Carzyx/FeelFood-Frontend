@@ -11,4 +11,16 @@ export class Menu {
     thirdOptions: Dish[]
     drinksOptions: Dish[]
     othersOptions: Dish[]
+  constructor () {
+    this.name = ''
+    this.description = ''
+    this.comments = ''
+    this.price = null
+    this.starters = []
+    this.firstOptions = []
+    this.secondOptions = []
+    this.thirdOptions = []
+    this.drinksOptions = []
+    this.othersOptions = []
+  }
 }

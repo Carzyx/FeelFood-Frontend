@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MapComponent} from '../map/map.component';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Restaurant} from '../../models/restaurant';
 
 @Component({
@@ -10,6 +10,7 @@ import {Restaurant} from '../../models/restaurant';
 })
 export class RestaurantComponent implements OnInit {
   edit = false;
+  editRestaurant;
   restaurant;
   lat = 41.275103;
   lng = 1.985314;
@@ -27,14 +28,21 @@ export class RestaurantComponent implements OnInit {
     });
   }
   Edit() {
-    if (this.edit)
+    if (this.edit) {
+      this.restaurant = this.editRestaurant;
       this.edit = false;
-    else
+    }
+    else {
+      this.editRestaurant = this.restaurant;
       this.edit = true;
+    }
   }
   Update() {
-    alert(JSON.stringify(this.restaurant));
-    this.getUser();
+    alert(JSON.stringify(this.restaurant))
+    this.http.put(`http://localhost:3001/restaurant`, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
+    alert(data);
+    });
+    this.edit = false;
   }
   private getUser() {
 
