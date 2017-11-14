@@ -100,7 +100,6 @@ export class MenuComponent implements OnInit {
 
   AddDish() {
       this.restaurant.dishes.push(this.dish);
-      alert(JSON.stringify(this.dish.ingredients);
       this.http.put(`http://localhost:3001/restaurant`, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
       alert(JSON.stringify(data);
   }
