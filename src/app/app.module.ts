@@ -14,6 +14,7 @@ import { UserComponent } from './components/user/user.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 import { MapComponent } from './components/map/map.component';
 import { MenuComponent} from './components/menu/menu.component';
+import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { AppNavbar } from './shared/navbar/navbar.component';
 
@@ -27,6 +28,7 @@ import { AppNavbar } from './shared/navbar/navbar.component';
     RestaurantComponent,
     UserComponent,
     MenuComponent,
+    HomeComponent,
     AppNavbar
   ],
   imports: [

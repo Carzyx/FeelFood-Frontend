@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css">
-<div>
-  <input class="form-control"  type="text" #name (keyup)="OnChange(name.value)"/>
-</div>
+<!--<div>-->
+  <!--<input class="form-control"  type="text" #name (keyup)="OnChange(name.value)"/>-->
+<!--</div>-->
 
 <div class="card text-white success">
   <div class="card-body">
@@ -11,7 +11,7 @@
           <h2>{{restaurant.name}}</h2>
         </td>
         <td>
-          <button class="btn-danger" (click)="Edit()">Edit</button>
+          <button class="btn-danger" (click)="Edit()" *ngIf="profile">Edit</button>
         </td>
       </tr>
       <tr>
@@ -73,10 +73,11 @@
       </tr>
     </div>
     </div>
+  <div *ngIf="profile">
+      <app-menu align="center" [restaurantName]="restaurant.name"></app-menu>
 
-  <!--<app-menu align="center" [restaurantName]="restaurant.name"></app-menu>-->
-
-    <div class="container div-map">
-      <app-map align="center" ></app-map>
-    </div>
+      <div class="container div-map">
+        <app-map align="center" ></app-map>
+      </div>
+  </div>
   </div>

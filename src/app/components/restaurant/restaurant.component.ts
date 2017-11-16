@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {MapComponent} from '../map/map.component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Restaurant} from '../../models/restaurant';
@@ -9,16 +9,25 @@ import {Restaurant} from '../../models/restaurant';
   styleUrls: ['./restaurant.component.css']
 })
 export class RestaurantComponent implements OnInit {
+  @Input() restaurantName;
   edit = false;
+  @Input() profile: boolean;
   editRestaurant;
   restaurant;
   lat = 41.275103;
   lng = 1.985314;
   constructor(private http: HttpClient) {
+    this.restaurantName = 'Bulli';
+    this.profile = true;
 
   }
   ngOnInit() {
     this.restaurant = new Restaurant();
+    this.http.get(`http://localhost:3001/restaurant/${this.restaurantName}`).subscribe(data => {
+      if (data) {
+        this.restaurant = data;
+      }
+    });
   }
   OnChange(value: string) {
     this.http.get(`http://localhost:3001/restaurant/${value}`).subscribe(data => {

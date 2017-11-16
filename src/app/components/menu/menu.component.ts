@@ -13,19 +13,24 @@ import {isUndefined} from 'util';
 })
 export class MenuComponent implements OnInit {
   @Input() restaurantName;
+  canEdit: boolean;
   restaurant;
   edit: boolean;
   addIng: boolean;
+  addMen: boolean;
   ingredients;
   dish: Dish;
   constructor(private http: HttpClient) {
     this.restaurantName = 'Bulli';
     this.dish = new Dish();
+
   }
   ngOnInit() {
+    this.restaurant = new Restaurant();
+    this.canEdit = true;
     this.addIng = false;
     this.http.get(`http://localhost:3001/restaurant/${this.restaurantName}`).subscribe(data => {
-      this.restaurant = data;
+      this.restaurant = data[0];
     });
   }
   OnChange(value: string) {
@@ -45,23 +50,6 @@ export class MenuComponent implements OnInit {
     });
     this.edit = false;
   }
-  private getUser() {
-
-  }
-  // initialize_google_map()
-  // {
-  //   let myLatlng = new google.maps.LatLng(get_latitude, get_longitude);
-  //   let mapOptions = {
-  //     zoom: 14,
-  //     scrollwheel: false,
-  //     center: myLatlng
-  //   };
-  //   let map = new google.maps.Map(document.getElementById('google-map'), mapOptions);
-  //   let marker = new google.maps.Marker({
-  //     position: myLatlng,
-  //     map: map
-  //   });
-  //    }
 
 //DISH
   AddIngredient(name, weigth) {
@@ -79,28 +67,23 @@ export class MenuComponent implements OnInit {
   }
 
   Dish() {
-    console.log(this.dish)
-    console.log(this.dish.name)
     this.addIng = !this.addIng;
     this.http.get(`http://localhost:3001/ingredient`).subscribe(data => {
       this.ingredients = data;
     });
-    // this.http.get(`http://localhost:3001/ingredients`).subscribe(data => {
-    //     for ( var i = 0; i < data.length; i++){
-    //       let find = false;
-    //       for ( var j = 0; j < this.dish.ingredients.length; j++) {
-    //         if (data[i].name === this.dish.ingredients[j].name)
-    //           find = true;
-    //       }
-    //       data.splice(i,1);
-    //   }
-    //   this.ingredients = data;
-    // });
+  }
+  Menu() {
+    this.addMen = !this.addMen;
   }
 
   AddDish() {
       this.restaurant.dishes.push(this.dish);
       this.http.put(`http://localhost:3001/restaurant`, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
-      alert(JSON.stringify(data);
+      alert(JSON.stringify(data));
+      this.dish = new Dish();
+        this.http.get(`http://localhost:3001/ingredient`).subscribe(data => {
+          this.ingredients = data;
+        });
+  });
   }
 }
