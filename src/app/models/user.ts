@@ -12,7 +12,7 @@ export class User {
     allergies: String
     favoriteRestaurants: Restaurant[]
     //orders: [Schema.Types.ObjectId, ref: 'orders' }],
-    //isAdmin: Boolean 
+    //isAdmin: Boolean
 }
 
 
