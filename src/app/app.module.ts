@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 
 /*Import app Components*/
-import { ManagementComponent } from './components/management/management.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
@@ -21,7 +20,6 @@ import { AppNavbar } from './shared/navbar/navbar.component';
 @NgModule({
   declarations: [
     AppComponent,
-    ManagementComponent,
     LoginComponent,
     FooterComponent,
     MapComponent,

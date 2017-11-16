@@ -1,7 +1,6 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ManagementComponent } from './components/management/management.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
 import { MenuComponent } from './components/menu/menu.component';
@@ -12,7 +11,6 @@ export const Router: Routes = [
   {  path: '', redirectTo: '/home', pathMatch: 'full'},
   {  path: 'home/restaurantProfile', redirectTo: '/restaurantProfile', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
-  { path: 'management', component: ManagementComponent },
   { path: 'profile', component: UserComponent},
   { path: 'restaurantProfile', component: RestaurantComponent},
   { path: 'menu', component: MenuComponent},
