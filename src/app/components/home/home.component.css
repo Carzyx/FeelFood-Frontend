@@ -1,0 +1,11 @@
+div.success{
+  color: #fff;
+  background-color: #6aa84f;
+  border-color: #598943;
+}
+div.div-map{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 450px;
+  height: 300px;
+}
