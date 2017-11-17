@@ -8,11 +8,23 @@ export class User {
     email: String
     firstName: String
     lastName: String
-    locations: Location[]
+    locations: Array<Location>
     allergies: Array<String>
-    favoriteRestaurants: Restaurant[]
+    favoriteRestaurants: Array<Restaurant>
     //orders: [Schema.Types.ObjectId, ref: 'orders' }],
     //isAdmin: Boolean
+    
+    mapNewObject(data) {
+        
+        var myUser = new User();
+        var keyList = Object.keys(data)
+        for (var index = 0; index < keyList.length; index++) {
+            var key = keyList[index];
+
+            myUser[key] = data[key];
+        }
+        return myUser;
+    }
 }
 
 

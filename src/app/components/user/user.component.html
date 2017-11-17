@@ -3,6 +3,9 @@
     <li class="nav-item" (click)="changeShowStatus('showProfile')">
       <a class="nav-link active" data-toggle="tab">Profile</a>
     </li>
+    <li class="nav-item" (click)="changeShowStatus('showAddress')">
+      <a class="nav-link active" data-toggle="tab">Address</a>
+    </li>
     <li class="nav-item" (click)="changeShowStatus('showAccount')">
       <a class="nav-link active">Account</a>
     </li>
@@ -34,13 +37,31 @@
           <label class="col-form-label">
             <strong>First name</strong>
           </label>
-          <input type="text" class="form-control" value="{{user.firstName}}" #firstname /> 
+          <input type="text" class="form-control" [(ngModel)]="user.firstName" name="firstName" /> 
           <label class="col-form-label">
             <strong>Last name</strong>
           </label>
-          <input type="text" class="form-control" value="{{user.lastName}}" #lastname /> 
+          <input type="text" class="form-control" [(ngModel)]="user.lastName" name="lastname" /> 
         </div>
-        <button type="button" (click)="loginSubmit(email.value, password.value)" class="btn btn-outline-info">Update</button>
+        <button type="button" (click)="updateUser()" class="btn btn-outline-info">Update</button>
+      </div>
+
+      <div class="update-address" [hidden]="!showItemDictionary.showAddress">
+        <div class="component-title">
+          <h2 class="display-5">User Address</h2>
+          <p>
+            <i>Edit your address</i>
+          </p>
+        </div>
+        <div *ngFor="let location of user.locations">          
+              <h3>{{location.locationName}}</h3>            
+          <div>            
+              <p>Address: {{location.address}}</p>
+              <p>Postal code: {{location.postalCode}}</p>
+              <p>Country: {{location.country}}</p>
+              <p>City: {{location.city}}</p>  
+          </div>          
+        </div>
       </div>
 
       <div class="update-account" [hidden]="!showItemDictionary.showAccount">
@@ -66,7 +87,7 @@
               </label>
               <input type="password" class="form-control" #newPasswordConfirmation/>
             </div>
-            <button type="button" (click)="loginSubmit(email.value, password.value)" class="btn btn-outline-info">Update</button>
+            <button type="button" (click)="updateUser()" class="btn btn-outline-info">Update</button>
           </div>
         </div>
 
@@ -75,13 +96,13 @@
             <label class="col-form-label">
               <strong>Old Email</strong>
             </label>
-            <input type="text" class="form-control" value="{{user.email}}" #oldEmail/>
+            <input type="text" class="form-control" [(ngModel)]="user.email" name="oldEmail"/>
             <label class="col-form-label">
               <strong>New Email</strong>
             </label>
             <input type="text" class="form-control" #newEmail/>
           </div>
-          <button type="button" (click)="loginSubmit(email.value, password.value)" class="btn btn-outline-info">Update</button>
+          <button type="button" (click)="updateUser()" class="btn btn-outline-info">Update</button>
         </div>
 
         <div class="remove-account">
