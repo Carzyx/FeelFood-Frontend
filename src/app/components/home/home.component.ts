@@ -12,11 +12,11 @@ export class HomeComponent implements OnInit {
   edit = false;
   editRestaurant;
   restaurant;
+  token: String;
   lat = 41.275103;
   lng = 1.985314;
   constructor(private http: HttpClient) {
     this.restaurantName = 'Bulli';
-
   }
   ngOnInit() {
     this.restaurant = new Restaurant();

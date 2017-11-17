@@ -16,6 +16,7 @@ export class UserComponent implements OnInit {
   showItemDictionary = { showProfile: true, showAddress: false, showAccount: false, showAllergies: false};
   user: User;
   userOriginal;
+  token;
 
 
   constructor(private http: HttpClient) {
@@ -23,9 +24,6 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
-
   }
 
   changeShowStatus(key) {
@@ -36,14 +34,15 @@ export class UserComponent implements OnInit {
       this.showItemDictionary[specificKey] = specificKey == key ? true : false;
     }
 
-    //Update user to avoid erroneous changes   
+    //Update user to avoid erroneous changes
     this.user = new User().mapNewObject(this.userOriginal)
-    
+
   }
 
   //Get user to show info -- temporal function, data will be provided by cookie or another component.
   private getUser() {
-    this.http.get('http://localhost:3001/user?username=MiguelPower')
+    this.token = JSON.parse(localStorage.getItem('token'));
+    this.http.get('http://localhost:3001/user?username=Pepito', { headers: new HttpHeaders().set('Authorization', this.token.token)})
       .subscribe(data => {
         this.userOriginal = data;
         this.user = this.userOriginal
