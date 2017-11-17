@@ -9,7 +9,7 @@ export class User {
     firstName: String
     lastName: String
     locations: Location[]
-    allergies: String
+    allergies: Array<String>
     favoriteRestaurants: Restaurant[]
     //orders: [Schema.Types.ObjectId, ref: 'orders' }],
     //isAdmin: Boolean

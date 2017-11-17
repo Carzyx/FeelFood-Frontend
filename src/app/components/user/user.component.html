@@ -1,58 +1,109 @@
-<link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css">
-<div>
-  <input class="form-control"  type="text" #username (keyup)="OnChange(username.value)"/>
-</div>
-<div class="card text-white success">
-  <div *ngIf="!edit">
-    <div class="card-body">
-      <tr>
-        <td width="70%"><h2>{{ user?.username }}</h2></td> <td><button class="btn btn-danger" (click)="Edit()">Edit</button></td></tr>
-      <tr>
-        <td width="70%">
-        <p class="inside"><strong>Firtsname: </strong>{{ user?.firstName }} </p>
-        <p><strong>LastName: </strong> {{ user?.lastName }} </p>
-        <p><strong>Email: </strong> {{ user?.email }} </p>
-        </td>
-        <td><img src="http://www.elcampico.org/wp-content/uploads/2017/02/profile.png" width="60%" align="center"></td>
-      </tr>
-    </div>
+<form class="form-profile">
+  <ul class="nav nav-tabs form-selector">
+    <li class="nav-item" (click)="changeShowStatus('showProfile')">
+      <a class="nav-link active" data-toggle="tab">Profile</a>
+    </li>
+    <li class="nav-item" (click)="changeShowStatus('showAccount')">
+      <a class="nav-link active">Account</a>
+    </li>
+    <li class="nav-item" (click)="changeShowStatus('showAllergies')">
+      <a class="nav-link active" data-toggle="tab">Allergies</a>
+    </li>
+  </ul>
+
+
+  <div class="jumbotron">
+      <div class="progress" *ngIf="!user">          
+          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%">LOADING</div>
+        </div>
+    <form class="form-data" *ngIf="user">
+
+      <div class="update-profile" [hidden]="!showItemDictionary.showProfile">
+        <div class="component-title">
+          <h2 class="display-5">User Profile</h2>
+          <p>
+            <i>Edit your data</i>
+          </p>
+        </div>
+        <div class="input-form">
+          <label class="col-form-label">
+            <strong>Username</strong>
+          </label>
+          <input class="form-control" id="readOnlyInput" type="text" placeholder="{{user.username}}" readonly="" #username>
+
+          <label class="col-form-label">
+            <strong>First name</strong>
+          </label>
+          <input type="text" class="form-control" value="{{user.firstName}}" #firstname /> 
+          <label class="col-form-label">
+            <strong>Last name</strong>
+          </label>
+          <input type="text" class="form-control" value="{{user.lastName}}" #lastname /> 
+        </div>
+        <button type="button" (click)="loginSubmit(email.value, password.value)" class="btn btn-outline-info">Update</button>
+      </div>
+
+      <div class="update-account" [hidden]="!showItemDictionary.showAccount">
+        <div class="component-title">
+          <h2 class="display-5">User Account</h2>
+          <p>
+            <i>Edit your account</i>
+          </p>
+        </div>
+        <div class="update-password">
+          <div class="update-password">
+            <div class="input-form">
+              <label class="col-form-label">
+                <strong> Password</strong>
+              </label>
+              <input type="password" class="form-control" #oldPassword/>
+              <label class="col-form-label">
+                <strong>New Password</strong>
+              </label>
+              <input type="password" class="form-control" #newPassword/>
+              <label class="col-form-label">
+                <strong>New Password Confirmation</strong>
+              </label>
+              <input type="password" class="form-control" #newPasswordConfirmation/>
+            </div>
+            <button type="button" (click)="loginSubmit(email.value, password.value)" class="btn btn-outline-info">Update</button>
+          </div>
+        </div>
+
+        <div class="update-email">
+          <div class="input-form">
+            <label class="col-form-label">
+              <strong>Old Email</strong>
+            </label>
+            <input type="text" class="form-control" value="{{user.email}}" #oldEmail/>
+            <label class="col-form-label">
+              <strong>New Email</strong>
+            </label>
+            <input type="text" class="form-control" #newEmail/>
+          </div>
+          <button type="button" (click)="loginSubmit(email.value, password.value)" class="btn btn-outline-info">Update</button>
+        </div>
+
+        <div class="remove-account">
+          <button type="button" class="btn btn-danger">Delete</button>
+          <div class="input-form">
+          </div>
+        </div>
+      </div>
+
+      <div class="update-allergies" [hidden]="!showItemDictionary.showAllergies">
+        <div class="component-title">
+          <h2 class="display-5">User Allergies</h2>
+          <p>
+            <i>Edit your allergies</i>
+          </p>
+        </div>
+        <table *ngFor="let allergie of user.allergies">
+          <li>{{allergie}}</li>
+          </table>
+      </div>
+
+
+    </form>
   </div>
-  <div *ngIf="edit">
-    <div class="card-body success">
-      <td style="width: 70%">
-        <p>Username: </p><input [(ngModel)]="user.username">
-      <p>Firtsname: </p> <input [(ngModel)]="user.firstName">
-      <p>LastName: </p> <input [(ngModel)]="user.lastName">
-      <p>Email: </p> <input [(ngModel)]="user.email">
-      </td>
-      <td style="margin-left: 5px">
-        <tr align="center"><button class="btn btn-danger" (click)="Edit()">Cancel</button> <button class="btn btn-info"(click)="Update()">Aply</button></tr>
-        <img src="http://www.elcampico.org/wp-content/uploads/2017/02/profile.png" width="60%" align="center" style="margin-top: 30px">
-      </td>
-    </div>
-  </div>
-</div>
-
-<br>
-<div class="card text-white success">
-  <table>
-    <th><h3>Allergies</h3></th>
-    <th align="right"><button  class="btn btn-danger" >Edit</button></th>
-      <tr *ngFor="let allergies of user.allergies">
-        <th>{{ allergies }}</th>
-      </tr>
-  </table>
-</div>
-
-<br>
-<div class="card text-white success">
-  <h3>Orders</h3>
-  <div class="circle">
-    <tr *ngFor="let order of user.orders">
-      <th>{{ order }}</th>
-    </tr>
-  </div>
-</div>
-
-
-
+</form>

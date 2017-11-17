@@ -11,7 +11,7 @@ export const Router: Routes = [
   {  path: '', redirectTo: '/home', pathMatch: 'full'},
   {  path: 'home/restaurantProfile', redirectTo: '/restaurantProfile', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: UserComponent},
+  { path: 'userProfile', component: UserComponent},
   { path: 'restaurantProfile', component: RestaurantComponent},
   { path: 'menu', component: MenuComponent},
   { path: 'home', component: HomeComponent}

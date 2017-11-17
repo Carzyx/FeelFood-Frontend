@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
-import {HttpClient} from '@angular/common/http';
-import {User} from '../../models/user';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../../models/user';
 
 
 @Component({
@@ -10,34 +10,47 @@ import {User} from '../../models/user';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  edit;
-  user;
-  constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-    this.edit = false;
-    this.user = new User();
-    }
-    OnChange(value: string) {
-      this.http.get(`http://localhost:3001/user/${value}`).subscribe(data => {
-        if (data) {
-          this.user = data;
-          if (this.user.allergies.length === 0)
-            this.user.allergies.push('No tienes alergias definidas');
-          if (this.user.orders.length === 0)
-            this.user.orders.push('No tienes orders definidas');
-        }
-      });
-    }
-    Edit() {
-      this.edit = this.edit ? false : true;
-      this.getUser();
-    }
-  Update() {
-    alert(JSON.stringify(this.user));
+  //ShowHide
+  showItemDictionary = { showProfile: true, showAccount: false, showAllergies: false };
+  user: User;
+  userRequest;
+
+
+  constructor(private http: HttpClient) {
     this.getUser();
   }
-  private getUser() {
+
+  ngOnInit() {
+
+
 
   }
+
+  changeShowStatus(key) {
+
+    var itemsList = Object.keys(this.showItemDictionary);
+    for (var index = 0; index < itemsList.length; index++) {
+      var specificKey = itemsList[index];
+      this.showItemDictionary[specificKey] = specificKey == key ? true : false;
+    }
+  }
+
+  //Get user to show info -- temporal function, data will be provided by cookie or another component.
+  private getUser() {
+    this.http.get('http://localhost:3001/user?username=MiguelPower')
+      .subscribe(data => {
+        this.userRequest = data;
+        this.user = this.userRequest;
+        console.log(this.user)
+      },
+      err => { console.log(err) }
+      );
+  }
+
+  //TODO Add update user method.
+  updateUser(){
+
+  }
+
 }
