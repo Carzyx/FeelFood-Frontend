@@ -3,7 +3,9 @@ import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { User } from '../../models/user';
-import {Router} from '@angular/router';
+import { mapNewObject } from '../../models/user';
+import { EnvironmentHelper } from '../../../environments/environment'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,45 +14,66 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   private user: User;
-  private showLogin: boolean;
-  private showSignup: boolean;
-  data;
+  envHelper: EnvironmentHelper;
+  showItemDictionary = { showLogin: true, showSignup: false };
+  signinError: string;
 
 
   constructor(private http: HttpClient, private router: Router) {
     this.user = new User();
-    this.showLogin = true;
-    this.showSignup = !this.showLogin;
-
+    this.envHelper = new EnvironmentHelper();
   }
 
   ngOnInit() {
   }
 
-  changeShowStatus() {
-    this.showLogin = !this.showLogin;
-    this.showSignup = !this.showSignup;
+  changeShowStatus(key) {
+
+    var itemsList = Object.keys(this.showItemDictionary);
+    for (var index = 0; index < itemsList.length; index++) {
+      var specificKey = itemsList[index];
+      this.showItemDictionary[specificKey] = specificKey == key ? true : false;
+    }
   }
 
   loginSubmit(email, password) {
 
     this.user.email = email;
     this.user.password = password;
-    this.http.post('http://localhost:3001/authenticate', JSON.stringify(this.user), { headers: new HttpHeaders()
-      .set('Content-Type', 'application/json') })
+
+    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.user.login;
+    var headers = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
+    var body = JSON.stringify(this.user);
+
+    this.http.post(url, body, headers)
       .subscribe(data => {
-        this.data = data;
-        this.router.navigate(['/auth/' + this.data.user.username + '/' + this.data.token]);
-      }, (err) => alert('User or password is not correct.'));
+        console.log(JSON.stringify(data));
+        this.user = mapNewObject(data['user']);
+        this.router.navigate(['/auth/' + this.user.username + '/' + data['token']]);
+      }, (err) => alert(err));
   }
 
   singupSubmit(username, email, password) {
-
     this.user.username = username;
     this.user.email = email;
     this.user.password = password;
-    this.http.post('http://localhost:3001/register', JSON.stringify(this.user), { headers: new HttpHeaders()
-      .set('Content-Type', 'application/json')})
-      .subscribe(data => alert('User register success.'), (err) => alert('This e-mail is in use.'));
+
+    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.user.signup;
+    var headers = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
+    var body = JSON.stringify(this.user);
+
+    this.http.post(url, body, headers)
+      .subscribe(
+      data => {
+        this.signinError = data['success'] ? '' : data['message'];
+
+        if (!data['success'])
+          return
+
+        console.log(data)
+        this.user = mapNewObject(data['model']);
+        this.loginSubmit(this.user.email, this.user.password)
+      },
+      err => alert(err));
   }
 }

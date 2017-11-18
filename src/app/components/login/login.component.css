@@ -18,3 +18,7 @@ div.company-title{
 div.input-form{
     margin-bottom: 10px;
 }
+
+.form-text.text-muted.error{
+    color: red !important;
+}

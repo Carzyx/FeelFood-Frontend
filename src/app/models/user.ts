@@ -12,19 +12,19 @@ export class User {
     allergies: Array<String>
     favoriteRestaurants: Array<Restaurant>
     //orders: [Schema.Types.ObjectId, ref: 'orders' }],
-    //isAdmin: Boolean
-    
-    mapNewObject(data) {
-        
-        var myUser = new User();
-        var keyList = Object.keys(data)
-        for (var index = 0; index < keyList.length; index++) {
-            var key = keyList[index];
+    //isAdmin: Boolean   
+}
 
-            myUser[key] = data[key];
-        }
-        return myUser;
+export function mapNewObject(data) {
+
+    var myUser = new User();
+    var keyList = Object.keys(data)
+    for (var index = 0; index < keyList.length; index++) {
+        var key = keyList[index];
+
+        myUser[key] = data[key];
     }
+    return myUser;
 }
 
 

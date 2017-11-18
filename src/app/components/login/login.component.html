@@ -1,9 +1,9 @@
 <form class="form-welcome">
   <ul class="nav nav-tabs">
-    <li class="nav-item" (click)="changeShowStatus()">
+    <li class="nav-item" (click)="changeShowStatus('showLogin')">
       <a class="nav-link active" data-toggle="tab">Login</a>
     </li>
-    <li class="nav-item" (click)="changeShowStatus()">
+    <li class="nav-item" (click)="changeShowStatus('showSignup')">
       <a class="nav-link active">Signup</a>
     </li>
   </ul>
@@ -15,28 +15,29 @@
         <i>Take it easy, enjoy life </i>
       </p>
     </div>
-    <div class="form-group login-inputs" *ngIf="showLogin">
+    <div class="form-group login-inputs" [hidden]="!showItemDictionary.showLogin">
       <div class="input-form">
         <label class="col-form-label">Email</label>
-        <input type="text" class="form-control" #email />
+        <input type="text" class="form-control" #loginEmail />
         <label class="col-form-label">Password</label>
-        <input type="password" class="form-control" #password/>
+        <input type="password" class="form-control" #loginPassword/>
       </div>
-      <button type="button" (click)="loginSubmit(email.value, password.value)" class="btn btn-success">Login</button>
+      <button type="button" (click)="loginSubmit(loginEmail.value, loginPassword.value)" class="btn btn-success">Login</button>
       <a href="http://localhost:3001/auth/facebook" class="btn btn-default">Login with Facebook</a>
     </div>
 
-    <div class="form-group login-inputs" *ngIf="showSignup">
+    <div class="form-group login-inputs" [hidden]="!showItemDictionary.showSignup">
       <div class="input-form">
         <label class="col-form-label">Username</label>
-        <input type="text" class="form-control" #username />
+        <input type="text" class="form-control" #siginUsername />
         <label class="col-form-label">Email</label>
-        <input type="text" class="form-control" #email />
+        <input type="text" class="form-control" #siginEmail />
         <label class="col-form-label">Password</label>
-        <input type="password" class="form-control" #password/>
+        <input type="password" class="form-control" #siginPassword/>
       </div>
-      <button type="button" (click)="singupSubmit(username.value, email.value, password.value)" class="btn btn-info">Signup</button>
+      <button type="button" (click)="singupSubmit(siginUsername.value, siginEmail.value, siginPassword.value)" class="btn btn-info">Signup</button>
       <a href="http://localhost:3001/auth/facebook" class="btn btn-default">Register with Facebook</a>
+      <small id="errorHelp" class="form-text text-muted error">{{signinError}}</small>
     </div>
   </div>
 </form>

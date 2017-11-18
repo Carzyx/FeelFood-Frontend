@@ -3,6 +3,7 @@ import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { User } from '../../models/user';
+import {mapNewObject} from '../../models/user';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class UserComponent implements OnInit {
     }
 
     // Update user to avoid erroneous changes
-    this.user = new User().mapNewObject(this.userOriginal);
+    this.user = mapNewObject(this.userOriginal);
 
   }
 
