@@ -12,12 +12,11 @@ import { User } from '../../models/user';
 })
 export class UserComponent implements OnInit {
 
-  //ShowHide
+  // ShowHide
   showItemDictionary = { showProfile: true, showAddress: false, showAccount: false, showAllergies: false};
   user: User;
   userOriginal;
-  token;
-
+  currentUser;
 
   constructor(private http: HttpClient) {
     this.getUser();
@@ -34,34 +33,41 @@ export class UserComponent implements OnInit {
       this.showItemDictionary[specificKey] = specificKey == key ? true : false;
     }
 
-    //Update user to avoid erroneous changes
-    this.user = new User().mapNewObject(this.userOriginal)
+    // Update user to avoid erroneous changes
+    this.user = new User().mapNewObject(this.userOriginal);
 
   }
 
-  //Get user to show info -- temporal function, data will be provided by cookie or another component.
   private getUser() {
-    this.token = JSON.parse(localStorage.getItem('token'));
-    this.http.get('http://localhost:3001/user?username=Pepito', { headers: new HttpHeaders().set('Authorization', this.token.token)})
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.http.get('http://localhost:3001/user?username=' + this.currentUser.name, { headers: new HttpHeaders()
+      .set('Authorization', this.currentUser.token)})
       .subscribe(data => {
         this.userOriginal = data;
-        this.user = this.userOriginal
-        console.log(this.user)
+        this.user = this.userOriginal;
+        console.log(this.user);
       },
-      err => { console.log(err) }
-      );
+      err => { console.log(err)});
   }
 
-  //TODO Add update user method.
-  updateUser(){
-    this.http.put('http://localhost:3001/user', JSON.stringify(this.user), { headers: new HttpHeaders().set('Content-Type', 'application/json') })
+  // TODO Add update user method.
+  private updateUser() {
+    this.http.put('http://localhost:3001/user', JSON.stringify(this.user), { headers: new HttpHeaders()
+      .set('Authorization', this.currentUser.token)
+      .set('Content-Type', 'application/json')})
     .subscribe(data => {
       this.userOriginal = data;
       this.user = this.userOriginal;
-      console.log(this.user)
+      alert('User updated.');
+      this.getUser();
     },
-    err => { console.log(err) }
-    );
+    err => { console.log(err)});
   }
 
+  private deleteUser() {
+    this.http.delete('http://localhost:3001/user', { headers: new HttpHeaders()
+      .set('Authorization', this.currentUser.token)
+      .set('Content-Type', 'application/json')}).subscribe(data => {alert('User deleted.');
+    }, err => { console.log(err)});
+  }
 }

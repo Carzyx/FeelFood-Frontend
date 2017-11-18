@@ -11,14 +11,14 @@ import {Router} from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private data: User;
+  private user: User;
   private showLogin: boolean;
   private showSignup: boolean;
-  token;
+  data;
 
 
   constructor(private http: HttpClient, private router: Router) {
-    this.data = new User();
+    this.user = new User();
     this.showLogin = true;
     this.showSignup = !this.showLogin;
 
@@ -34,22 +34,22 @@ export class LoginComponent implements OnInit {
 
   loginSubmit(email, password) {
 
-    this.data.email = email;
-    this.data.password = password;
-    this.http.post('http://localhost:3001/authenticate', JSON.stringify(this.data), { headers: new HttpHeaders()
+    this.user.email = email;
+    this.user.password = password;
+    this.http.post('http://localhost:3001/authenticate', JSON.stringify(this.user), { headers: new HttpHeaders()
       .set('Content-Type', 'application/json') })
       .subscribe(data => {
-        this.token = data;
-        this.router.navigate(['/auth/' + this.token.token]);
+        this.data = data;
+        this.router.navigate(['/auth/' + this.data.user.username + '/' + this.data.token]);
       }, (err) => alert('User or password is not correct.'));
   }
 
   singupSubmit(username, email, password) {
 
-    this.data.username = username;
-    this.data.email = email;
-    this.data.password = password;
-    this.http.post('http://localhost:3001/register', JSON.stringify(this.data), { headers: new HttpHeaders()
+    this.user.username = username;
+    this.user.email = email;
+    this.user.password = password;
+    this.http.post('http://localhost:3001/register', JSON.stringify(this.user), { headers: new HttpHeaders()
       .set('Content-Type', 'application/json')})
       .subscribe(data => alert('User register success.'), (err) => alert('This e-mail is in use.'));
   }

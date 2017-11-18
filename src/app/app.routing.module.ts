@@ -16,6 +16,6 @@ export const Router: Routes = [
   { path: 'restaurantProfile', component: RestaurantComponent},
   { path: 'menu', component: MenuComponent},
   { path: 'home', component: HomeComponent},
-  { path: 'auth/:token', component: AuthComponent}
+  { path: 'auth/:username/:token', component: AuthComponent}
 ];
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(Router);

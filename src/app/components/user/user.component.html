@@ -96,14 +96,14 @@
             <label class="col-form-label">
               <strong>Old Email</strong>
             </label>
-            <input type="text" class="form-control" [(ngModel)]="user.email" name="oldEmail"/>
+            <input type="text" class="form-control" [(ngModel)]="user.email" readonly="" name="oldEmail"/>
             <label class="col-form-label">
               <strong>New Email</strong>
             </label>
             <input type="text" class="form-control" #newEmail/>
           </div>
           <button type="button" (click)="updateUser()" class="btn btn-outline-info">Update</button>
-          <button type="button" class="btn btn-danger">Delete</button>
+          <button type="button" (click)="deleteUser()" class="btn btn-danger">Delete</button>
         </div>
       </div>
 
