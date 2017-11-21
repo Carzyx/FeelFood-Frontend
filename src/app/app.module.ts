@@ -17,6 +17,7 @@ import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { AppNavbar } from './shared/navbar/navbar.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { AuthComponent } from './components/auth/auth.component';
     AuthComponent
   ],
   imports: [
+    ReactiveFormsModule,
     FormsModule,
     BrowserModule,
     HttpClientModule,

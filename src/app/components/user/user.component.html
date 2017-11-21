@@ -53,14 +53,27 @@
             <i>Edit your address</i>
           </p>
         </div>
-        <div *ngFor="let location of user.locations">
-              <h3>{{location.locationName}}</h3>
-          <div>
-              <p>Address: {{location.address}}</p>
-              <p>Postal code: {{location.postalCode}}</p>
-              <p>Country: {{location.country}}</p>
-              <p>City: {{location.city}}</p>
-          </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Adress</th>
+              <th>City</th>
+              <th>Zip code</th>
+              <th>Country</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let location of user.locations">
+              <th>{{ location['locationName'] }}</th>
+              <th>{{ location['address'] }}</th>
+              <th>{{ location['city'] }}</th>
+              <th>{{ location['postalCode'] }}</th>
+              <th>{{ location['country'] }}</th>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

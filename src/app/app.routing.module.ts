@@ -10,6 +10,7 @@ import {AuthComponent} from './components/auth/auth.component';
 
 export const Router: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
+  // { path: '**', component: HomeComponent},
   { path: 'home/restaurantProfile', redirectTo: '/restaurantProfile', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
   { path: 'userProfile', component: UserComponent},
