@@ -6,7 +6,7 @@ import { UserComponent } from './components/user/user.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { HomeComponent } from './components/home/home.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
-import {AuthComponent} from './components/auth/auth.component';
+import { AuthComponent } from './components/auth/auth.component';
 
 export const Router: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
