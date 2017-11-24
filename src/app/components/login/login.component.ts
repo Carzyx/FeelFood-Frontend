@@ -115,10 +115,15 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  loginSubmit() {
+  loginSubmit(email, password) {
     this.proccessing = true;
-    this.user.email = this.loginForm.get('email').value;
-    this.user.password = this.loginForm.get('password').value;
+    if (this.showItemDictionary.showLogin) {
+      this.user.email = this.loginForm.get('email').value;
+      this.user.password = this.loginForm.get('password').value;
+    } else {
+      this.user.email = email;
+      this.user.password = password;
+    }
 
     var url = this.envHelper.urlbase + this.envHelper.urlDictionary.user.login;
     var headers = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
@@ -163,12 +168,8 @@ export class LoginComponent implements OnInit {
           this.proccessing = false;
           this.enableForm();
         } else {
-          this.messageClass = 'alert alert-success';
-          this.message = data['message'];
-          setTimeout(() => {
-            this.proccessing = false;
-            this.changeShowStatus('showLogin');
-          }, 2000);
+          console.log(data);
+          this.loginSubmit(this.user.email, this.user.password);
         }
       });
   }
