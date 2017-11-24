@@ -142,7 +142,7 @@ export class LoginComponent implements OnInit {
           this.user = mapNewObject(data['user']);
           setTimeout(() => {
             this.router.navigate(['/auth/' + this.user.username + '/' + data['token']]);
-          }, 2000);
+          }, 1000);
         }
       });
   }
