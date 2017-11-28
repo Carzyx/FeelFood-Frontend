@@ -16,8 +16,11 @@ import { MenuComponent} from './components/menu/menu.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { AppNavbar } from './shared/navbar/navbar.component';
-import { AuthComponent } from './components/auth/auth.component';
+import { AuthFbComponent } from './components/authFb/authFb.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService} from './services/auth.service';
+import { AuthGuard} from './guards/auth.guard';
+import {NotAuthGuard} from './guards/notAuth.guard';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MenuComponent,
     HomeComponent,
     AppNavbar,
-    AuthComponent
+    AuthFbComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -42,7 +45,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       apiKey: 'AIzaSyAPRBVQnnkf9qptCZSrcQ2DExv5A4uzL8o'}),
     FormsModule
   ],
-  providers: [],
+  providers: [AuthService, AuthGuard, NotAuthGuard],
   bootstrap: [
     AppNavbar,
     FooterComponent
