@@ -6,6 +6,8 @@ import { mapNewObject } from '../../models/user';
 import { EnvironmentHelper } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService} from '../../services/auth.service';
+import { AuthGuard } from '../../guards/auth.guard';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +23,10 @@ export class LoginComponent implements OnInit {
   message;
   messageClass;
   proccessing = false;
+  previousUrl;
 
-  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder,
+              private authService: AuthService, private authGuard: AuthGuard) {
     this.createForm();
     this.user = new User();
     this.envHelper = new EnvironmentHelper();
@@ -104,6 +108,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.authGuard.redirectUrl) {
+      this.messageClass = 'alert alert-danger';
+      this.message = 'You must be logged in.';
+      this.previousUrl = this.authGuard.redirectUrl;
+      this.authGuard.redirectUrl = undefined;
+    }
   }
 
   changeShowStatus(key) {
@@ -125,12 +135,7 @@ export class LoginComponent implements OnInit {
       this.user.password = password;
     }
 
-    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.user.login;
-    var headers = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
-    var body = JSON.stringify(this.user);
-
-    this.http.post(url, body, headers)
-      .subscribe(data => {
+    this.authService.login(this.user).subscribe(data => {
         console.log(JSON.stringify(data));
         if (!data['success']) {
           this.messageClass = 'alert alert-danger';
@@ -140,27 +145,25 @@ export class LoginComponent implements OnInit {
           this.messageClass = 'alert alert-success';
           this.message = data['message'];
           this.user = mapNewObject(data['user']);
+          this.authService.storeUserData(data['token'], data['user']);
           setTimeout(() => {
-            this.router.navigate(['/auth/' + this.user.username + '/' + data['token']]);
+            if (this.previousUrl) {
+              this.router.navigate([this.previousUrl]);
+            } else {
+              this.router.navigate(['/home']);
+            }
           }, 1000);
         }
       });
   }
 
-  singupSubmit() {
+  singUpSubmit() {
     this.proccessing = true;
     this.disableForm();
     this.user.username = this.signupForm.get('username').value;
     this.user.email = this.signupForm.get('email').value;
     this.user.password = this.signupForm.get('password').value;
-
-    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.user.signup;
-    var headers = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
-    var body = JSON.stringify(this.user);
-
-    this.http.post(url, body, headers)
-      .subscribe(
-      data => {
+    this.authService.signUp(this.user).subscribe(data => {
         console.log(JSON.stringify(data));
         if (!data['success']) {
           this.messageClass = 'alert alert-danger';

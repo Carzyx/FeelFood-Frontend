@@ -13,13 +13,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="userProfile">Profile settings</a>
+        <a *ngIf="authService.loggedIn()" class="nav-link" routerLink="userProfile">Profile settings</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="login">Login/Signup</a>
+        <a *ngIf="!authService.loggedIn()" class="nav-link" routerLink="login">Login/Signup</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="">Logout</a>
+        <a *ngIf="authService.loggedIn()" href="#" class="nav-link" (click)="onLogOutClick()">Logout</a>
       </li>
     </ul>
     <form class="form-inline">

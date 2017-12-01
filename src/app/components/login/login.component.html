@@ -49,7 +49,7 @@
     </div>
 
     <div class="form-group login-inputs" [hidden]="!showItemDictionary.showSignup">
-      <form [formGroup]="signupForm" (submit)="singupSubmit()">
+      <form [formGroup]="signupForm" (submit)="singUpSubmit()">
         <div class="form-group">
           <label>Username</label>
           <div [ngClass]="{'has-error': (signupForm.controls.username.errors && signupForm.controls.username.dirty), 'has-success': !signupForm.controls.username.errors}">

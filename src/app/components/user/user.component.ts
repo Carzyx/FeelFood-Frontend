@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
 import { User } from '../../models/user';
 import {mapNewObject} from '../../models/user';
+import { AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class UserComponent implements OnInit {
   userOriginal;
   currentUser;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {
     this.getUser();
   }
 
@@ -40,10 +41,8 @@ export class UserComponent implements OnInit {
   }
 
   private getUser() {
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.http.get('http://localhost:3001/user?username=' + this.currentUser.name, { headers: new HttpHeaders()
-      .set('Authorization', this.currentUser.token)})
-      .subscribe(data => {
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    this.authService.getProfile(this.currentUser.username).subscribe(data => {
         this.userOriginal = data;
         this.user = this.userOriginal;
         console.log(this.user);
@@ -51,12 +50,9 @@ export class UserComponent implements OnInit {
       err => { console.log(err)});
   }
 
-  // TODO Add update user method.
+  // TODO Add update method.
   private updateUser() {
-    this.http.put('http://localhost:3001/user', JSON.stringify(this.user), { headers: new HttpHeaders()
-      .set('Authorization', this.currentUser.token)
-      .set('Content-Type', 'application/json')})
-    .subscribe(data => {
+    this.authService.updateProfile(this.user).subscribe(data => {
       this.userOriginal = data;
       this.user = this.userOriginal;
       alert('User updated.');
@@ -66,9 +62,10 @@ export class UserComponent implements OnInit {
   }
 
   private deleteUser() {
-    this.http.delete('http://localhost:3001/user', { headers: new HttpHeaders()
-      .set('Authorization', this.currentUser.token)
-      .set('Content-Type', 'application/json')}).subscribe(data => {alert('User deleted.');
+    this.authService.deleteProfile(this.currentUser.username).subscribe(data => {
+      alert('User deleted.');
+      this.authService.logout();
+      this.router.navigate(['/home']);
     }, err => { console.log(err)});
   }
 }
