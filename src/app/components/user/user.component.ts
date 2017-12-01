@@ -50,7 +50,7 @@ export class UserComponent implements OnInit {
       err => { console.log(err)});
   }
 
-  // TODO Add update user method.
+  // TODO Add update method.
   private updateUser() {
     this.authService.updateProfile(this.user).subscribe(data => {
       this.userOriginal = data;
