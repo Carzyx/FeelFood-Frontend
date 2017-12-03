@@ -18,10 +18,11 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
   private getRandomResturants() {
-    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
+    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.allRestaurants;
     this.http.get(url, { headers: new HttpHeaders()
       .set('Content-Type', 'application/json')}).subscribe(data => {
       this.restaurants = data;
+      console.log(this.restaurants);
     });
   }
 }

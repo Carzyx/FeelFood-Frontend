@@ -84,13 +84,13 @@ export class RestaurantProfileComponent implements OnInit {
 
   private deleteRestaurant() {
     if(this.confirmar()) {
-      this.authService.deleteProfile(this.currentRestaurant.id).subscribe(data => {
-        alert('Restaurant deleted.');
-        this.authService.logout();
-        this.router.navigate(['/home']);
-      }, err => {
-        console.log(err);
-      });
+      // this.authService.deleteProfile(this.currentRestaurant.id).subscribe(data => {
+      //   alert('Restaurant deleted.');
+      //   this.authService.logout();
+      //   this.router.navigate(['/home']);
+      // }, err => {
+      //   console.log(err);
+      // });
     }
   }
 

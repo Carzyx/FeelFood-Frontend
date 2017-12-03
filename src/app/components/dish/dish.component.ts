@@ -31,7 +31,7 @@ export class DishComponent implements OnInit {
   currentImport;
 
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {
     //USE THESE
     //this.getRestaurant();
     this.dish = new Dish();
