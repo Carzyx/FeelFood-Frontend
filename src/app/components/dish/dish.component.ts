@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
-import { AuthService} from '../../services/auth.service';
+// import { AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {Restaurant} from '../../models/restaurant';
 import {Ingredient} from '../../models/ingredient';
@@ -50,7 +50,7 @@ export class DishComponent implements OnInit {
     const url = this.envHelper.urlbase + this.envHelper.restaurantDictionary.restaurant;
     this.http.put(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
       this.dish = new Dish();
-      if(this.menu)
+      if(this.menuName)
         this.dishes = this.restaurant.dishes;
     });
     // this.authService.updateProfile(this.restaurant).subscribe(data => {
@@ -88,7 +88,8 @@ export class DishComponent implements OnInit {
       if (this.restaurant.dishes[i].name === this.dish.name)
         this.restaurant.dishes[i] = this.dish;
     }
-    this.EditDish();
+    const dish = new Dish()
+    this.EditDish(dish);
     this.updateRestaurant();
   }
   private DelDish(name) {
@@ -204,9 +205,9 @@ export class DishComponent implements OnInit {
     this.addDish = false;
     this.import = false;
   }
-  private getMenuPosition(){
-    for (let i = 0;i < this.restaurant.menus.length; i++) {
-      if(this.restaurant.menus[i].name === this.menu)
+  private getMenuPosition() {
+    for (let i = 0; i < this.restaurant.menus.length; i++) {
+      if(this.restaurant.menus[i].name === this.menuName)
         this.positionMenu = i ;
     }
   }
