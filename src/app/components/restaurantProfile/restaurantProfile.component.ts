@@ -71,7 +71,7 @@ export class RestaurantProfileComponent implements OnInit {
 
   // TODO Add update method.
   private updateRestaurant() {
-    const url = this.envHelper.urlbase + this.envHelper.restaurantDictionary.restaurant;
+    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
     this.http.put(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
     });
     // this.authService.updateProfile(this.restaurant).subscribe(data => {
