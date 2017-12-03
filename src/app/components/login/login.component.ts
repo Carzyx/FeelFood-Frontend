@@ -156,7 +156,7 @@ export class LoginComponent implements OnInit {
   loginRestaurant() {
     var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.login;
     var body = this.restaurant;
-
+    console.log("Try Post Login restaurant...");
     this.httpHelper.post(url, body).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
@@ -178,6 +178,8 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser() {
+    console.log("Try Post Login user...  "+JSON.stringify(this.user));
+
     this.authService.login(this.user).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
@@ -210,19 +212,19 @@ export class LoginComponent implements OnInit {
 
   setInputValues(form: FormGroup) {
     if (this.isRestaurant) {
-      this.user.username = form.get('username').value;
-      this.user.email = form.get('email').value;
-      this.user.password = form.get('password').value;
-    }
-    else {
       this.restaurant.username = form.get('username').value;
       this.restaurant.email = form.get('email').value;
       this.restaurant.password = form.get('password').value;
     }
+    else {
+      this.user.username = form.get('username').value;
+      this.user.email = form.get('email').value;
+      this.user.password = form.get('password').value;      
+    }
   }
 
   signupUser() {
-
+    console.log("Try Post Signup user...");    
     this.authService.signUp(this.user).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
@@ -231,16 +233,19 @@ export class LoginComponent implements OnInit {
         this.proccessing = false;
         this.enableForm();
       } else {
-        console.log(data);
-        this.loginRestaurant();
+        this.loginUser();
       }
     });
   }
 
   signupRestaurant() {
 
+    console.log("Try Post Signup restaurant...");        
     var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.login;
     var body = this.restaurant;
+
+    console.log("Try Post Signup restaurant...");        
+    console.log(this.restaurant);
     this.httpHelper.post(url, body).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
@@ -249,7 +254,6 @@ export class LoginComponent implements OnInit {
         this.proccessing = false;
         this.enableForm();
       } else {
-        console.log(data);
         this.loginRestaurant();
       }
     });
