@@ -8,6 +8,7 @@ export class Restaurant {
     password: String
     email: String
     name: String
+    images: String[]
     phone: Number
     location: Location[]
     menus: Menu[]
@@ -18,6 +19,7 @@ export class Restaurant {
       this.password = ''
       this.email = ''
       this. name = ''
+      this.images = []
       this.phone = null
       this.location = []
       this.menus = []

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { EnvironmentHelper } from '../../../environments/environment';
 import {Restaurant} from '../../models/restaurant';
 
 @Component({
@@ -8,64 +9,19 @@ import {Restaurant} from '../../models/restaurant';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  @Input() restaurantName;
-  edit = false;
-  editRestaurant;
-  restaurant;
-  lat = 41.275103;
-  lng = 1.985314;
+  envHelper: EnvironmentHelper;
+  restaurants;
   constructor(private http: HttpClient) {
-    this.restaurantName = 'Bulli';
-
+    this.envHelper = new EnvironmentHelper();
+    this.getRandomResturants();
   }
   ngOnInit() {
-    this.restaurant = new Restaurant();
-    this.http.get(`http://localhost:3001/restaurant/${this.restaurantName}`).subscribe(data => {
-      if (data) {
-        this.restaurant = data;
-      }
+  }
+  private getRandomResturants() {
+    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
+    this.http.get(url, { headers: new HttpHeaders()
+      .set('Content-Type', 'application/json')}).subscribe(data => {
+      this.restaurants = data;
     });
   }
-  OnChange(value: string) {
-    this.http.get(`http://localhost:3001/restaurant/${value}`).subscribe(data => {
-      if (data) {
-        this.restaurant = data;
-      }
-    });
-  }
-  Edit() {
-    if (this.edit) {
-      this.restaurant = this.editRestaurant;
-      this.edit = false;
-    }
-    else {
-      this.editRestaurant = this.restaurant;
-      this.edit = true;
-    }
-  }
-  Update() {
-    alert(JSON.stringify(this.restaurant))
-    this.http.put(`http://localhost:3001/restaurant`, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
-    alert(data);
-    });
-    this.edit = false;
-  }
-  private getUser() {
-
-  }
-  // initialize_google_map()
-  // {
-  //   let myLatlng = new google.maps.LatLng(get_latitude, get_longitude);
-  //   let mapOptions = {
-  //     zoom: 14,
-  //     scrollwheel: false,
-  //     center: myLatlng
-  //   };
-  //   let map = new google.maps.Map(document.getElementById('google-map'), mapOptions);
-  //   let marker = new google.maps.Marker({
-  //     position: myLatlng,
-  //     map: map
-  //   });
-  //    }
-
 }

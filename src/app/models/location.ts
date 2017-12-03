@@ -1,9 +1,11 @@
 export class Location {
-    locationName: String
-    address: String
-    postalCode: Number
-    country: String
+    locationName: String;
+    address: String;
+    postalCode: Number;
+    country: String;
     city: String;
+    lat: Number;
+    lng: Number;
 
   constructor() {
     this.locationName = '';
@@ -11,5 +13,7 @@ export class Location {
     this.postalCode = null;
     this.country = '';
     this.city = '';
+    this.lat = null;
+    this.lng = null;
   }
 }
