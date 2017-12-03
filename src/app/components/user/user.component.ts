@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../../models/user';
-import { Location } from '../../models/location';
-import {mapNewObject} from '../../models/user';
-import { AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { User } from '../../models/user';
+import { MapHelper } from '../../helpers/mapHelper';
+import { AuthService} from '../../services/authentication/auth.service';
+import { Location } from '../../models/location';
+
 
 
 @Component({
@@ -26,9 +28,9 @@ export class UserComponent implements OnInit {
   passwordForm;
   emailForm;
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
-    this.createForm();
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private mapHelper: MapHelper, private formBuilder: FormBuilder) {
     this.getUser();
+    this.createForm();  
     this.location = new Location;
   }
 
@@ -102,7 +104,7 @@ export class UserComponent implements OnInit {
     }
 
     // Update user to avoid erroneous changes
-    this.user = mapNewObject(this.userOriginal);
+    this.user = this.mapHelper.map(User, this.userOriginal);
 
   }
 
