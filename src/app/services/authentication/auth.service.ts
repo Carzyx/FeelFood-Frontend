@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { tokenNotExpired } from 'angular2-jwt';
-import {EnvironmentHelper} from '../../environments/environment';
+import {EnvironmentHelper} from '../../../environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -71,7 +71,7 @@ export class AuthService {
 
   updateProfile (user) {
     this.createAuthHeaders();
-    return this.http.put(this.envHelper.urlbase + this.envHelper.userDictionary.user, JSON.stringify(user), this.options);
+    return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user, JSON.stringify(user), this.options);
   }
 
   deleteProfile (name) {

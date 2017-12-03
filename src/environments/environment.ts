@@ -11,17 +11,24 @@ export class EnvironmentHelper {
   };
 
   readonly urlbase: string = this.environment.developer ? 'http://localhost:3001' : 'http://feelfood.es';
-
-  readonly userDictionary = {
-    signup : '/signup',
-    login: '/login',
+  
+  private readonly userDictionary = {
+    signup : '/user/signup',
+    login: '/user/login',
     loginFb: '/auth/facebook',
     user: '/user',
     profile: '/user?username='
-  };
+  }
 
+  private readonly restaurantDictionary = {
+    signup : '/restaurant/signup',
+    login: '/restaurant/login',
+    loginFb: '/auth/facebook',
+    restaurant: '/restaurant'
+  }
+  
   readonly urlDictionary = {
-    user: this.userDictionary
-  };
-
+    user: this.userDictionary,
+    restaurant : this.restaurantDictionary
+  }
 }

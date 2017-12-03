@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
-import {mapNewObject} from '../../models/user';
-import { AuthService} from '../../services/auth.service';
+import { MapHelper } from '../../helpers/mapHelper';
+import { AuthService} from '../../services/authentication/auth.service';
 import {Router} from '@angular/router';
 
 
@@ -20,7 +20,7 @@ export class UserComponent implements OnInit {
   userOriginal;
   currentUser;
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private mapHelper: MapHelper) {
     this.getUser();
   }
 
@@ -36,7 +36,7 @@ export class UserComponent implements OnInit {
     }
 
     // Update user to avoid erroneous changes
-    this.user = mapNewObject(this.userOriginal);
+    this.user = this.mapHelper.map(User, this.userOriginal);
 
   }
 

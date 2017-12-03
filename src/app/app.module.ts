@@ -12,15 +12,16 @@ import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
 import { RestaurantComponent } from './components/restaurant/restaurant.component';
 import { MapComponent } from './components/map/map.component';
-import { MenuComponent} from './components/menu/menu.component';
+import { MenuComponent } from './components/menu/menu.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { AppNavbar } from './shared/navbar/navbar.component';
 import { AuthFbComponent } from './components/authFb/authFb.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AuthService} from './services/auth.service';
-import { AuthGuard} from './guards/auth.guard';
-import {NotAuthGuard} from './guards/notAuth.guard';
+import { AuthService } from './services/authentication/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/notAuth.guard';
+import { HttpHandle } from './services/http/httpHandle.service';
 
 @NgModule({
   declarations: [
@@ -42,10 +43,11 @@ import {NotAuthGuard} from './guards/notAuth.guard';
     HttpClientModule,
     AppRoutes,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAPRBVQnnkf9qptCZSrcQ2DExv5A4uzL8o'}),
+      apiKey: 'AIzaSyAPRBVQnnkf9qptCZSrcQ2DExv5A4uzL8o'
+    }),
     FormsModule
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard],
+  providers: [AuthService, AuthGuard, NotAuthGuard, HttpHandle],
   bootstrap: [
     AppNavbar,
     FooterComponent
