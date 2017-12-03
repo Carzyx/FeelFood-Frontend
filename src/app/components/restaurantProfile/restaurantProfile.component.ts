@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
-import { AuthService} from '../../services/auth.service';
+// import { AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {Restaurant} from '../../models/restaurant';
 import {Menu} from '../../models/menu';
@@ -24,7 +24,7 @@ export class RestaurantProfileComponent implements OnInit {
   restaurantOriginal;
   currentRestaurant;
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {
     //USE THESE
     //this.getRestaurant();
     this.menu = new Menu();
@@ -43,20 +43,22 @@ export class RestaurantProfileComponent implements OnInit {
       this.showItemDictionary[specificKey] = specificKey == key ? true : false;
     }
 
-    // Update user to avoid erroneous changes
-    this.getRestaurant();
+    // Update restaurant to avoid erroneous changes
+    //this.getRestaurant();
 
   }
 //TRUE GET RESTAURANT
   private getRestaurant() {
     this.currentRestaurant = JSON.parse(localStorage.getItem('restaurant'));
-    this.authService.getProfile(this.currentRestaurant.id).subscribe(data => {
-        this.restaurantOriginal = data;
-        this.restaurant = this.restaurantOriginal;
-        console.log(this.restaurant);
-      },
-      err => { console.log(err); });
+    // this.authService.getProfile(this.currentRestaurant.id).subscribe(data => {
+    //     this.restaurantOriginal = data;
+    //     this.restaurant = this.restaurantOriginal;
+    //     console.log(this.restaurant);
+    //   },
+    //   err => { console.log(err); });
   }
+
+
 //GET RESTAURANT WITHOUT LOGIN
   private getFalseRestaurant() {
     this.http.get('http://localhost:3001/restaurant?id=5a15a4f6581ad320feeaf5b1').subscribe(data => {
@@ -107,7 +109,7 @@ export class RestaurantProfileComponent implements OnInit {
     if(this.confirmar()) {
       console.log(id)
       for (let i = 0; i < this.restaurant.menus.length; i++) {
-        if (id === this.restaurant.menus[i]._id)
+        if (id === this.restaurant.menus[i].id)
           this.restaurant.menus.splice(i, 1);
       }
       this.updateRestaurant();
