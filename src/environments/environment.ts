@@ -17,7 +17,8 @@ export class EnvironmentHelper {
     login: '/login',
     loginFb: '/auth/facebook',
     user: '/user',
-    profile: '/user?username='
+    profile: '/user?username=',
+    delete: '/user?id='
   };
 
   readonly restaurantDictionary = {

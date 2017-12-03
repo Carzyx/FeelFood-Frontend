@@ -53,12 +53,12 @@
             <i>Edit your address</i>
           </p>
         </div>
-        <div class="table-responsive">
+        <div *ngIf="user.locations" class="table-responsive">
           <table class="table">
             <thead>
             <tr>
               <th>Name</th>
-              <th>Adress</th>
+              <th>Address</th>
               <th>City</th>
               <th>Zip code</th>
               <th>Country</th>
@@ -72,11 +72,74 @@
               <th>{{ location['postalCode'] }}</th>
               <th>{{ location['country'] }}</th>
             </tr>
+            <tr *ngIf="!user.locations[0]">
+              <i>No addresses defined.</i>
+            </tr>
             </tbody>
           </table>
         </div>
+        <button type="button" (click)="changeShowStatus('showAddAddress')" class="btn btn-outline-info">Add</button>
       </div>
-
+      <div class="addAddress" [hidden]="!showItemDictionary.showAddAddress">
+        <div class="component-title">
+          <h2 class="display-5">User Address</h2>
+          <p>
+            <i>Edit your address</i>
+          </p>
+        </div>
+        <form [formGroup]="addressForm" (submit)="updateAddress()">
+          <div class="form-group">
+            <label>Name</label>
+            <div [ngClass]="{'has-error': (addressForm.controls.name.errors && addressForm.controls.name.dirty), 'has-success': !addressForm.controls.name.errors}">
+              <input type="text" name="username" class="form-control" autocomplete="off" formControlName="name"/>
+              <ul class="help-block">
+                <li *ngIf="addressForm.controls.name.errors?.required && addressForm.controls.name.dirty">This field is required</li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <div [ngClass]="{'has-error': (addressForm.controls.address.errors && addressForm.controls.address.dirty) || addressForm.controls.address.dirty, 'has-success': !addressForm.controls.address.errors && emailValid}">
+              <input type="text" name="address" class="form-control" autocomplete="off" formControlName="address"/>
+              <ul class="help-block">
+                <li *ngIf="addressForm.controls.address.errors?.required && addressForm.controls.address.dirty">This field is required</li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <div [ngClass]="{'has-error': (addressForm.controls.city.errors && addressForm.controls.city.dirty), 'has-success': !addressForm.controls.city.errors}">
+              <input type="text" name="city" class="form-control" autocomplete="off" formControlName="city"/>
+              <!-- Validation -->
+              <ul class="help-block">
+                <li *ngIf="addressForm.controls.city.errors?.required && addressForm.controls.city.dirty">This field is required</li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Zip Code</label>
+            <div [ngClass]="{'has-error': (addressForm.controls.postalCode.errors && addressForm.controls.postalCode.dirty), 'has-success': !addressForm.controls.postalCode.errors}">
+              <input type="text" name="postalCode" class="form-control" autocomplete="off" formControlName="postalCode"/>
+              <!-- Validation -->
+              <ul class="help-block">
+                <li *ngIf="addressForm.controls.postalCode.errors?.required && addressForm.controls.postalCode.dirty">This field is required</li>
+                <li *ngIf="addressForm.controls.postalCode.errors?.validatePostalCode && addressForm.controls.postalCode.dirty">This must be a valid zip code</li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Country</label>
+            <div [ngClass]="{'has-error': (addressForm.controls.country.errors && addressForm.controls.country.dirty), 'has-success': !addressForm.controls.country.errors}">
+              <input type="text" name="country" class="form-control" autocomplete="off" formControlName="country"/>
+              <!-- Validation -->
+              <ul class="help-block">
+                <li *ngIf="addressForm.controls.country.errors?.required && addressForm.controls.country.dirty">This field is required</li>
+              </ul>
+            </div>
+          </div>
+          <input [disabled]="!addressForm.valid" type="submit" class="btn btn-outline-info" value="Submit"/>
+        </form>
+      </div>
       <div class="update-account" [hidden]="!showItemDictionary.showAccount">
         <div class="component-title">
           <h2 class="display-5">User Account</h2>
@@ -84,40 +147,56 @@
             <i>Edit your account</i>
           </p>
         </div>
-        <div class="update-password">
-          <div class="update-password">
-            <div class="input-form">
-              <label class="col-form-label">
-                <strong> Password</strong>
-              </label>
-              <input type="password" class="form-control" #oldPassword/>
-              <label class="col-form-label">
-                <strong>New Password</strong>
-              </label>
-              <input type="password" class="form-control" #newPassword/>
-              <label class="col-form-label">
-                <strong>New Password Confirmation</strong>
-              </label>
-              <input type="password" class="form-control" #newPasswordConfirmation/>
+        <form [formGroup]="passwordForm" (submit)="updatePassword()">
+          <div class="form-group">
+            <label>Password</label>
+            <div [ngClass]="{'has-error': (passwordForm.controls.password.errors && passwordForm.controls.password.dirty), 'has-success': !passwordForm.controls.password.errors}">
+              <input type="password" name="password" class="form-control" autocomplete="off" placeholder="Insert new password" formControlName="password"/>
+              <!-- Validation -->
+              <ul class="help-block">
+                <li *ngIf="passwordForm.controls.password.errors?.required && passwordForm.controls.password.dirty">This field is required</li>
+                <li *ngIf="passwordForm.controls.password.errors?.minlength && passwordForm.controls.password.dirty">Password must have at least 8 characters</li>
+              </ul>
             </div>
-            <button type="button" (click)="updateUser()" class="btn btn-outline-info">Update</button>
           </div>
-        </div>
-
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <div [ngClass]="{'has-error': (passwordForm.controls.confirm.errors && passwordForm.controls.confirm.dirty) || (passwordForm.errors?.matchingPasswords && passwordForm.controls.confirm.dirty), 'has-success': !passwordForm.controls.confirm.errors && !passwordForm.errors?.matchingPasswords}">
+              <input type="password" name="confirm" class="form-control" autocomplete="off" placeholder="Repeat new password" formControlName="confirm"/>
+              <!-- Validation -->
+              <ul class="help-block">
+                <li *ngIf="passwordForm.controls.confirm.errors?.required && passwordForm.controls.confirm.dirty">This field is required</li>
+                <li *ngIf="passwordForm.errors?.matchingPasswords && passwordForm.controls.confirm.dirty">Password do not match</li>
+              </ul>
+            </div>
+          </div>
+          <input [disabled]="!passwordForm.valid" type="submit" class="btn btn-outline-info" value="Change password" />
+        </form>
         <div class="update-email">
           <div class="input-form">
             <label class="col-form-label">
-              <strong>Old Email</strong>
+              <strong>Old E-mail</strong>
             </label>
             <input type="text" class="form-control" [(ngModel)]="user.email" readonly="" name="oldEmail"/>
-            <label class="col-form-label">
-              <strong>New Email</strong>
-            </label>
-            <input type="text" class="form-control" #newEmail/>
           </div>
-          <button type="button" (click)="updateUser()" class="btn btn-outline-info">Update</button>
-          <button type="button" (click)="deleteUser()" class="btn btn-danger">Delete</button>
         </div>
+        <form [formGroup]="emailForm" (submit)="updateEmail()">
+          <label class="col-form-label">
+            <strong>New E-mail</strong>
+          </label>
+          <div class="form-group">
+            <div [ngClass]="{'has-error': (emailForm.controls.email.errors && emailForm.controls.email.dirty) || emailForm.controls.email.dirty, 'has-success': !emailForm.controls.email.errors && emailValid}">
+              <input type="text" name="email" class="form-control" autocomplete="off" placeholder="Insert new E-mail" formControlName="email"/>
+              <ul class="help-block">
+                <li *ngIf="emailForm.controls.email.errors?.required && emailForm.controls.email.dirty">This field is required</li>
+                <li *ngIf="(emailForm.controls.email.errors?.minlength && emailForm.controls.email.dirty || emailForm.controls.email.errors?.maxlength && emailForm.controls.email.dirty ) && emailForm.controls.email.dirty">Minimum characters: 5, Maximum characters: 20</li>
+                <li *ngIf="emailForm.controls.email.errors?.validateEmail && emailForm.controls.email.dirty">This must be a valid e-mail</li>
+              </ul>
+            </div>
+          </div>
+          <input [disabled]="!emailForm.valid" type="submit" class="btn btn-outline-info" value="Updatess" />
+          <button type="button" (click)="deleteUser()" class="btn btn-danger">Delete</button>
+        </form>
       </div>
 
       <div class="update-allergies" [hidden]="!showItemDictionary.showAllergies">

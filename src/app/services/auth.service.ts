@@ -74,9 +74,9 @@ export class AuthService {
     return this.http.put(this.envHelper.urlbase + this.envHelper.userDictionary.user, JSON.stringify(user), this.options);
   }
 
-  deleteProfile (name) {
+  deleteProfile (id) {
     this.createAuthHeaders();
-    return this.http.delete(this.envHelper.urlbase + this.envHelper.urlDictionary.user.profile + name, this.options);
+    return this.http.delete(this.envHelper.urlbase + this.envHelper.urlDictionary.user.delete + id, this.options);
   }
 
 }

@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
+import { Location } from '../../models/location';
 import {mapNewObject} from '../../models/user';
 import { AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -15,13 +17,77 @@ import {Router} from '@angular/router';
 export class UserComponent implements OnInit {
 
   // ShowHide
-  showItemDictionary = { showProfile: true, showAddress: false, showAccount: false, showAllergies: false};
+  showItemDictionary = { showProfile: true, showAddress: false, showAccount: false, showAllergies: false, showAddAddress: false};
   user: User;
+  location: Location;
   userOriginal;
   currentUser;
+  addressForm;
+  passwordForm;
+  emailForm;
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
+    this.createForm();
     this.getUser();
+    this.location = new Location;
+  }
+
+  createForm() {
+    this.addressForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+      postalCode: ['', Validators.compose([
+        Validators.required,
+        this.validatePostalCode
+      ])],
+      city: ['', Validators.required],
+      country: ['', Validators.required],
+    });
+    this.passwordForm = this.formBuilder.group({
+      password: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(8)
+      ])],
+      confirm: ['', Validators.required]
+    }, { validator: this.matchingPasswords('password', 'confirm') });
+    this.emailForm = this.formBuilder.group({
+      email: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(20),
+        this.validateEmail
+      ])]});
+  }
+
+  validateEmail(controls) {
+    const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    // Test email against regular expression
+    if (regExp.test(controls.value)) {
+      return null; // Return as valid email
+    } else {
+      return { 'validateEmail': true }; // Return as invalid email
+    }
+  }
+
+  validatePostalCode(controls) {
+    const regExp = new RegExp(/^\d{5}(?:[-\s]\d{4})?$/);
+    // Test email against regular expression
+    if (regExp.test(controls.value)) {
+      return null; // Return as valid email
+    } else {
+      return { 'validatePostalCode': true }; // Return as invalid email
+    }
+  }
+
+  matchingPasswords(password, confirm) {
+    return (group: FormGroup) => {
+      // Check if both fields are the same
+      if (group.controls[password].value === group.controls[confirm].value) {
+        return null; // Return as a match
+      } else {
+        return { 'matchingPasswords': true }; // Return as error: do not match
+      }
+    };
   }
 
   ngOnInit() {
@@ -38,6 +104,28 @@ export class UserComponent implements OnInit {
     // Update user to avoid erroneous changes
     this.user = mapNewObject(this.userOriginal);
 
+  }
+
+  private updateEmail () {
+    this.user.email = this.emailForm.get('email').value;
+    this.updateUser();
+  }
+
+  private updatePassword () {
+    this.user.password = this.passwordForm.get('password').value;
+    this.updateUser();
+  }
+
+  private updateAddress () {
+    this.location.locationName = this.addressForm.get('name').value;
+    this.location.address = this.addressForm.get('address').value;
+    this.location.postalCode = this.addressForm.get('postalCode').value;
+    this.location.city = this.addressForm.get('city').value;
+    this.location.country = this.addressForm.get('country').value;
+    this.user.locations.push(this.location);
+    this.updateUser();
+    this.changeShowStatus('showAddress');
+    this.location = new Location;
   }
 
   private getUser() {
@@ -62,7 +150,7 @@ export class UserComponent implements OnInit {
   }
 
   private deleteUser() {
-    this.authService.deleteProfile(this.currentUser.username).subscribe(data => {
+    this.authService.deleteProfile(this.currentUser._id).subscribe(data => {
       alert('User deleted.');
       this.authService.logout();
       this.router.navigate(['/home']);
