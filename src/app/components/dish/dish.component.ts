@@ -47,7 +47,7 @@ export class DishComponent implements OnInit {
 
   // TODO Add update method.
   private updateRestaurant() {
-    const url = this.envHelper.urlbase + this.envHelper.restaurantDictionary.restaurant;
+    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
     this.http.put(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
       this.dish = new Dish();
       if(this.menuName)
@@ -132,7 +132,7 @@ export class DishComponent implements OnInit {
 
   }
   private getIngredients(){
-    const url = this.envHelper.urlbase + this.envHelper.restaurantDictionary.ingredients;
+    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.ingredients;
     this.http.get(url).subscribe(data => {
       this.ingredients = data;
       for (let i = 0; i < this.dish.ingredients.length; i++) {
