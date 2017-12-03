@@ -1,25 +1,9 @@
 <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css">
 <div>
   <td>
-    <tr>
-      <app-restaurant [profile]="false" routerLink="restaurantProfile"></app-restaurant>
-    </tr>
-    <tr>
-      <app-restaurant [profile]="false" routerLink="restaurantProfile"></app-restaurant>
-    </tr>
-    <tr>
-      <app-restaurant [profile]="false" routerLink="restaurantProfile"></app-restaurant>
-    </tr>
-  </td>
-  <td>
-    <tr>
-      <app-restaurant [profile]="false" routerLink="restaurantProfile"></app-restaurant>
-    </tr>
-    <tr>
-      <app-restaurant [profile]="false" routerLink="restaurantProfile"></app-restaurant>
-    </tr>
-    <tr>
-      <app-restaurant [profile]="false"></app-restaurant>
+    <tr *ngFor="let restaurant of restaurants">
+      <app-restaurant [restaurantName]="restaurant.name" [profile]="false" [routerLink]="['restaurantProfile',restaurant.name]"></app-restaurant>
+      <!--<app-restaurant [restaurantName]="restaurant.name" [profile]="false" routerLink="restaurantProfile"></app-restaurant>-->
     </tr>
   </td>
 </div>

@@ -14,6 +14,8 @@ import { RestaurantComponent } from './components/restaurant/restaurant.componen
 import { MapComponent } from './components/map/map.component';
 import { MenuComponent} from './components/menu/menu.component';
 import { HomeComponent } from './components/home/home.component';
+import { RestaurantProfileComponent } from './components/restaurantProfile/restaurantProfile.component';
+import { DishComponent } from './components/dish/dish.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { AppNavbar } from './shared/navbar/navbar.component';
 import { AuthFbComponent } from './components/authFb/authFb.component';
@@ -32,6 +34,8 @@ import {NotAuthGuard} from './guards/notAuth.guard';
     UserComponent,
     MenuComponent,
     HomeComponent,
+    RestaurantProfileComponent,
+    DishComponent,
     AppNavbar,
     AuthFbComponent
   ],

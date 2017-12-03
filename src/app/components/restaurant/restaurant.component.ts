@@ -1,7 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MapComponent} from '../map/map.component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Restaurant} from '../../models/restaurant';
+import { EnvironmentHelper } from '../../../environments/environment';
 
 @Component({
   selector: 'app-restaurant',
@@ -9,30 +11,28 @@ import {Restaurant} from '../../models/restaurant';
   styleUrls: ['./restaurant.component.css']
 })
 export class RestaurantComponent implements OnInit {
+  envHelper: EnvironmentHelper;
+  url;
   @Input() restaurantName;
   edit = false;
+  canEdit= false;
   @Input() profile: boolean;
   editRestaurant;
   restaurant;
-  lat = 41.275103;
-  lng = 1.985314;
-  constructor(private http: HttpClient) {
-    this.restaurantName = 'Bulli';
+
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.profile = true;
+    this.restaurantName =  this.route.snapshot.params['name'];
+    this.envHelper = new EnvironmentHelper();
+    this.url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
 
   }
   ngOnInit() {
     this.restaurant = new Restaurant();
-    this.http.get(`http://localhost:3001/restaurant/${this.restaurantName}`).subscribe(data => {
+    this.http.get(this.url + `/${this.restaurantName}`).subscribe(data => {
       if (data) {
         this.restaurant = data;
-      }
-    });
-  }
-  OnChange(value: string) {
-    this.http.get(`http://localhost:3001/restaurant/${value}`).subscribe(data => {
-      if (data) {
-        this.restaurant = data;
+        this.validator();
       }
     });
   }
@@ -47,13 +47,14 @@ export class RestaurantComponent implements OnInit {
     }
   }
   Update() {
-    alert(JSON.stringify(this.restaurant))
-    this.http.put(`http://localhost:3001/restaurant`, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
-    alert(data);
+    this.http.put(this.url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
     });
     this.edit = false;
   }
-  private getUser() {
+  private validator() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if(currentUser.name === this.restaurant.username)
+      this.canEdit = true;
 
   }
   // initialize_google_map()

@@ -20,8 +20,18 @@ export class EnvironmentHelper {
     profile: '/user?username='
   };
 
+  readonly restaurantDictionary = {
+    signup : '/signup',
+    login: '/login',
+    loginFb: '/auth/facebook',
+    restaurant: '/restaurant',
+    profile: '/user?username=',
+    ingredients: '/ingredient'
+  };
+
   readonly urlDictionary = {
-    user: this.userDictionary
+    user: this.userDictionary,
+    restaurant: this.restaurantDictionary
   };
 
 }

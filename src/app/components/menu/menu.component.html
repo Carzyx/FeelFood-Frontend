@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css">
 <div align="center" *ngIf="!addIng" class="success">
-<table >
-<td class="menu" align="center">
-  <div class="card border-success">
+  <table >
+    <td class="menu" align="center">
+      <div class="card border-success">
     <th>Menú</th>
     <tr>
       <ul>
@@ -19,18 +19,18 @@
         Postres
       </ul>
     </tr>
-  </div>
+</div>
 </td>
-  <td class="menu" align="center">
-    <div class="card border-success">
+<td class="menu" align="center">
+  <div class="card border-success">
     <tr>Carta</tr>
     <tr *ngFor="let dish of restaurant.dishes">
       <td>{{dish?.name}}</td> <td>{{dish?.amount}}€</td>
     </tr>
-    </div>
-  </td>
-  </table>
-  <button (click)="Dish()" class="btn-danger" *ngIf="canEdit">AddDish</button> <button (click)="Menu()" class="btn-danger" *ngIf="canEdit">Edit Menu</button>
+  </div>
+</td>
+</table>
+<button (click)="Dish()" class="btn-danger" *ngIf="canEdit">AddDish</button> <button (click)="Menu()" class="btn-danger" *ngIf="canEdit">Edit Menu</button>
 </div>
 
 <div align="center" *ngIf="addIng" class="card border-success">

@@ -9,3 +9,22 @@ div.div-map{
   width: 450px;
   height: 300px;
 }
+.progress {
+  position: relative;
+  height: 25px;
+}
+.progress > .progress-type {
+  position: absolute;
+  left: 0px;
+  font-weight: 900;
+  padding: 3px 30px 7px 10px;
+  color: rgb(251, 251, 251);
+  background-color: rgba(80, 18, 15, 0.7);
+}
+.progress > .progress-completed {
+  position: absolute;
+  right: 0px;
+  color: rgb(251, 19, 21);
+  font-weight: 800;
+  padding: 3px 10px 2px;
+}
