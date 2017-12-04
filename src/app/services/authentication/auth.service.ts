@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { tokenNotExpired } from 'angular2-jwt';
-import {EnvironmentHelper} from '../../environments/environment';
+import {EnvironmentHelper} from '../../../environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -38,6 +38,12 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(user));
     this.authToken = token;
     this.user = user;
+  }
+  storeRestaurantData (token, restaurant) {
+    localStorage.setItem('token', 'JWT ' + token);
+    localStorage.setItem('restaurant', JSON.stringify(restaurant));
+    this.authToken = token;
+    this.user = restaurant;
   }
 
   readToken () {

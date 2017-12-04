@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
-import { User } from '../../models/user';
-import { mapNewObject } from '../../models/user';
-import { EnvironmentHelper } from '../../../environments/environment';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService} from '../../services/auth.service';
+import { Router } from '@angular/router';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+
+import { User } from '../../models/user';
+import { Restaurant } from '../../models/restaurant';
+import { MapHelper } from '../../helpers/mapHelper';
+import { EnvironmentHelper } from '../../../environments/environment';
+import { AuthService } from '../../services/authentication/auth.service';
+//import { HttpHandle } from '../../services/http/httpHandle.service'
+import { HttpHelper } from '../../helpers/httpHelper';
 import { AuthGuard } from '../../guards/auth.guard';
 
 @Component({
@@ -16,20 +20,30 @@ import { AuthGuard } from '../../guards/auth.guard';
 })
 export class LoginComponent implements OnInit {
   private user: User;
-  envHelper: EnvironmentHelper;
+  private restaurant: Restaurant;
+  private envHelper: EnvironmentHelper;
   showItemDictionary = { showLogin: true, showSignup: false };
-  signupForm;
-  loginForm;
+  isRestaurant: boolean;
+
+  signupForm: FormGroup;
+  loginForm: FormGroup;
+  private mapHelper: MapHelper;
+  private httpHelper: HttpHelper;
+
   message;
   messageClass;
   proccessing = false;
   previousUrl;
 
-  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder,
-              private authService: AuthService, private authGuard: AuthGuard) {
+  constructor(private router: Router, private formBuilder: FormBuilder,
+    private authService: AuthService, private http: HttpClient, private authGuard: AuthGuard) {
     this.createForm();
     this.user = new User();
+    this.restaurant = new Restaurant();
     this.envHelper = new EnvironmentHelper();
+    this.isRestaurant = false;
+    this.mapHelper = new MapHelper();
+    this.httpHelper = new HttpHelper(http);
   }
 
   createForm() {
@@ -125,55 +139,141 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  setRestaurantOption() {
+    this.isRestaurant = !this.isRestaurant
+    console.log("UPDATED isRestaurant = " + this.isRestaurant);
+
+  }
+
   loginSubmit(email, password) {
     this.proccessing = true;
-    if (this.showItemDictionary.showLogin) {
-      this.user.email = this.loginForm.get('email').value;
-      this.user.password = this.loginForm.get('password').value;
-    } else {
-      this.user.email = email;
-      this.user.password = password;
+    this.setInputValues(this.loginForm)
+    var success = this.loginUser()
+    if (!success) {
+      this.isRestaurant = true;
+      this.setInputValues(this.loginForm);
+      this.loginRestaurant();
     }
+  }
+
+  loginRestaurant() {
+    console.log("Try Post Login restaurant...  " + JSON.stringify(this.restaurant));
+
+    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.login;
+    var body = this.restaurant;
+
+    this.http.post(url, body, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
+    // this.httpHelper.post(url, body).subscribe(data => {
+      console.log(JSON.stringify(data));
+      if (!data['success']) {
+        return false;
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = data['message'];
+        this.restaurant = this.mapHelper.map(Restaurant, data['restaurant']);
+        this.authService.storeRestaurantData(data['token'], data['restaurant']);
+        setTimeout(() => {
+          if (this.previousUrl) {
+            this.router.navigate([this.previousUrl]);
+          } else {
+            this.router.navigate(['/home']);
+          }
+        }, 1000);
+      }
+    });
+  }
+
+  loginUser() {
+    console.log("Try Post Login user...  " + JSON.stringify(this.user));
 
     this.authService.login(this.user).subscribe(data => {
-        console.log(JSON.stringify(data));
-        if (!data['success']) {
-          this.messageClass = 'alert alert-danger';
-          this.message = data['message'];
-          this.proccessing = false;
-        } else {
-          this.messageClass = 'alert alert-success';
-          this.message = data['message'];
-          this.user = mapNewObject(data['user']);
-          this.authService.storeUserData(data['token'], data['user']);
-          setTimeout(() => {
-            if (this.previousUrl) {
-              this.router.navigate([this.previousUrl]);
-            } else {
-              this.router.navigate(['/home']);
-            }
-          }, 1000);
-        }
-      });
+      console.log(JSON.stringify(data));
+      if (!data['success']) {
+        this.messageClass = 'alert alert-danger';
+        this.message = data['message'];
+        this.proccessing = false;
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = data['message'];
+        this.user = this.mapHelper.map(User, data['user']);
+        this.authService.storeUserData(data['token'], data['user']);
+        setTimeout(() => {
+          if (this.previousUrl) {
+            this.router.navigate([this.previousUrl]);
+          } else {
+            this.router.navigate(['/home']);
+          }
+        }, 1000);
+      }
+    });
   }
 
   singUpSubmit() {
     this.proccessing = true;
     this.disableForm();
-    this.user.username = this.signupForm.get('username').value;
-    this.user.email = this.signupForm.get('email').value;
-    this.user.password = this.signupForm.get('password').value;
+    this.setInputValues(this.signupForm)
+    this.isRestaurant == true ? this.signupRestaurant() : this.signupUser();
+  }
+
+  setInputValues(form: FormGroup) {
+    if (form === this.loginForm) {
+      if (this.isRestaurant) {
+        this.restaurant.email = form.get('email').value;
+        this.restaurant.password = form.get('password').value;
+      }
+      else {
+        this.user.email = form.get('email').value;
+        this.user.password = form.get('password').value;
+      }
+    }
+    else {
+      if (this.isRestaurant) {
+        this.restaurant.username = form.get('username').value;
+        this.restaurant.email = form.get('email').value;
+        this.restaurant.password = form.get('password').value;
+      }
+      else {
+        this.user.username = form.get('username').value;
+        this.user.email = form.get('email').value;
+        this.user.password = form.get('password').value;
+      }
+    }
+  }
+
+  signupUser() {
+    console.log("Try Post Signup user...");
     this.authService.signUp(this.user).subscribe(data => {
-        console.log(JSON.stringify(data));
-        if (!data['success']) {
-          this.messageClass = 'alert alert-danger';
-          this.message = data['message'];
-          this.proccessing = false;
-          this.enableForm();
-        } else {
-          console.log(data);
-          this.loginSubmit(this.user.email, this.user.password);
-        }
-      });
+      console.log(JSON.stringify(data));
+      if (!data['success']) {
+        this.messageClass = 'alert alert-danger';
+        this.message = data['message'];
+        this.proccessing = false;
+        this.enableForm();
+      } else {
+        this.loginUser();
+      }
+    });
+  }
+
+  signupRestaurant() {
+
+    console.log("Try Post Signup restaurant...");
+    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.signup;
+    var body = this.restaurant;
+
+    console.log('Try Post Signup restaurant...');
+    console.log(this.restaurant);
+    this.http.post(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
+    // this.httpHelper.post(url, body).subscribe(data => {
+      console.log(JSON.stringify(data));
+      if (!data['success']) {
+        this.messageClass = 'alert alert-danger';
+        this.message = data['message'];
+        this.proccessing = false;
+        this.enableForm();
+      } else {
+        this.loginRestaurant();
+      }
+    });
   }
 }

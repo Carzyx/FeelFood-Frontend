@@ -5,9 +5,12 @@ import { User } from '../../models/user';
 import { Location } from '../../models/location';
 import { Allergy } from '../../models/allergy';
 import {mapNewObject} from '../../models/user';
-import { AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { MapHelper } from '../../helpers/mapHelper';
+import { AuthService} from '../../services/authentication/auth.service';
+
 
 
 @Component({
@@ -29,10 +32,9 @@ export class UserComponent implements OnInit {
   emailForm;
   allergies;
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
-    this.createForm();
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private mapHelper: MapHelper, privateformBuilder: FormBuilder) {
     this.getUser();
-    this.getAllergies();
+    this.createForm();this.getAllergies();
     this.location = new Location;
     this.allergy = new Allergy;
     this.allergies = new Array;

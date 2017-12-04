@@ -27,7 +27,8 @@
         <div class="form-group">
           <label>Email</label>
           <div [ngClass]="{'has-error': (loginForm.controls.email.errors && loginForm.controls.email.dirty) || loginForm.controls.email.dirty, 'has-success': !signupForm.controls.email.errors && emailValid}">
-          <input type="text" name="email" class="form-control" autocomplete="off" placeholder="example@gmail.com" formControlName="email"/>
+            <input type="text" name="email" class="form-control" autocomplete="off" placeholder="example@gmail.com" formControlName="email"
+            />
             <ul class="help-block">
               <li *ngIf="loginForm.controls.email.errors?.required && loginForm.controls.email.dirty">This field is required</li>
               <li *ngIf="loginForm.controls.email.errors?.validateEmail && loginForm.controls.email.dirty">This must be a valid e-mail</li>
@@ -37,23 +38,30 @@
         <div class="form-group">
           <label>Password</label>
           <div [ngClass]="{'has-error': (loginForm.controls.password.errors && loginForm.controls.password.dirty), 'has-success': !loginForm.controls.password.errors}">
-            <input type="password" name="password" class="form-control" autocomplete="off" placeholder="Insert password" formControlName="password"/>
+            <input type="password" name="password" class="form-control" autocomplete="off" placeholder="Insert password" formControlName="password"
+            />
             <ul class="help-block">
               <li *ngIf="loginForm.controls.password.errors?.required && loginForm.controls.password.dirty">This field is required</li>
             </ul>
           </div>
         </div>
-        <input [disabled]="!loginForm.valid || proccessing" type="submit" class="btn btn-success" value="Submit"/>
+        <input [disabled]="!loginForm.valid || proccessing" type="submit" class="btn btn-success" value="Submit" />
         <a href="http://localhost:3001/auth/facebook" class="btn btn-default">Login with Facebook</a>
       </form>
     </div>
 
     <div class="form-group login-inputs" [hidden]="!showItemDictionary.showSignup">
+      <div class="type.accoun form-check">
+        <label class="form-check-label" (change)=setRestaurantOption()>
+          <input type="checkbox" class="form-check-input" /> I am a restaurant
+        </label>
+      </div>
       <form [formGroup]="signupForm" (submit)="singUpSubmit()">
         <div class="form-group">
           <label>Username</label>
           <div [ngClass]="{'has-error': (signupForm.controls.username.errors && signupForm.controls.username.dirty), 'has-success': !signupForm.controls.username.errors}">
-            <input type="text" name="username" class="form-control" autocomplete="off" placeholder="Insert username" formControlName="username"/>
+            <input type="text" name="username" class="form-control" autocomplete="off" placeholder="Insert username" formControlName="username"
+            />
             <ul class="help-block">
               <li *ngIf="signupForm.controls.username.errors?.required && signupForm.controls.username.dirty">This field is required</li>
               <li *ngIf="signupForm.controls.username.errors?.minlength && signupForm.controls.username.dirty || signupForm.controls.username.errors?.maxlength && signupForm.controls.username.dirty ">Minimum characters: 3, Maximum characters: 15</li>
@@ -64,7 +72,8 @@
         <div class="form-group">
           <label>Email</label>
           <div [ngClass]="{'has-error': (signupForm.controls.email.errors && signupForm.controls.email.dirty) || signupForm.controls.email.dirty, 'has-success': !signupForm.controls.email.errors && emailValid}">
-            <input type="text" name="email" class="form-control" autocomplete="off" placeholder="example@gmail.com" formControlName="email"/>
+            <input type="text" name="email" class="form-control" autocomplete="off" placeholder="example@gmail.com" formControlName="email"
+            />
             <ul class="help-block">
               <li *ngIf="signupForm.controls.email.errors?.required && signupForm.controls.email.dirty">This field is required</li>
               <li *ngIf="(signupForm.controls.email.errors?.minlength && signupForm.controls.email.dirty || signupForm.controls.email.errors?.maxlength && signupForm.controls.email.dirty ) && signupForm.controls.email.dirty">Minimum characters: 5, Maximum characters: 20</li>
@@ -75,7 +84,8 @@
         <div class="form-group">
           <label>Password</label>
           <div [ngClass]="{'has-error': (signupForm.controls.password.errors && signupForm.controls.password.dirty), 'has-success': !signupForm.controls.password.errors}">
-            <input type="password" name="password" class="form-control" autocomplete="off" placeholder="Insert password" formControlName="password"/>
+            <input type="password" name="password" class="form-control" autocomplete="off" placeholder="Insert password" formControlName="password"
+            />
             <!-- Validation -->
             <ul class="help-block">
               <li *ngIf="signupForm.controls.password.errors?.required && signupForm.controls.password.dirty">This field is required</li>
@@ -86,7 +96,8 @@
         <div class="form-group">
           <label>Confirm Password</label>
           <div [ngClass]="{'has-error': (signupForm.controls.confirm.errors && signupForm.controls.confirm.dirty) || (signupForm.errors?.matchingPasswords && signupForm.controls.confirm.dirty), 'has-success': !signupForm.controls.confirm.errors && !signupForm.errors?.matchingPasswords}">
-            <input type="password" name="confirm" class="form-control" autocomplete="off" placeholder="Repeat password" formControlName="confirm"/>
+            <input type="password" name="confirm" class="form-control" autocomplete="off" placeholder="Repeat password" formControlName="confirm"
+            />
             <!-- Validation -->
             <ul class="help-block">
               <li *ngIf="signupForm.controls.confirm.errors?.required && signupForm.controls.confirm.dirty">This field is required</li>
@@ -94,7 +105,7 @@
             </ul>
           </div>
         </div>
-        <input [disabled]="!signupForm.valid || proccessing" type="submit" class="btn btn-primary" value="Submit"/>
+        <input [disabled]="!signupForm.valid || proccessing" type="submit" class="btn btn-primary" value="Submit" />
         <a href="http://localhost:3001/auth/facebook" class="btn btn-default">Register with Facebook</a>
       </form>
     </div>

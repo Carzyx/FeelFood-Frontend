@@ -26,10 +26,11 @@ export class RestaurantProfileComponent implements OnInit {
 
   constructor(private http: HttpClient, private router: Router) {
     //USE THESE
-    //this.getRestaurant();
+
     this.menu = new Menu();
     this.envHelper = new EnvironmentHelper();
-    this.getFalseRestaurant();
+    this.getRestaurant();
+
   }
 
   ngOnInit() {
@@ -44,24 +45,14 @@ export class RestaurantProfileComponent implements OnInit {
     }
 
     // Update restaurant to avoid erroneous changes
-    //this.getRestaurant();
+    this.getRestaurant();
 
   }
-//TRUE GET RESTAURANT
+//GET RESTAURANT WITHOUT LOGIN
   private getRestaurant() {
     this.currentRestaurant = JSON.parse(localStorage.getItem('restaurant'));
-    // this.authService.getProfile(this.currentRestaurant.id).subscribe(data => {
-    //     this.restaurantOriginal = data;
-    //     this.restaurant = this.restaurantOriginal;
-    //     console.log(this.restaurant);
-    //   },
-    //   err => { console.log(err); });
-  }
-
-
-//GET RESTAURANT WITHOUT LOGIN
-  private getFalseRestaurant() {
-    this.http.get('http://localhost:3001/restaurant?id=5a15a4f6581ad320feeaf5b1').subscribe(data => {
+    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant + '?id=' + this.currentRestaurant._id;
+    this.http.get(url).subscribe(data => {
         this.restaurantOriginal = data;
         this.restaurant = this.restaurantOriginal;
         console.log(this.restaurant);
@@ -71,7 +62,7 @@ export class RestaurantProfileComponent implements OnInit {
 
   // TODO Add update method.
   private updateRestaurant() {
-    const url = this.envHelper.urlbase + this.envHelper.restaurantDictionary.restaurant;
+    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
     this.http.put(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
     });
     // this.authService.updateProfile(this.restaurant).subscribe(data => {
