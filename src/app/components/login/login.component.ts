@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import { User } from '../../models/user';
 import { Restaurant } from '../../models/restaurant';
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService, private http: HttpClient, private authGuard: AuthGuard) {
     this.createForm();
     this.user = new User();
-    this.restaurant = new Restaurant();    
+    this.restaurant = new Restaurant();
     this.envHelper = new EnvironmentHelper();
     this.isRestaurant = false;
     this.mapHelper = new MapHelper();
@@ -158,11 +158,12 @@ export class LoginComponent implements OnInit {
 
   loginRestaurant() {
     console.log("Try Post Login restaurant...  " + JSON.stringify(this.restaurant));
-    
+
     var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.login;
     var body = this.restaurant;
-    
-    this.httpHelper.post(url, body).subscribe(data => {
+
+    this.http.post(url, body, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
+    // this.httpHelper.post(url, body).subscribe(data => {
       console.log(JSON.stringify(data));
       alert("wait");
       if (!data['success']) {
@@ -212,13 +213,12 @@ export class LoginComponent implements OnInit {
     this.proccessing = true;
     this.disableForm();
     this.setInputValues(this.signupForm)
-
     this.isRestaurant == true ? this.signupRestaurant() : this.signupUser();
   }
 
-  setInputValues(form: FormGroup) {    
+  setInputValues(form: FormGroup) {
     if (form === this.loginForm) {
-      if (this.isRestaurant) {        
+      if (this.isRestaurant) {
         this.restaurant.email = form.get('email').value;
         this.restaurant.password = form.get('password').value;
       }
@@ -259,12 +259,13 @@ export class LoginComponent implements OnInit {
   signupRestaurant() {
 
     console.log("Try Post Signup restaurant...");
-    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.login;
+    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.signup;
     var body = this.restaurant;
 
-    console.log("Try Post Signup restaurant...");
+    console.log('Try Post Signup restaurant...');
     console.log(this.restaurant);
-    this.httpHelper.post(url, body).subscribe(data => {
+    this.http.post(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
+    // this.httpHelper.post(url, body).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
         this.messageClass = 'alert alert-danger';
