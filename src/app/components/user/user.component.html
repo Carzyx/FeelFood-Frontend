@@ -206,9 +206,30 @@
             <i>Edit your allergies</i>
           </p>
         </div>
-        <table *ngFor="let allergie of user.allergies">
-          <li>{{allergie}}</li>
-          </table>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="myAllergies"><strong>My allergies</strong></label>
+              <select multiple="" class="form-control" id="myAllergies">
+                <ng-container *ngFor="let allergy of user.allergies">
+                  <option>{{allergy['name']}}</option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="allergies"><strong>Available allergies</strong></label>
+              <select #selectedField class="form-control" id="allergies">
+                <ng-container *ngFor="let allergy of allergies">
+                <option>{{allergy['name']}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <button type="button" (click)="updateAllergy(selectedField.value)" class="btn btn-outline-info">Add</button>
+          </div>
+        </div>
+
       </div>
 
 
