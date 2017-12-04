@@ -18,7 +18,8 @@ export class EnvironmentHelper {
     loginFb: '/auth/facebook',
     user: '/user',
     profile: '/user?username=',
-    delete: '/user?id='
+    delete: '/user?id=',
+    allergies: '/allergies'
   };
 
   readonly restaurantDictionary = {

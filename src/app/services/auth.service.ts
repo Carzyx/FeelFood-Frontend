@@ -71,12 +71,17 @@ export class AuthService {
 
   updateProfile (user) {
     this.createAuthHeaders();
-    return this.http.put(this.envHelper.urlbase + this.envHelper.userDictionary.user, JSON.stringify(user), this.options);
+    return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user, JSON.stringify(user), this.options);
   }
 
   deleteProfile (id) {
     this.createAuthHeaders();
     return this.http.delete(this.envHelper.urlbase + this.envHelper.urlDictionary.user.delete + id, this.options);
+  }
+
+  getAllergies() {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.user.allergies, this.options);
   }
 
 }

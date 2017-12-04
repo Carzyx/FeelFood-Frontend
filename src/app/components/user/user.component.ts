@@ -3,6 +3,7 @@ import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
 import { Location } from '../../models/location';
+import { Allergy } from '../../models/allergy';
 import {mapNewObject} from '../../models/user';
 import { AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
@@ -20,16 +21,21 @@ export class UserComponent implements OnInit {
   showItemDictionary = { showProfile: true, showAddress: false, showAccount: false, showAllergies: false, showAddAddress: false};
   user: User;
   location: Location;
+  allergy: Allergy;
   userOriginal;
   currentUser;
   addressForm;
   passwordForm;
   emailForm;
+  allergies;
 
   constructor(private http: HttpClient, private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
     this.createForm();
     this.getUser();
+    this.getAllergies();
     this.location = new Location;
+    this.allergy = new Allergy;
+    this.allergies = new Array;
   }
 
   createForm() {
@@ -73,9 +79,9 @@ export class UserComponent implements OnInit {
     const regExp = new RegExp(/^\d{5}(?:[-\s]\d{4})?$/);
     // Test email against regular expression
     if (regExp.test(controls.value)) {
-      return null; // Return as valid email
+      return null; // Return as valid postal code
     } else {
-      return { 'validatePostalCode': true }; // Return as invalid email
+      return { 'validatePostalCode': true }; // Return as invalid postal code
     }
   }
 
@@ -126,6 +132,19 @@ export class UserComponent implements OnInit {
     this.updateUser();
     this.changeShowStatus('showAddress');
     this.location = new Location;
+  }
+
+  private updateAllergy (name) {
+    this.allergy.name = name;
+    this.user.allergies.push(this.allergy);
+    this.updateUser();
+    this.allergy = new Allergy;
+  }
+
+  private getAllergies() {
+    this.authService.getAllergies().subscribe(data => {
+      this.allergies = data;
+    }, err => { console.log(err)});
   }
 
   private getUser() {
