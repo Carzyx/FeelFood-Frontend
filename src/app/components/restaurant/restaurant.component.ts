@@ -13,26 +13,26 @@ import { EnvironmentHelper } from '../../../environments/environment';
 export class RestaurantComponent implements OnInit {
   envHelper: EnvironmentHelper;
   url;
-  @Input() restaurantName;
+  @Input() restaurantId;
   edit = false;
   canEdit= false;
   @Input() profile: boolean;
   editRestaurant;
-  restaurant;
+  restaurant: Restaurant;
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.profile = true;
-    this.restaurantName =  this.route.snapshot.params['name'];
+    this.restaurantId =  this.route.snapshot.params['_id'];
     this.envHelper = new EnvironmentHelper();
     this.url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
 
   }
   ngOnInit() {
     this.restaurant = new Restaurant();
-    this.http.get(this.url + `/${this.restaurantName}`).subscribe(data => {
+    this.http.get(this.url + `?id=${this.restaurantId}`).subscribe(data => {
+      console.log(data);
       if (data) {
         this.restaurant = data;
-        this.validator();
       }
     });
   }
@@ -51,12 +51,7 @@ export class RestaurantComponent implements OnInit {
     });
     this.edit = false;
   }
-  private validator() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if(currentUser.name === this.restaurant.username)
-      this.canEdit = true;
 
-  }
   // initialize_google_map()
   // {
   //   let myLatlng = new google.maps.LatLng(get_latitude, get_longitude);

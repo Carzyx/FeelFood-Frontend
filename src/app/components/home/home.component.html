@@ -2,8 +2,8 @@
 <div>
   <td>
     <tr *ngFor="let restaurant of restaurants">
-      <app-restaurant [restaurantName]="restaurant.name" [profile]="false" [routerLink]="['restaurantProfile',restaurant.name]"></app-restaurant>
-      <!--<app-restaurant [restaurantName]="restaurant.name" [profile]="false" routerLink="restaurantProfile"></app-restaurant>-->
+      <app-restaurant [restaurantId]="restaurant._id" [profile]="false" [routerLink]="['restaurant',restaurant._id]"></app-restaurant>
+      <!--<app-restaurant [restaurantId]="restaurant.name" [profile]="false" routerLink="restaurantProfile"></app-restaurant>-->
     </tr>
   </td>
 </div>

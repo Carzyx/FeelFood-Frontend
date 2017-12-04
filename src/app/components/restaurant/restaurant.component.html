@@ -8,10 +8,7 @@
     <div *ngIf="!edit">
       <tr>
         <td>
-          <h2>{{restaurant.name}}</h2>
-        </td>
-        <td>
-          <button class="btn-danger" (click)="Edit()" *ngIf="profile&&canEdit">Edit</button>
+          <h2>{{restaurant?.name}}</h2>
         </td>
       </tr>
       <tr>
@@ -19,9 +16,9 @@
           <div class="container" style="padding: 10px ">
           <div class="card text-white success">
             <div class="container">
-              <p>Address: {{restaurant.address}}</p>
-              <p>Phone:  {{restaurant.phone}}</p>
-              <p>Email:  {{restaurant.email}}</p>
+              <p>Address: {{restaurant?.location}}</p>
+              <p>Phone:  {{restaurant?.phone}}</p>
+              <p>Email:  {{restaurant?.email}}</p>
             </div>
           </div>
           <div class="card text-white success container">
@@ -41,51 +38,13 @@
           </div>
         </td>
         <td align="center" style="width: 30%">
-          <img  [src]="restaurant.images[0]" width="90%">
+          <img  [src]="'http://www.ecocentro.es/imagenes/contenidos/Restaurante%20vegetariano%20Ecocentro%202.jpg'" width="90%">
           <!--<a role="button" >-->
             <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
           <!--</a>-->
           <!--<a role="button" >-->
             <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
           <!--</a>-->
-        </td>
-      </tr>
-    </div>
-
-    <div *ngIf="edit">
-      <tr>
-        <td>
-          <input [(ngModel)]="restaurant.name">
-        </td>
-        <td>
-          <button class="btn-danger" (click)="Edit()">Cancel</button> <button class="btn-info" (click)="Update()">Aply</button>
-        </td>
-      </tr>
-      <tr>
-        <td class="card border-success" style="width: 80%">
-          <div class="container" style="margin-top: 10px">
-            <div class="card text-white success">
-              <div class="container">
-                <p>Address: </p> <input [(ngModel)]="restaurant.address">
-                <p>Phone:  </p> <input [(ngModel)]="restaurant.phone">
-                <p>Email:  </p> <input [(ngModel)]="restaurant.email">
-              </div>
-            </div>
-            <div class="card text-white success" style="margin-bottom: 10px">
-               <label>Saludable:</label> <input type="number" min="0" max="100">
-               <label>Vegano:</label> <input type="number" min="0" max="100">
-            </div>
-          </div>
-        </td>
-        <td align="center" style="width: 30%">
-          <img  [src]="restaurant.images[0]" width="90%">
-            <!--<a role="button" >-->
-            <!--<span class="glyphicon glyphicon-chevron-left"></span>-->
-            <!--</a>-->
-            <!--<a role="button" >-->
-            <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
-            <!--</a>-->
-
         </td>
       </tr>
     </div>
