@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../../models/user';
+import { Location } from '../../models/location';
+import { Allergy } from '../../models/allergy';
+import {mapNewObject} from '../../models/user';
 import {Router} from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { User } from '../../models/user';
-import { MapHelper } from '../../helpers/mapHelper';
 import { AuthService} from '../../services/authentication/auth.service';
-import { Location } from '../../models/location';
 
 
 
@@ -22,16 +22,20 @@ export class UserComponent implements OnInit {
   showItemDictionary = { showProfile: true, showAddress: false, showAccount: false, showAllergies: false, showAddAddress: false};
   user: User;
   location: Location;
+  allergy: Allergy;
   userOriginal;
   currentUser;
   addressForm;
   passwordForm;
   emailForm;
+  allergies;
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private mapHelper: MapHelper, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
     this.getUser();
-    this.createForm();  
+    this.createForm();this.getAllergies();
     this.location = new Location;
+    this.allergy = new Allergy;
+    this.allergies = new Array;
   }
 
   createForm() {
@@ -75,9 +79,9 @@ export class UserComponent implements OnInit {
     const regExp = new RegExp(/^\d{5}(?:[-\s]\d{4})?$/);
     // Test email against regular expression
     if (regExp.test(controls.value)) {
-      return null; // Return as valid email
+      return null; // Return as valid postal code
     } else {
-      return { 'validatePostalCode': true }; // Return as invalid email
+      return { 'validatePostalCode': true }; // Return as invalid postal code
     }
   }
 
@@ -104,7 +108,7 @@ export class UserComponent implements OnInit {
     }
 
     // Update user to avoid erroneous changes
-    this.user = this.mapHelper.map(User, this.userOriginal);
+    this.user = mapNewObject(this.userOriginal);
 
   }
 
@@ -128,6 +132,19 @@ export class UserComponent implements OnInit {
     this.updateUser();
     this.changeShowStatus('showAddress');
     this.location = new Location;
+  }
+
+  private updateAllergy (name) {
+    this.allergy.name = name;
+    this.user.allergies.push(this.allergy);
+    this.updateUser();
+    this.allergy = new Allergy;
+  }
+
+  private getAllergies() {
+    this.authService.getAllergies().subscribe(data => {
+      this.allergies = data;
+    }, err => { console.log(err)});
   }
 
   private getUser() {

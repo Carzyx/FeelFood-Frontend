@@ -85,4 +85,9 @@ export class AuthService {
     return this.http.delete(this.envHelper.urlbase + this.envHelper.urlDictionary.user.delete + id, this.options);
   }
 
+  getAllergies() {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.user.allergies, this.options);
+  }
+
 }

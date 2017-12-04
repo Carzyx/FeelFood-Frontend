@@ -1,6 +1,7 @@
 
 import { Location } from './location';
 import { Restaurant } from './restaurant';
+import {Allergy} from "./allergy";
 
 export class User {
     username: String
@@ -9,8 +10,20 @@ export class User {
     firstName: String
     lastName: String
     locations: Array<Location>
-    allergies: Array<String>
+    allergies: Array<Allergy>
     favoriteRestaurants: Array<Restaurant>
     //orders: [Schema.Types.ObjectId, ref: 'orders' }],
-    //isAdmin: Boolean   
+    //isAdmin: Boolean
+}
+
+export function mapNewObject(data) {
+
+    var myUser = new User();
+    var keyList = Object.keys(data)
+    for (var index = 0; index < keyList.length; index++) {
+        var key = keyList[index];
+
+        myUser[key] = data[key];
+    }
+    return myUser;
 }
