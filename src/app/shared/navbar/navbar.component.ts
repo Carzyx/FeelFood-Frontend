@@ -8,6 +8,7 @@ import { Router} from '@angular/router';
   styleUrls: ['./navbar.component.css'],
 })
 export class AppNavbar {
+  profile;
 
   constructor (private router: Router, private authService: AuthService) {}
 
@@ -16,5 +17,13 @@ export class AppNavbar {
     setTimeout(() => {
       this.router.navigate(['/home']);
     }, 1000);
+  }
+
+  selectProfile() {
+    if (JSON.parse(localStorage.getItem('user'))) {
+      this.profile = 'userProfile';
+    } else {
+      this.profile = 'restaurantProfile';
+    }
   }
 }

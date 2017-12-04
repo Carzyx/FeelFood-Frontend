@@ -43,12 +43,9 @@ export class RestaurantProfileComponent implements OnInit {
       const specificKey = itemsList[index];
       this.showItemDictionary[specificKey] = specificKey == key ? true : false;
     }
-
-    // Update restaurant to avoid erroneous changes
-    this.getRestaurant();
-
   }
-//GET RESTAURANT WITHOUT LOGIN
+
+// GET RESTAURANT WITHOUT LOGIN
   private getRestaurant() {
     this.currentRestaurant = JSON.parse(localStorage.getItem('restaurant'));
     const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant + '?id=' + this.currentRestaurant._id;
@@ -64,6 +61,7 @@ export class RestaurantProfileComponent implements OnInit {
   private updateRestaurant() {
     const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
     this.http.put(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
+      this.getRestaurant();
     });
     // this.authService.updateProfile(this.restaurant).subscribe(data => {
     //   this.restaurantOriginal = data;

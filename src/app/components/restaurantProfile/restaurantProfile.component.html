@@ -33,7 +33,7 @@
         </div>
         <div class="input-form">
           <label class="col-form-label">
-            <strong>Username</strong>
+            <strong>User name</strong>
           </label>
           <input class="form-control" id="readOnlyInput" type="text" placeholder="{{restaurant.username}}" readonly="" #username>
 
@@ -47,7 +47,7 @@
 
       <div class="update-address" [hidden]="!showItemDictionary.showAddress">
         <div class="component-title">
-          <h2 class="display-5">User Address</h2>
+          <h2 class="display-5">Restaurant Address</h2>
           <p>
             <i>Edit your address</i>
           </p>
@@ -78,7 +78,7 @@
 
       <div class="update-account" [hidden]="!showItemDictionary.showAccount">
         <div class="component-title">
-          <h2 class="display-5">User Account</h2>
+          <h2 class="display-5">Restaurant Account</h2>
           <p>
             <i>Edit your account</i>
           </p>
@@ -161,11 +161,13 @@
         </div>
 
       </div>
-      <div class="update-allergies" [hidden]="!showItemDictionary.showDishes">
-      <app-dish [restaurant]="restaurant"></app-dish>
-
+      <div align="center" class="update-allergies" [hidden]="!showItemDictionary.showDishes">
+        <h2 class="display-5">Restaurant Dishes</h2>
+        <p>
+          <i>Edit your Dishes</i>
+        </p>
+        <app-dish [restaurant]="restaurant"></app-dish>
       </div>
-
     </form>
   </div>
 </form>

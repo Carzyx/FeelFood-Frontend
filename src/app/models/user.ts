@@ -27,5 +27,3 @@ export function mapNewObject(data) {
     }
     return myUser;
 }
-
-

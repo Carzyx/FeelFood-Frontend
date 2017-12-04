@@ -7,8 +7,6 @@ import { Allergy } from '../../models/allergy';
 import {mapNewObject} from '../../models/user';
 import {Router} from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { MapHelper } from '../../helpers/mapHelper';
 import { AuthService} from '../../services/authentication/auth.service';
 
 
@@ -32,7 +30,7 @@ export class UserComponent implements OnInit {
   emailForm;
   allergies;
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private mapHelper: MapHelper, privateformBuilder: FormBuilder) {
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
     this.getUser();
     this.createForm();this.getAllergies();
     this.location = new Location;
