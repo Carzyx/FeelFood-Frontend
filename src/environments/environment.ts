@@ -6,12 +6,12 @@
 export class EnvironmentHelper {
 
   readonly environment = {
-    production: false,
-    developer: true
+    production: true,
+    developer: false
   };
 
-  readonly urlbase: string = this.environment.developer ? 'http://localhost:3001' : 'http://feelfood.es';
-  
+  readonly urlbase: string = this.environment.developer ? 'http://localhost:3001' : 'http://147.83.7.157:3001';
+
   private readonly userDictionary = {
     signup : '/user/signup',
     login: '/user/login',
@@ -30,7 +30,7 @@ export class EnvironmentHelper {
     profile: '/user?username=',
     ingredients: '/ingredient'
   }
-  
+
   readonly urlDictionary = {
     user: this.userDictionary,
     restaurant : this.restaurantDictionary
