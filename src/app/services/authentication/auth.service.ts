@@ -39,6 +39,12 @@ export class AuthService {
     this.authToken = token;
     this.user = user;
   }
+  storeRestaurantData (token, restaurant) {
+    localStorage.setItem('token', 'JWT ' + token);
+    localStorage.setItem('restaurant', JSON.stringify(restaurant));
+    this.authToken = token;
+    this.user = restaurant;
+  }
 
   readToken () {
     this.authToken = localStorage.getItem('token');

@@ -165,14 +165,13 @@ export class LoginComponent implements OnInit {
     this.http.post(url, body, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
     // this.httpHelper.post(url, body).subscribe(data => {
       console.log(JSON.stringify(data));
-      alert("wait");
       if (!data['success']) {
         return false;
       } else {
         this.messageClass = 'alert alert-success';
         this.message = data['message'];
         this.restaurant = this.mapHelper.map(Restaurant, data['restaurant']);
-        this.authService.storeUserData(data['token'], data['restaurant']);
+        this.authService.storeRestaurantData(data['token'], data['restaurant']);
         setTimeout(() => {
           if (this.previousUrl) {
             this.router.navigate([this.previousUrl]);

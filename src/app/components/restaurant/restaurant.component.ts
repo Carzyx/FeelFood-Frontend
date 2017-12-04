@@ -18,7 +18,7 @@ export class RestaurantComponent implements OnInit {
   canEdit= false;
   @Input() profile: boolean;
   editRestaurant;
-  restaurant: Restaurant;
+  restaurant;
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.profile = true;
