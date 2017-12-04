@@ -28,7 +28,7 @@ export class EnvironmentHelper {
     loginFb: '/auth/facebook',
     restaurant: '/restaurant',
     allRestaurants: '/restaurants',
-    profile: '/user?username=',
+    profile: '/restaurant?username=',
     ingredients: '/ingredient'
   }
 
