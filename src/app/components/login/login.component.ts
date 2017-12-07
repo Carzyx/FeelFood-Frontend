@@ -142,7 +142,6 @@ export class LoginComponent implements OnInit {
   setRestaurantOption() {
     this.isRestaurant = !this.isRestaurant
     console.log("UPDATED isRestaurant = " + this.isRestaurant);
-
   }
 
   loginSubmit(email, password) {
@@ -163,7 +162,6 @@ export class LoginComponent implements OnInit {
     var body = this.restaurant;
 
     this.http.post(url, body, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
-    // this.httpHelper.post(url, body).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
         return false;
@@ -264,7 +262,6 @@ export class LoginComponent implements OnInit {
     console.log('Try Post Signup restaurant...');
     console.log(this.restaurant);
     this.http.post(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
-    // this.httpHelper.post(url, body).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
         this.messageClass = 'alert alert-danger';

@@ -23,7 +23,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/authentication/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
-import { HttpHandle } from './services/http/httpHandle.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +50,7 @@ import { HttpHandle } from './services/http/httpHandle.service';
     }),
     FormsModule
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard, HttpHandle],
+  providers: [AuthService, AuthGuard, NotAuthGuard],
   bootstrap: [
     AppNavbar,
     FooterComponent
