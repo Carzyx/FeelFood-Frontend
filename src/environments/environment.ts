@@ -6,8 +6,8 @@
 export class EnvironmentHelper {
 
   readonly environment = {
-    production: true,
-    developer: false
+    production: false,
+    developer: true
   };
 
   readonly urlbase: string = this.environment.developer ? 'http://localhost:3001' : 'http://147.83.7.157:3001';
