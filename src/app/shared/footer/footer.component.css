@@ -1,5 +1,13 @@
+div.panel .panel-default .panel-foote{
+	max-width: 950px;
+    min-width: 430px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+}
+
 .footer-distributed{
-	background-color: #52575a;
+	background-color: #2EB872;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
 	box-sizing: border-box;
 	width: 100%;

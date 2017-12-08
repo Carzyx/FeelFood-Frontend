@@ -1,9 +1,7 @@
-<link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css">
-<div>
+<div class="item-restaurant">
   <td>
     <tr *ngFor="let restaurant of restaurants">
-      <app-restaurant [restaurantId]="restaurant._id" [profile]="false" [routerLink]="['restaurant',restaurant._id]"></app-restaurant>
-      <!--<app-restaurant [restaurantId]="restaurant.name" [profile]="false" routerLink="restaurantProfile"></app-restaurant>-->
+      <app-restaurantSummary [restaurantId]="restaurant._id" [routerLink]="['restaurant',restaurant._id]"></app-restaurantSummary>
     </tr>
   </td>
 </div>

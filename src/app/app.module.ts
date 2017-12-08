@@ -10,7 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 /*Import app Components*/
 import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
-import { RestaurantComponent } from './components/restaurant/restaurant.component';
+import { RestaurantSummaryComponent } from './components/restaurant/restaurantSummary/restaurantSummary.component';
+import { RestaurantServicesComponent } from './components/restaurant/restaurantServices/restaurantServices.component';
 import { MapComponent } from './components/map/map.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { HomeComponent } from './components/home/home.component';
@@ -30,7 +31,8 @@ import { NotAuthGuard } from './guards/notAuth.guard';
     LoginComponent,
     FooterComponent,
     MapComponent,
-    RestaurantComponent,
+    RestaurantSummaryComponent,
+    RestaurantServicesComponent,
     UserComponent,
     MenuComponent,
     HomeComponent,

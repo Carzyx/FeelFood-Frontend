@@ -1,0 +1,26 @@
+
+
+.restaurant-images{
+  max-width: 450px;
+  max-height: 150px;
+}
+
+.restaurantSummary{
+  height: auto;
+  width: 950px;
+  max-height: 550px;
+  min-width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+}
+
+td.contact-summary{
+  width: 60%;
+  padding-right: 10%; 
+}
+
+img.img-fluid{
+  width:350px;
+  height: 230px;
+}

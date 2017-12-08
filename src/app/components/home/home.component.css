@@ -1,6 +1,6 @@
 div.success{
   color: #fff;
-  background-color: #6aa84f;
+  background-color: #2EB872;
   border-color: #598943;
 }
 div.div-map{
@@ -8,4 +8,21 @@ div.div-map{
   margin-bottom: 10px;
   width: 450px;
   height: 300px;
+}
+
+div.item-restaurant{
+  max-width: 950px;
+  min-width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+}
+
+div.center-items{
+  max-height: 550px;
+  max-width: 950px;
+  min-width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
 }

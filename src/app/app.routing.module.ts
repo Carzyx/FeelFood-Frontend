@@ -5,7 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { HomeComponent } from './components/home/home.component';
-import { RestaurantComponent } from './components/restaurant/restaurant.component';
+import { RestaurantSummaryComponent } from './components/restaurant/restaurantSummary/restaurantSummary.component';
 import { RestaurantProfileComponent } from './components/restaurantProfile/restaurantProfile.component';
 import { AuthFbComponent } from './components/authFb/authFb.component';
 import { AuthGuard} from './guards/auth.guard';
@@ -16,7 +16,7 @@ export const Router: Routes = [
   { path: 'home/restaurant/:_id', redirectTo: '/restaurant/:_id', pathMatch: 'full'},
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard]},
   { path: 'userProfile', component: UserComponent, canActivate: [AuthGuard]},
-  { path: 'restaurant/:_id', component: RestaurantComponent},
+  { path: 'restaurant/:_id', component: RestaurantSummaryComponent},
   { path: 'restaurantProfile', component: RestaurantProfileComponent },
   { path: 'menu', component: MenuComponent},
   { path: 'home', component: HomeComponent},

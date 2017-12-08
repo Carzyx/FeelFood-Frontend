@@ -1,0 +1,25 @@
+<div class="jumbotron restaurantSummary" *ngIf="myRestaurant">
+    <table>
+        <tr>
+            <td *ngIf="myRestaurant.menus">
+                <p>Menu</p>
+            </td>
+            <td *ngIf="myRestaurant.dishes">
+                <p>Card</p>
+                <table class="card-options">
+                    <div *ngFor="let dish of myRestaurant.dishes">
+                        <tr>
+                            <h5 class="card-title">{{dish.name}}</h5>
+                            <h6 class="card-subtitle text-muted">{{dish.description}}</h6>
+                        </tr>
+                        <tr>
+                            <div class="card-footer text-muted">
+                                <p *ngFor="let ingredient of ingredients">{{ingredient.ingredient}} </p>
+                            </div>
+                        </tr>
+                    </div>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
