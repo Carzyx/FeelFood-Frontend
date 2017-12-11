@@ -1,3 +1,25 @@
+<app-modal #modalDelete>
+  <div class="app-modal-header">
+    <h5>Delete account</h5>
+  </div>
+  <div class="app-modal-body">
+    <strong>Are you sure to delete your account?</strong>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-danger" (click)="deleteUser()">Confirm delete</button>
+    <button type="button" class="btn btn-default" (click)="modalDelete.hide()">Close</button>
+  </div>
+</app-modal>
+
+<app-modal #modal>
+  <div class="app-modal-header">
+    <h5>Information</h5>
+  </div>
+  <div class="app-modal-body">
+    <strong>User update success.</strong>
+  </div>
+</app-modal>
+
 <form class="form-profile">
   <ul class="nav nav-tabs form-selector">
     <li class="nav-item" (click)="changeShowStatus('showProfile')">
@@ -13,7 +35,6 @@
       <a class="nav-link active" data-toggle="tab">Allergies</a>
     </li>
   </ul>
-
 
   <div class="jumbotron">
       <div class="progress" *ngIf="!user">
@@ -33,17 +54,31 @@
             <strong>Username</strong>
           </label>
           <input class="form-control" id="readOnlyInput" type="text" placeholder="{{user.username}}" readonly="" #username>
-
-          <label class="col-form-label">
-            <strong>First name</strong>
-          </label>
-          <input type="text" class="form-control" [(ngModel)]="user.firstName" name="firstName" />
-          <label class="col-form-label">
-            <strong>Last name</strong>
-          </label>
-          <input type="text" class="form-control" [(ngModel)]="user.lastName" name="lastname" />
+          <form [formGroup]="profileForm" (submit)="updateName()">
+            <label class="col-form-label">
+              <strong>First Name: {{user.firstName}}</strong>
+            </label>
+            <div class="form-group">
+              <div [ngClass]="{'has-error': (profileForm.controls.firstName.errors && profileForm.controls.firstName.dirty), 'has-success': !profileForm.controls.firstName.errors}">
+                <input type="text" name="firstName" class="form-control" autocomplete="off" formControlName="firstName"/>
+                <ul class="help-block">
+                  <li *ngIf="profileForm.controls.firstName.errors?.required && profileForm.controls.firstName.dirty">This field is required</li>
+                </ul>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-form-label">
+                <strong>Last Name: {{user.lastName}}</strong>
+              </label>
+              <div [ngClass]="{'has-error': (profileForm.controls.lastName.errors && profileForm.controls.lastName.dirty), 'has-success': !profileForm.controls.lastName.errors}">
+                <input type="text" name="lastName" class="form-control" autocomplete="off" formControlName="lastName"/>
+                <ul class="help-block">
+                  <li *ngIf="profileForm.controls.lastName.errors?.required && profileForm.controls.lastName.dirty">This field is required</li></ul>
+              </div>
+            </div>
+            <input [disabled]="!profileForm.valid" type="submit" class="btn btn-outline-info" value="Update" />
+          </form>
         </div>
-        <button type="button" (click)="updateUser()" class="btn btn-outline-info">Update</button>
       </div>
 
       <div class="update-address" [hidden]="!showItemDictionary.showAddress">
@@ -149,7 +184,9 @@
         </div>
         <form [formGroup]="passwordForm" (submit)="updatePassword()">
           <div class="form-group">
-            <label>Password</label>
+            <label class="col-form-label">
+              <strong>Password</strong>
+            </label>
             <div [ngClass]="{'has-error': (passwordForm.controls.password.errors && passwordForm.controls.password.dirty), 'has-success': !passwordForm.controls.password.errors}">
               <input type="password" name="password" class="form-control" autocomplete="off" placeholder="Insert new password" formControlName="password"/>
               <!-- Validation -->
@@ -160,7 +197,9 @@
             </div>
           </div>
           <div class="form-group">
-            <label>Confirm Password</label>
+            <label class="col-form-label">
+              <strong>Confirm password</strong>
+            </label>
             <div [ngClass]="{'has-error': (passwordForm.controls.confirm.errors && passwordForm.controls.confirm.dirty) || (passwordForm.errors?.matchingPasswords && passwordForm.controls.confirm.dirty), 'has-success': !passwordForm.controls.confirm.errors && !passwordForm.errors?.matchingPasswords}">
               <input type="password" name="confirm" class="form-control" autocomplete="off" placeholder="Repeat new password" formControlName="confirm"/>
               <!-- Validation -->
@@ -194,8 +233,8 @@
               </ul>
             </div>
           </div>
-          <input [disabled]="!emailForm.valid" type="submit" class="btn btn-outline-info" value="Updatess" />
-          <button type="button" (click)="deleteUser()" class="btn btn-danger">Delete</button>
+          <input [disabled]="!emailForm.valid" type="submit" class="btn btn-outline-info" value="Update" />
+          <button type="button" (click)="modalDelete.show()" class="btn btn-danger">Delete</button>
         </form>
       </div>
 
@@ -210,29 +249,27 @@
           <div class="col-sm-6">
             <div class="form-group">
               <label for="myAllergies"><strong>My allergies</strong></label>
-              <select multiple="" class="form-control" id="myAllergies">
+              <select #deleteField multiple="" class="form-control" id="myAllergies">
                 <ng-container *ngFor="let allergy of user.allergies">
                   <option>{{allergy['name']}}</option>
                 </ng-container>
               </select>
             </div>
+            <button type="button" (click)="deleteAllergy(deleteField.value)" class="btn btn-outline-info">Delete</button>
           </div>
           <div class="col-sm-6">
             <div class="form-group">
               <label for="allergies"><strong>Available allergies</strong></label>
-              <select #selectedField class="form-control" id="allergies">
+              <select #addField class="form-control" id="allergies">
                 <ng-container *ngFor="let allergy of allergies">
                 <option>{{allergy['name']}}</option>
                 </ng-container>
               </select>
             </div>
-            <button type="button" (click)="updateAllergy(selectedField.value)" class="btn btn-outline-info">Add</button>
+            <button type="button" (click)="addAllergy(addField.value)" class="btn btn-outline-info">Add</button>
           </div>
         </div>
-
       </div>
-
-
     </form>
   </div>
 </form>
