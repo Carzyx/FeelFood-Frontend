@@ -56,12 +56,14 @@ export class AuthService {
 
   login (user) {
     this.createHeaders();
-    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.login, JSON.stringify(user), this.options);
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user +
+      this.envHelper.urlDictionary.user.login, JSON.stringify(user), this.options);
   }
 
   signUp (user) {
     this.createHeaders();
-    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.signup, JSON.stringify(user), this.options);
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user +
+      this.envHelper.urlDictionary.user.signup, JSON.stringify(user), this.options);
   }
 
   getProfile(name) {

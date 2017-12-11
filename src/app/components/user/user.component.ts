@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
@@ -8,6 +8,8 @@ import {mapNewObject} from '../../models/user';
 import { AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {ModalComponent} from '../../shared/modal/modal.component';
+
 
 
 @Component({
@@ -16,6 +18,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+
+  @ViewChild('modal') modalUpdate: ModalComponent;
 
   // ShowHide
   showItemDictionary = { showProfile: true, showAddress: false, showAccount: false, showAllergies: false, showAddAddress: false};
@@ -27,6 +31,7 @@ export class UserComponent implements OnInit {
   addressForm;
   passwordForm;
   emailForm;
+  profileForm;
   allergies;
 
   constructor(private http: HttpClient, private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
@@ -63,6 +68,9 @@ export class UserComponent implements OnInit {
         Validators.maxLength(20),
         this.validateEmail
       ])]});
+    this.profileForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required]});
   }
 
   validateEmail(controls) {
@@ -122,6 +130,12 @@ export class UserComponent implements OnInit {
     this.updateUser();
   }
 
+  private updateName() {
+    this.user.firstName = this.profileForm.get('firstName').value;
+    this.user.lastName = this.profileForm.get('lastName').value;
+    this.updateUser();
+  }
+
   private updateAddress () {
     this.location.locationName = this.addressForm.get('name').value;
     this.location.address = this.addressForm.get('address').value;
@@ -134,11 +148,34 @@ export class UserComponent implements OnInit {
     this.location = new Location;
   }
 
-  private updateAllergy (name) {
-    this.allergy.name = name;
-    this.user.allergies.push(this.allergy);
-    this.updateUser();
-    this.allergy = new Allergy;
+  private addAllergy (name) {
+    let found = false;
+    this.user.allergies.forEach(function (value) {
+      if (value['name'] === name) {
+        alert('You already have this allergy.');
+        return found = true;
+      }
+    });
+    if (found === false) {
+      this.allergy.name = name;
+      this.user.allergies.push(this.allergy);
+      this.updateUser();
+      this.allergy = new Allergy;
+    }
+  }
+
+  private deleteAllergy (name) {
+    if (name) {
+      this.user.allergies.forEach(function (value, index, array) {
+        if (value['name'] === name) {
+          array.splice(index, 1);
+          return;
+        }
+      });
+      this.updateUser();
+    } else {
+      alert('Select one allergy.');
+    }
   }
 
   private getAllergies() {
@@ -162,8 +199,9 @@ export class UserComponent implements OnInit {
     this.authService.updateProfile(this.user).subscribe(data => {
       this.userOriginal = data;
       this.user = this.userOriginal;
-      alert('User updated.');
+      this.modalUpdate.show();
       this.getUser();
+      setTimeout(() => this.modalUpdate.hide(), 1500);
     },
     err => { console.log(err)});
   }
