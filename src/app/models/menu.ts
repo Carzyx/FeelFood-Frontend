@@ -14,7 +14,7 @@ export class Menu {
     drinksOptions: Dish[]
     othersOptions: Dish[]
   constructor () {
-    this.id = ''
+    this._id = ''
     this.name = ''
     this.description = ''
     this.comments = ''
