@@ -146,45 +146,19 @@ export class LoginComponent implements OnInit {
 
   loginSubmit(email, password) {
     this.proccessing = true;
-    this.setInputValues(this.loginForm)
-    var success = this.loginUser()
-    if (!success) {
-      this.isRestaurant = true;
-      this.setInputValues(this.loginForm);
-      this.loginRestaurant();
+    let body;
+    if (!email || !password) {
+      body = {
+        email: this.loginForm.get('email').value,
+        password: this.loginForm.get('password').value
+      };
+    } else {
+      body = {
+        email: email,
+        password: password
+      };
     }
-  }
-
-  loginRestaurant() {
-    console.log("Try Post Login restaurant...  " + JSON.stringify(this.restaurant));
-
-    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.login;
-    var body = this.restaurant;
-
-    this.http.post(url, body, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
-      console.log(JSON.stringify(data));
-      if (!data['success']) {
-        return false;
-      } else {
-        this.messageClass = 'alert alert-success';
-        this.message = data['message'];
-        this.restaurant = this.mapHelper.map(Restaurant, data['restaurant']);
-        this.authService.storeRestaurantData(data['token'], data['restaurant']);
-        setTimeout(() => {
-          if (this.previousUrl) {
-            this.router.navigate([this.previousUrl]);
-          } else {
-            this.router.navigate(['/home']);
-          }
-        }, 1000);
-      }
-    });
-  }
-
-  loginUser() {
-    console.log("Try Post Login user...  " + JSON.stringify(this.user));
-
-    this.authService.login(this.user).subscribe(data => {
+    this.authService.login(body).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
         this.messageClass = 'alert alert-danger';
@@ -193,8 +167,13 @@ export class LoginComponent implements OnInit {
       } else {
         this.messageClass = 'alert alert-success';
         this.message = data['message'];
-        this.user = this.mapHelper.map(User, data['user']);
-        this.authService.storeUserData(data['token'], data['user']);
+        if (data['user']) {
+          this.user = this.mapHelper.map(User, data['user']);
+          this.authService.storeUserData(data['token'], data['user']);
+        } else if (data['restaurant']) {
+          this.restaurant = this.mapHelper.map(Restaurant, data['restaurant']);
+          this.authService.storeRestaurantData(data['token'], data['restaurant']);
+        }
         setTimeout(() => {
           if (this.previousUrl) {
             this.router.navigate([this.previousUrl]);
@@ -239,8 +218,8 @@ export class LoginComponent implements OnInit {
   }
 
   signupUser() {
-    console.log("Try Post Signup user...");
-    this.authService.signUp(this.user).subscribe(data => {
+    console.log('Try Post Signup user...');
+    this.authService.signUpUser(this.user).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
         this.messageClass = 'alert alert-danger';
@@ -248,20 +227,14 @@ export class LoginComponent implements OnInit {
         this.proccessing = false;
         this.enableForm();
       } else {
-        this.loginUser();
+        this.loginSubmit(this.user.email, this.user.password);
       }
     });
   }
 
   signupRestaurant() {
-
-    console.log("Try Post Signup restaurant...");
-    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.signup;
-    var body = this.restaurant;
-
     console.log('Try Post Signup restaurant...');
-    console.log(this.restaurant);
-    this.http.post(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
+    this.authService.signUpRestaurant(this.restaurant).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
         this.messageClass = 'alert alert-danger';
@@ -269,7 +242,7 @@ export class LoginComponent implements OnInit {
         this.proccessing = false;
         this.enableForm();
       } else {
-        this.loginRestaurant();
+        this.loginSubmit(this.restaurant.email, this.restaurant.password);
       }
     });
   }

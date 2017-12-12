@@ -14,7 +14,7 @@ export class EnvironmentHelper {
 
   private readonly userDictionary = {
     signup : '/user/signup',
-    login: '/user/login',
+    login: '/login',
     loginFb: '/auth/facebook',
     user: '/user',
     profile: '/user?username=',

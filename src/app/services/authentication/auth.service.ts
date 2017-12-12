@@ -60,14 +60,19 @@ export class AuthService {
     this.user = null;
   }
 
-  login (user) {
+  login (body) {
     this.createHeaders();
-    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.login, JSON.stringify(user), this.options);
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.login, JSON.stringify(body), this.options);
   }
 
-  signUp (user) {
+  signUpUser (user) {
     this.createHeaders();
     return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.signup, JSON.stringify(user), this.options);
+  }
+
+  signUpRestaurant (restaurant) {
+    this.createHeaders();
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.signup, JSON.stringify(restaurant), this.options);
   }
 
   getProfile(name) {
