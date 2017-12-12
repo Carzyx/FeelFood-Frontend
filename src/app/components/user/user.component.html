@@ -16,7 +16,10 @@
     <h5>Information</h5>
   </div>
   <div class="app-modal-body">
-    <strong>User update success.</strong>
+    <strong>{{message}}</strong>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="modal.hide()">Close</button>
   </div>
 </app-modal>
 
@@ -89,9 +92,10 @@
           </p>
         </div>
         <div *ngIf="user.locations" class="table-responsive">
-          <table class="table">
+          <table class="table table-striped table-hover table-bordered">
             <thead>
             <tr>
+              <th></th>
               <th>Name</th>
               <th>Address</th>
               <th>City</th>
@@ -99,8 +103,9 @@
               <th>Country</th>
             </tr>
             </thead>
-            <tbody>
-            <tr *ngFor="let location of user.locations">
+            <tbody *ngFor="let location of user.locations">
+            <tr>
+              <th><input type="radio" (click)="selectedAddress(location['locationName'])"></th>
               <th>{{ location['locationName'] }}</th>
               <th>{{ location['address'] }}</th>
               <th>{{ location['city'] }}</th>
@@ -114,6 +119,7 @@
           </table>
         </div>
         <button type="button" (click)="changeShowStatus('showAddAddress')" class="btn btn-outline-info">Add</button>
+        <button type="button" (click)="deleteAddress()" class="btn btn-outline-info">Delete</button>
       </div>
       <div class="addAddress" [hidden]="!showItemDictionary.showAddAddress">
         <div class="component-title">

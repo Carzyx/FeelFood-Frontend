@@ -16,11 +16,14 @@
       </p>
     </div>
 
-    <div class="row show-hide-message">
-      <div [ngClass]="messageClass">
-        {{ message }}
+    <app-modal #modal>
+      <div class="app-modal-header">
+        <h5>Information</h5>
       </div>
-    </div>
+      <div class="app-modal-body">
+        <strong class={{messageClass}}>{{message}}</strong>
+      </div>
+    </app-modal>
 
     <div class="form-group login-inputs" [hidden]="!showItemDictionary.showLogin">
       <form [formGroup]="loginForm" (submit)="loginSubmit(null,null)">

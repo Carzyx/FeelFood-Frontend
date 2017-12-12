@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/map';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 
 import { User } from '../../models/user';
 import { Restaurant } from '../../models/restaurant';
 import { MapHelper } from '../../helpers/mapHelper';
 import { EnvironmentHelper } from '../../../environments/environment';
 import { AuthService } from '../../services/authentication/auth.service';
-//import { HttpHandle } from '../../services/http/httpHandle.service'
-import { HttpHelper } from '../../helpers/httpHelper';
+import { AppNavbar} from '../../shared/navbar/navbar.component';
 import { AuthGuard } from '../../guards/auth.guard';
+import {ModalComponent} from '../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +19,7 @@ import { AuthGuard } from '../../guards/auth.guard';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('modal') modal: ModalComponent;
   private user: User;
   private restaurant: Restaurant;
   private envHelper: EnvironmentHelper;
@@ -28,7 +29,6 @@ export class LoginComponent implements OnInit {
   signupForm: FormGroup;
   loginForm: FormGroup;
   private mapHelper: MapHelper;
-  private httpHelper: HttpHelper;
 
   message;
   messageClass;
@@ -36,14 +36,13 @@ export class LoginComponent implements OnInit {
   previousUrl;
 
   constructor(private router: Router, private formBuilder: FormBuilder,
-    private authService: AuthService, private http: HttpClient, private authGuard: AuthGuard) {
+    private authService: AuthService, private http: HttpClient, private authGuard: AuthGuard, private navBar: AppNavbar) {
     this.createForm();
     this.user = new User();
     this.restaurant = new Restaurant();
     this.envHelper = new EnvironmentHelper();
     this.isRestaurant = false;
     this.mapHelper = new MapHelper();
-    this.httpHelper = new HttpHelper(http);
   }
 
   createForm() {
@@ -132,16 +131,16 @@ export class LoginComponent implements OnInit {
 
   changeShowStatus(key) {
 
-    var itemsList = Object.keys(this.showItemDictionary);
-    for (var index = 0; index < itemsList.length; index++) {
-      var specificKey = itemsList[index];
+    const itemsList = Object.keys(this.showItemDictionary);
+    for (let index = 0; index < itemsList.length; index++) {
+      const specificKey = itemsList[index];
       this.showItemDictionary[specificKey] = specificKey === key ? true : false;
     }
   }
 
   setRestaurantOption() {
     this.isRestaurant = !this.isRestaurant
-    console.log("UPDATED isRestaurant = " + this.isRestaurant);
+    console.log('UPDATED isRestaurant = ' + this.isRestaurant);
   }
 
   loginSubmit(email, password) {
@@ -161,20 +160,28 @@ export class LoginComponent implements OnInit {
     this.authService.login(body).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
-        this.messageClass = 'alert alert-danger';
+        this.messageClass = 'text-danger';
         this.message = data['message'];
+        this.modal.show();
+        setTimeout(() => {
+          this.modal.hide();
+        }, 1000);
         this.proccessing = false;
       } else {
-        this.messageClass = 'alert alert-success';
+        this.messageClass = 'text-success';
         this.message = data['message'];
+        this.modal.show();
         if (data['user']) {
+          this.navBar.profile = '/userProfile';
           this.user = this.mapHelper.map(User, data['user']);
           this.authService.storeUserData(data['token'], data['user']);
         } else if (data['restaurant']) {
+          this.navBar.profile = '/restaurantProfile';
           this.restaurant = this.mapHelper.map(Restaurant, data['restaurant']);
           this.authService.storeRestaurantData(data['token'], data['restaurant']);
         }
         setTimeout(() => {
+          this.modal.hide();
           if (this.previousUrl) {
             this.router.navigate([this.previousUrl]);
           } else {
@@ -188,32 +195,19 @@ export class LoginComponent implements OnInit {
   singUpSubmit() {
     this.proccessing = true;
     this.disableForm();
-    this.setInputValues(this.signupForm)
-    this.isRestaurant == true ? this.signupRestaurant() : this.signupUser();
+    this.setInputValues(this.signupForm);
+    this.isRestaurant === true ? this.signupRestaurant() : this.signupUser();
   }
 
   setInputValues(form: FormGroup) {
-    if (form === this.loginForm) {
-      if (this.isRestaurant) {
-        this.restaurant.email = form.get('email').value;
-        this.restaurant.password = form.get('password').value;
-      }
-      else {
-        this.user.email = form.get('email').value;
-        this.user.password = form.get('password').value;
-      }
-    }
-    else {
-      if (this.isRestaurant) {
+    if (this.isRestaurant) {
         this.restaurant.username = form.get('username').value;
         this.restaurant.email = form.get('email').value;
         this.restaurant.password = form.get('password').value;
-      }
-      else {
+    } else {
         this.user.username = form.get('username').value;
         this.user.email = form.get('email').value;
         this.user.password = form.get('password').value;
-      }
     }
   }
 

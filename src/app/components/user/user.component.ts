@@ -34,6 +34,8 @@ export class UserComponent implements OnInit {
   emailForm;
   profileForm;
   allergies;
+  address;
+  message;
 
   constructor(private http: HttpClient, private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
     this.createForm();
@@ -149,11 +151,30 @@ export class UserComponent implements OnInit {
     this.location = new Location;
   }
 
+  deleteAddress() {
+    const location = this.address;
+    if (location) {
+      this.user.locations.forEach(function (value, index, array) {
+        if (value['locationName'] === location) {
+          array.splice(index, 1);
+          return;
+        }
+      });
+      this.updateUser();
+    } else {
+      this.message = 'Select one address.';
+      this.modalUpdate.show();
+    }
+  }
+
+  selectedAddress(locationName: String) {
+    this.address = locationName;
+  }
+
   private addAllergy (name) {
     let found = false;
     this.user.allergies.forEach(function (value) {
       if (value['name'] === name) {
-        alert('You already have this allergy.');
         return found = true;
       }
     });
@@ -162,6 +183,9 @@ export class UserComponent implements OnInit {
       this.user.allergies.push(this.allergy);
       this.updateUser();
       this.allergy = new Allergy;
+    } else {
+      this.message = 'You already have this allergy.';
+      this.modalUpdate.show();
     }
   }
 
@@ -175,7 +199,8 @@ export class UserComponent implements OnInit {
       });
       this.updateUser();
     } else {
-      alert('Select one allergy.');
+      this.message = 'Select one allergy.';
+      this.modalUpdate.show();
     }
   }
 
@@ -200,6 +225,7 @@ export class UserComponent implements OnInit {
     this.authService.updateProfile(this.user).subscribe(data => {
       this.userOriginal = data;
       this.user = this.userOriginal;
+      this.message = 'User update success.';
       this.modalUpdate.show();
       this.getUser();
       setTimeout(() => this.modalUpdate.hide(), 1500);
@@ -209,7 +235,6 @@ export class UserComponent implements OnInit {
 
   private deleteUser() {
     this.authService.deleteProfile(this.currentUser._id).subscribe(data => {
-      alert('User deleted.');
       this.authService.logout();
       this.router.navigate(['/home']);
     }, err => { console.log(err)});
