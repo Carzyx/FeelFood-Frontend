@@ -1,25 +1,209 @@
-<div class="jumbotron restaurantSummary" *ngIf="myRestaurant">
-    <table>
-        <tr>
-            <td *ngIf="myRestaurant.menus">
-                <p>Menu</p>
-            </td>
-            <td *ngIf="myRestaurant.dishes">
-                <p>Card</p>
-                <table class="card-options">
-                    <div *ngFor="let dish of myRestaurant.dishes">
-                        <tr>
-                            <h5 class="card-title">{{dish.name}}</h5>
-                            <h6 class="card-subtitle text-muted">{{dish.description}}</h6>
-                        </tr>
-                        <tr>
-                            <div class="card-footer text-muted">
-                                <p *ngFor="let ingredient of ingredients">{{ingredient.ingredient}} </p>
+<div class="jumbotron">
+    <div class="btn-options-services">
+            <button type="button" class="btn btn-outline-warning" (click)="changeShowStatus('showMenu')">Menu</button>
+            <button type="button" class="btn btn-outline-success" (click)="changeShowStatus('showCard')">Card</button>            
+    </div>
+
+    <div class=" restaurantServices" *ngIf="myRestaurant">
+            <table>
+                <tr>
+                    <td *ngIf="myRestaurant.menus">
+                        <table class="menu-table" [hidden]="!showItemDictionary.showMenu">
+                            <tr>
+                                <h1>Menu</h1>
+                            </tr>
+                            <tr *ngFor="let menu of myRestaurant.menus">
+                                <table class="menu-content">
+                                    <div class="starter-content">
+                                        <tr>
+                                            <h4>Starters</h4>
+                                            <hr style="background:#555555">
+                                        </tr>
+                                        <div *ngFor="let dish of menu.starters">
+                                            <span>
+                                                <tr>
+                                                    <td>
+                                                        <tr>
+                                                            <h5 class="">
+                                                                <b>{{dish.name}}</b>
+                                                            </h5>
+                                                            <p class="card-subtitle">{{dish.description}}</p>
+                                                        </tr>
+                                                        <tr>
+                                                            <table class="ingredient-table">
+                                                                <tr>
+                                                                    <td class="card-subtitle text-muted ingredient-item" *ngFor="let ing of dish.ingredients">
+                                                                        <em>{{ing.ingredient}} ({{ing.weight}}g.) &nbsp;</em>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </tr>
+                                                    </td>
+                                                </tr>
+                                            </span>
+                                            <hr>
+                                        </div>
+                                    </div>
+        
+                                    <div class="first-content">
+                                        <tr>
+                                            <h4>First</h4>
+                                            <hr style="background:#555555">
+                                        </tr>
+                                        <div *ngFor="let dish of menu.firstOptions">
+                                            <span>
+                                                <tr>
+                                                    <td>
+                                                        <tr>
+                                                            <h5 class="">
+                                                                <b>{{dish.name}}</b>
+                                                            </h5>
+                                                            <p class="card-subtitle">{{dish.description}}</p>
+                                                        </tr>
+                                                        <tr>
+                                                            <table class="ingredient-table">
+                                                                <tr>
+                                                                    <td class="card-subtitle text-muted ingredient-item" *ngFor="let ing of dish.ingredients">
+                                                                        <em>{{ing.ingredient}} ({{ing.weight}}g.) &nbsp;</em>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </tr>
+                                                    </td>
+                                                </tr>
+                                            </span>
+                                            <hr>
+                                        </div>
+                                    </div>
+        
+                                    <div class="second-content">
+                                        <tr>
+                                            <h4>Second</h4>
+                                            <hr style="background:#555555">
+                                        </tr>
+                                        <div *ngFor="let dish of menu.secondOptions">
+                                            <span>
+                                                <tr>
+                                                    <td>
+                                                        <tr>
+                                                            <h5 class="">
+                                                                <b>{{dish.name}}</b>
+                                                            </h5>
+                                                            <p class="card-subtitle">{{dish.description}}</p>
+                                                        </tr>
+                                                        <tr>
+                                                            <table class="ingredient-table">
+                                                                <tr>
+                                                                    <td class="card-subtitle text-muted ingredient-item" *ngFor="let ing of dish.ingredients">
+                                                                        <em>{{ing.ingredient}} ({{ing.weight}}g.) &nbsp;</em>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </tr>
+                                                    </td>
+                                                </tr>
+                                            </span>
+                                            <hr>
+                                        </div>
+                                    </div>
+        
+                                    <div class="third-content">
+                                        <tr>
+                                            <h4>Third</h4>
+                                            <hr style="background:#555555">
+                                        </tr>
+                                        <div *ngFor="let dish of menu.thirdOptions">
+                                            <span>
+                                                <tr>
+                                                    <td>
+                                                        <tr>
+                                                            <h5 class="">
+                                                                <b>{{dish.name}}</b>
+                                                            </h5>
+                                                            <p class="card-subtitle">{{dish.description}}</p>
+                                                        </tr>
+                                                        <tr>
+                                                            <table class="ingredient-table">
+                                                                <tr>
+                                                                    <td class="card-subtitle text-muted ingredient-item" *ngFor="let ing of dish.ingredients">
+                                                                        <em>{{ing.ingredient}} ({{ing.weight}}g.) &nbsp;</em>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </tr>
+                                                    </td>
+                                                </tr>
+                                            </span>
+                                            <hr>
+                                        </div>
+                                    </div>
+        
+                                    <div class="drink-content">
+                                        <tr>
+                                            <h4>Drinks</h4>
+                                            <hr style="background:#555555">
+                                        </tr>
+                                        <div *ngFor="let dish of menu.drinksOptions">
+                                            <span>
+                                                <tr>
+                                                    <td>
+                                                        <tr>
+                                                            <h5 class="">
+                                                                <b>{{dish.name}}</b>
+                                                            </h5>
+                                                            <p class="card-subtitle">{{dish.description}}</p>
+                                                        </tr>
+                                                        <tr>
+                                                            <table class="ingredient-table">
+                                                                <tr>
+                                                                    <td class="card-subtitle text-muted ingredient-item" *ngFor="let ing of dish.ingredients">
+                                                                        <em>{{ing.ingredient}} ({{ing.weight}}g.) &nbsp;</em>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </tr>
+                                                    </td>
+                                                </tr>
+                                            </span>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </table>
+                            </tr>
+                        </table>
+                    </td>
+                    <td *ngIf="myRestaurant.dishes">
+                        <table class="card-table" [hidden]="!showItemDictionary.showCard">
+                            <tr>
+                                <h1>Card</h1>
+                            </tr>
+                            <div class="ingredient-item" *ngFor="let dish of myRestaurant.dishes">
+                                <span>
+                                    <tr>
+                                        <td>
+                                            <tr>
+                                                <h5 class="">
+                                                    <b>{{dish.name}}</b>
+                                                </h5>
+                                                <p class="card-subtitle">{{dish.description}}</p>
+                                            </tr>
+                                            <tr>
+                                                <table class="ingredient-table">
+                                                    <tr>
+                                                        <td class="card-subtitle text-muted ingredient-item" *ngFor="let ing of dish.ingredients">
+                                                            <em>{{ing.ingredient}} ({{ing.weight}}g.) &nbsp;</em>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </tr>
+                                        </td>
+                                    </tr>
+                                </span>
+                                <hr>
                             </div>
-                        </tr>
-                    </div>
-                </table>
-            </td>
-        </tr>
-    </table>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
 </div>

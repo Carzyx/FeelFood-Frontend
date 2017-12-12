@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
-import {Restaurant} from '../../models/restaurant';
+import { Restaurant } from '../../models/restaurant';
 
 @Component({
   selector: 'app-home',
@@ -19,8 +19,10 @@ export class HomeComponent implements OnInit {
   }
   private getRandomResturants() {
     var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.allRestaurants;
-    this.http.get(url, { headers: new HttpHeaders()
-      .set('Content-Type', 'application/json')}).subscribe(data => {
+    this.http.get(url, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+    }).subscribe(data => {
       this.restaurants = data;
       console.log(this.restaurants);
     });
