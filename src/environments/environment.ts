@@ -11,7 +11,7 @@ export class EnvironmentHelper {
   };
 
   readonly urlbase: string = this.environment.developer ? 'http://localhost:3001' : 'http://147.83.7.157:3001';
-
+  // readonly urlbase: string = 'http://147.83.7.157:3001';
   private readonly userDictionary = {
     signup : '/user/signup',
     login: '/login',
