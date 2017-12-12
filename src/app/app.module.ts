@@ -24,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/authentication/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
+import { ModalComponent } from './shared/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { NotAuthGuard } from './guards/notAuth.guard';
     RestaurantProfileComponent,
     DishComponent,
     AppNavbar,
-    AuthFbComponent
+    AuthFbComponent,
+    ModalComponent
   ],
   imports: [
     ReactiveFormsModule,
