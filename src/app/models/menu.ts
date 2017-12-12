@@ -1,7 +1,7 @@
 import { Dish } from './dish';
 
 export class Menu {
-    id: String
+    _id: String
     name: String
     description: String
     comments: String

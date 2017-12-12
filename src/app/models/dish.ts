@@ -1,13 +1,14 @@
 import { Ingredient } from './ingredient';
+import { Validators, FormControl } from '@angular/forms';
 
 export class Dish {
-    name: String;
-    category: String;
-    description: String;
-    amount: Number;
+    name;
+    category;
+    description;
+    amount;
     ingredients: Array<Ingredient>;
-    stock: Number;
-    totalCalories: Number;
+    stock;
+    totalCalories;
 
   constructor() {
     this.name = '',

@@ -63,12 +63,6 @@ export class RestaurantProfileComponent implements OnInit {
     this.http.put(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
       this.getRestaurant();
     });
-    // this.authService.updateProfile(this.restaurant).subscribe(data => {
-    //   this.restaurantOriginal = data;
-    //   this.restaurant = this.restaurantOriginal;
-    //   alert('Restaurant updated.');
-    // },
-    // err => { console.log(err); });
   }
 
   private deleteRestaurant() {
@@ -95,12 +89,13 @@ export class RestaurantProfileComponent implements OnInit {
   }
   private deleteMenu(id) {
 
-    if(this.confirmar()) {
-      console.log(id)
-      for (let i = 0; i < this.restaurant.menus.length; i++) {
-        if (id === this.restaurant.menus[i].id)
-          this.restaurant.menus.splice(i, 1);
-      }
+    if (this.confirmar()) {
+      this.restaurant.menus.forEach(function (value, index, array) {
+        if (value['_id'] === id) {
+          array.splice(index, 1);
+          return;
+        }
+      });
       this.updateRestaurant();
     }
   }

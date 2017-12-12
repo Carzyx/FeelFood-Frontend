@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Directive} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import { AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {Restaurant} from '../../models/restaurant';
@@ -14,12 +15,13 @@ import {Dish} from '../../models/dish';
   templateUrl: './dish.component.html',
   styleUrls: ['./dish.component.css']
 })
+
 export class DishComponent implements OnInit {
 
   @Input() restaurant: Restaurant;
   @Input() dishes;
   @Input() menuName ;
-  @Input() currentList = 'Dishes';
+  @Input() currentList ;
 
   positionMenu;
   addDish = false;
@@ -32,14 +34,13 @@ export class DishComponent implements OnInit {
 
 
   constructor(private http: HttpClient, private router: Router) {
-    //USE THESE
-    //this.getRestaurant();
     this.dish = new Dish();
     this.envHelper = new EnvironmentHelper();
+    this.currentList = 'Dishes';
   }
 
   ngOnInit() {
-    if(!this.menuName)
+    if (!this.menuName)
       this.dishes = this.restaurant.dishes;
     this.getMenuPosition();
   }
@@ -50,15 +51,9 @@ export class DishComponent implements OnInit {
     const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
     this.http.put(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
       this.dish = new Dish();
-      if(this.menuName)
+      if (!this.menuName)
         this.dishes = this.restaurant.dishes;
     });
-    // this.authService.updateProfile(this.restaurant).subscribe(data => {
-    //   this.restaurantOriginal = data;
-    //   this.restaurant = this.restaurantOriginal;
-    //   alert('Restaurant updated.');
-    // },
-    // err => { console.log(err); });
   }
 
   private ShowDish() {
@@ -69,8 +64,9 @@ export class DishComponent implements OnInit {
   private AddDish(value) {
     this.addDish = this.addDish ? false : true ;
     if ((!this.addDish) && (value === 'Dishes')) {
+      console.log('ADDING TO DISHES');
       this.restaurant.dishes.push(this.dish);
-      console.log(this.dish)
+      console.log(this.dish);
       this.updateRestaurant();
       this.getIngredients();
     }
@@ -88,20 +84,22 @@ export class DishComponent implements OnInit {
       if (this.restaurant.dishes[i].name === this.dish.name)
         this.restaurant.dishes[i] = this.dish;
     }
-    const dish = new Dish()
+    const dish = new Dish();
     this.EditDish(dish);
     this.updateRestaurant();
   }
   private DelDish(name) {
     if (this.confirmar()) {
-    for (let i = 0; i < this.dishes.length; i++) {
-      if (this.dishes[i].name === name)
-        this.dishes.splice(i, 1);
-    }
-    if(this.currentList === 'Dishes')
-      this.restaurant.dishes=this.dishes;
+      this.dishes.forEach(function (value, index, array) {
+        if (value['name'] === name) {
+          array.splice(index, 1);
+          return;
+        }
+      });
+    if (this.currentList === 'Dishes')
+      this.restaurant.dishes = this.dishes;
     else
-      this.restaurant[this.positionMenu][this.currentList] = this.dishes;
+      this.restaurant.menus[this.positionMenu][this.currentList] = this.dishes;
     this.updateRestaurant();
     }
   }
@@ -156,13 +154,13 @@ export class DishComponent implements OnInit {
 
   private ListToImport(value) {
     this.currentImport = new Array<Dish>();
-    if(value !== 'Select one') {
+    if (value !== 'Select one') {
       if ( value === 'Dishes') {
         this.currentImport = this.restaurant.dishes;
       }
       else {
        for (let i = 0; i < this.restaurant.menus.length; i++) {
-         if(this.restaurant.menus[i].name === value) {
+         if (this.restaurant.menus[i].name === value) {
            for (let j = 0; j < this.restaurant.menus[i].starters.length; j++) {
            this.currentImport.push(this.restaurant.menus[i].starters[j]);
            }
@@ -187,8 +185,8 @@ export class DishComponent implements OnInit {
   private importDish() {
     if (this.currentList === 'Dishes')
       this.AddDish('Dishes');
-    else if (this.currentList === 'Starters')
-      this.restaurant.menus[0][this.currentList.toLowerCase()].push(this.dish);
+    else
+      this.restaurant.menus[this.positionMenu][this.currentList].push(this.dish);
     this.updateRestaurant();
     this.import = false;
   }
@@ -207,7 +205,7 @@ export class DishComponent implements OnInit {
   }
   private getMenuPosition() {
     for (let i = 0; i < this.restaurant.menus.length; i++) {
-      if(this.restaurant.menus[i].name === this.menuName)
+      if (this.restaurant.menus[i].name === this.menuName)
         this.positionMenu = i ;
     }
   }
