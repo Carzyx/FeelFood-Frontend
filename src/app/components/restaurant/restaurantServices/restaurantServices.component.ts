@@ -11,15 +11,17 @@ export class RestaurantServicesComponent implements OnInit {
 
     @Input() myRestaurant;
 
+
     showItemDictionary = { showMenu: true, showCard: false};
+    showDictionaryMenu = new Array<boolean>();
     
     constructor() {
     }
 
 
     ngOnInit() {
-        console.log("log info myRestaurant 222:")
         console.log(this.myRestaurant)
+        this.createShowDictionaryMenu();        
     }
 
     changeShowStatus(key) {
@@ -31,4 +33,15 @@ export class RestaurantServicesComponent implements OnInit {
         }
     }
 
+    createShowDictionaryMenu(){
+
+        for (var index = 0; index < this.myRestaurant.menus.length; index++) {
+             this.showDictionaryMenu[index] = true;            
+        }
+    }
+
+    changeShowIndexMenu(index) {
+        
+        this.showDictionaryMenu[index] = !this.showDictionaryMenu[index];       
+    }
 }
