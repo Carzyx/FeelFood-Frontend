@@ -11,7 +11,7 @@
 }
 
 div.company-title{
-    text-align: center;    
+    text-align: center;
 }
 
 div.input-form{
@@ -21,3 +21,4 @@ div.input-form{
 .form-text.text-muted.error{
     color: red !important;
 }
+

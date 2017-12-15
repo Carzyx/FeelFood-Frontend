@@ -61,23 +61,19 @@
             <label class="col-form-label">
               <strong>First Name: {{user.firstName}}</strong>
             </label>
-            <div class="form-group">
-              <div [ngClass]="{'has-error': (profileForm.controls.firstName.errors && profileForm.controls.firstName.dirty), 'has-success': !profileForm.controls.firstName.errors}">
-                <input type="text" name="firstName" class="form-control" autocomplete="off" formControlName="firstName"/>
+            <div class="form-group" [ngClass]="{'has-danger': (profileForm.controls.firstName.errors && profileForm.controls.firstName.dirty), 'has-success': !profileForm.controls.firstName.errors}">
+                <input type="text" name="firstName" class="form-control" [ngClass]="{'is-invalid': (profileForm.controls.firstName.errors && profileForm.controls.firstName.dirty), 'is-valid': !profileForm.controls.firstName.errors}" autocomplete="off" formControlName="firstName"/>
                 <ul class="help-block">
                   <li *ngIf="profileForm.controls.firstName.errors?.required && profileForm.controls.firstName.dirty">This field is required</li>
                 </ul>
-              </div>
             </div>
-            <div class="form-group">
-              <label class="col-form-label">
+            <div class="form-group" [ngClass]="{'has-danger': (profileForm.controls.lastName.errors && profileForm.controls.lastName.dirty), 'has-success': !profileForm.controls.lastName.errors}">
+            <label class="col-form-label">
                 <strong>Last Name: {{user.lastName}}</strong>
               </label>
-              <div [ngClass]="{'has-error': (profileForm.controls.lastName.errors && profileForm.controls.lastName.dirty), 'has-success': !profileForm.controls.lastName.errors}">
-                <input type="text" name="lastName" class="form-control" autocomplete="off" formControlName="lastName"/>
+                <input type="text" name="lastName" class="form-control" [ngClass]="{'is-invalid': (profileForm.controls.lastName.errors && profileForm.controls.lastName.dirty), 'is-valid': !profileForm.controls.lastName.errors}" autocomplete="off" formControlName="lastName"/>
                 <ul class="help-block">
                   <li *ngIf="profileForm.controls.lastName.errors?.required && profileForm.controls.lastName.dirty">This field is required</li></ul>
-              </div>
             </div>
             <input [disabled]="!profileForm.valid" type="submit" class="btn btn-outline-info" value="Update" />
           </form>
@@ -129,54 +125,44 @@
           </p>
         </div>
         <form [formGroup]="addressForm" (submit)="updateAddress()">
-          <div class="form-group">
+          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.name.errors && addressForm.controls.name.dirty), 'has-success': !addressForm.controls.name.errors}">
             <label>Name</label>
-            <div [ngClass]="{'has-error': (addressForm.controls.name.errors && addressForm.controls.name.dirty), 'has-success': !addressForm.controls.name.errors}">
-              <input type="text" name="username" class="form-control" autocomplete="off" formControlName="name"/>
+              <input type="text" name="username" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.name.errors && addressForm.controls.name.dirty), 'is-valid': !addressForm.controls.name.errors}" autocomplete="off" formControlName="name"/>
               <ul class="help-block">
                 <li *ngIf="addressForm.controls.name.errors?.required && addressForm.controls.name.dirty">This field is required</li>
               </ul>
-            </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.address.errors && addressForm.controls.address.dirty) || addressForm.controls.address.dirty, 'has-success': !addressForm.controls.address.errors && emailValid}">
             <label>Address</label>
-            <div [ngClass]="{'has-error': (addressForm.controls.address.errors && addressForm.controls.address.dirty) || addressForm.controls.address.dirty, 'has-success': !addressForm.controls.address.errors && emailValid}">
-              <input type="text" name="address" class="form-control" autocomplete="off" formControlName="address"/>
+              <input type="text" name="address" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.address.errors && addressForm.controls.address.dirty) || addressForm.controls.address.dirty, 'is-valid': !addressForm.controls.address.errors && emailValid}" autocomplete="off" formControlName="address"/>
               <ul class="help-block">
                 <li *ngIf="addressForm.controls.address.errors?.required && addressForm.controls.address.dirty">This field is required</li>
               </ul>
-            </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.city.errors && addressForm.controls.city.dirty), 'has-success': !addressForm.controls.city.errors}">
             <label>City</label>
-            <div [ngClass]="{'has-error': (addressForm.controls.city.errors && addressForm.controls.city.dirty), 'has-success': !addressForm.controls.city.errors}">
-              <input type="text" name="city" class="form-control" autocomplete="off" formControlName="city"/>
+              <input type="text" name="city" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.city.errors && addressForm.controls.city.dirty), 'is-valid': !addressForm.controls.city.errors}" autocomplete="off" formControlName="city"/>
               <!-- Validation -->
               <ul class="help-block">
                 <li *ngIf="addressForm.controls.city.errors?.required && addressForm.controls.city.dirty">This field is required</li>
               </ul>
-            </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.postalCode.errors && addressForm.controls.postalCode.dirty), 'has-success': !addressForm.controls.postalCode.errors}">
             <label>Zip Code</label>
-            <div [ngClass]="{'has-error': (addressForm.controls.postalCode.errors && addressForm.controls.postalCode.dirty), 'has-success': !addressForm.controls.postalCode.errors}">
-              <input type="text" name="postalCode" class="form-control" autocomplete="off" formControlName="postalCode"/>
+              <input type="text" name="postalCode" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.postalCode.errors && addressForm.controls.postalCode.dirty), 'is-valid': !addressForm.controls.postalCode.errors}" autocomplete="off" formControlName="postalCode"/>
               <!-- Validation -->
               <ul class="help-block">
                 <li *ngIf="addressForm.controls.postalCode.errors?.required && addressForm.controls.postalCode.dirty">This field is required</li>
                 <li *ngIf="addressForm.controls.postalCode.errors?.validatePostalCode && addressForm.controls.postalCode.dirty">This must be a valid zip code</li>
               </ul>
-            </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.country.errors && addressForm.controls.country.dirty), 'has-success': !addressForm.controls.country.errors}">
             <label>Country</label>
-            <div [ngClass]="{'has-error': (addressForm.controls.country.errors && addressForm.controls.country.dirty), 'has-success': !addressForm.controls.country.errors}">
-              <input type="text" name="country" class="form-control" autocomplete="off" formControlName="country"/>
+              <input type="text" name="country" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.country.errors && addressForm.controls.country.dirty), 'is-valid': !addressForm.controls.country.errors}" autocomplete="off" formControlName="country"/>
               <!-- Validation -->
               <ul class="help-block">
                 <li *ngIf="addressForm.controls.country.errors?.required && addressForm.controls.country.dirty">This field is required</li>
               </ul>
-            </div>
           </div>
           <input [disabled]="!addressForm.valid" type="submit" class="btn btn-outline-info" value="Submit"/>
         </form>
@@ -189,31 +175,27 @@
           </p>
         </div>
         <form [formGroup]="passwordForm" (submit)="updatePassword()">
-          <div class="form-group">
+          <div class="form-group" [ngClass]="{'has-danger': (passwordForm.controls.password.errors && passwordForm.controls.password.dirty), 'has-success': !passwordForm.controls.password.errors}">
             <label class="col-form-label">
               <strong>Password</strong>
             </label>
-            <div [ngClass]="{'has-error': (passwordForm.controls.password.errors && passwordForm.controls.password.dirty), 'has-success': !passwordForm.controls.password.errors}">
-              <input type="password" name="password" class="form-control" autocomplete="off" placeholder="Insert new password" formControlName="password"/>
+              <input type="password" name="password" class="form-control" [ngClass]="{'is-invalid': (passwordForm.controls.password.errors && passwordForm.controls.password.dirty), 'is-valid': !passwordForm.controls.password.errors}" autocomplete="off" placeholder="Insert new password" formControlName="password"/>
               <!-- Validation -->
               <ul class="help-block">
                 <li *ngIf="passwordForm.controls.password.errors?.required && passwordForm.controls.password.dirty">This field is required</li>
                 <li *ngIf="passwordForm.controls.password.errors?.minlength && passwordForm.controls.password.dirty">Password must have at least 8 characters</li>
               </ul>
-            </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" [ngClass]="{'has-danger': (passwordForm.controls.confirm.errors && passwordForm.controls.confirm.dirty) || (passwordForm.errors?.matchingPasswords && passwordForm.controls.confirm.dirty), 'has-success': !passwordForm.controls.confirm.errors && !passwordForm.errors?.matchingPasswords}">
             <label class="col-form-label">
               <strong>Confirm password</strong>
             </label>
-            <div [ngClass]="{'has-error': (passwordForm.controls.confirm.errors && passwordForm.controls.confirm.dirty) || (passwordForm.errors?.matchingPasswords && passwordForm.controls.confirm.dirty), 'has-success': !passwordForm.controls.confirm.errors && !passwordForm.errors?.matchingPasswords}">
-              <input type="password" name="confirm" class="form-control" autocomplete="off" placeholder="Repeat new password" formControlName="confirm"/>
+              <input type="password" name="confirm" class="form-control" [ngClass]="{'is-invalid': (passwordForm.controls.confirm.errors && passwordForm.controls.confirm.dirty) || (passwordForm.errors?.matchingPasswords && passwordForm.controls.confirm.dirty), 'is-valid': !passwordForm.controls.confirm.errors && !passwordForm.errors?.matchingPasswords}" autocomplete="off" placeholder="Repeat new password" formControlName="confirm"/>
               <!-- Validation -->
               <ul class="help-block">
                 <li *ngIf="passwordForm.controls.confirm.errors?.required && passwordForm.controls.confirm.dirty">This field is required</li>
                 <li *ngIf="passwordForm.errors?.matchingPasswords && passwordForm.controls.confirm.dirty">Password do not match</li>
               </ul>
-            </div>
           </div>
           <input [disabled]="!passwordForm.valid" type="submit" class="btn btn-outline-info" value="Change password" />
         </form>
@@ -229,15 +211,13 @@
           <label class="col-form-label">
             <strong>New E-mail</strong>
           </label>
-          <div class="form-group">
-            <div [ngClass]="{'has-error': (emailForm.controls.email.errors && emailForm.controls.email.dirty) || emailForm.controls.email.dirty, 'has-success': !emailForm.controls.email.errors && emailValid}">
-              <input type="text" name="email" class="form-control" autocomplete="off" placeholder="Insert new E-mail" formControlName="email"/>
+          <div class="form-group" [ngClass]="{'has-danger': (emailForm.controls.email.errors && emailForm.controls.email.dirty) || emailForm.controls.email.dirty, 'has-success': !emailForm.controls.email.errors && emailValid}">
+              <input type="text" name="email" class="form-control" [ngClass]="{'is-invalid': (emailForm.controls.email.errors && emailForm.controls.email.dirty) || emailForm.controls.email.dirty, 'is-valid': !emailForm.controls.email.errors && emailValid}" autocomplete="off" placeholder="Insert new E-mail" formControlName="email"/>
               <ul class="help-block">
                 <li *ngIf="emailForm.controls.email.errors?.required && emailForm.controls.email.dirty">This field is required</li>
                 <li *ngIf="(emailForm.controls.email.errors?.minlength && emailForm.controls.email.dirty || emailForm.controls.email.errors?.maxlength && emailForm.controls.email.dirty ) && emailForm.controls.email.dirty">Minimum characters: 5, Maximum characters: 20</li>
                 <li *ngIf="emailForm.controls.email.errors?.validateEmail && emailForm.controls.email.dirty">This must be a valid e-mail</li>
               </ul>
-            </div>
           </div>
           <input [disabled]="!emailForm.valid" type="submit" class="btn btn-outline-info" value="Update" />
           <button type="button" (click)="modalDelete.show()" class="btn btn-danger">Delete</button>
