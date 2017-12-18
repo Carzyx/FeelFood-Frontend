@@ -17,8 +17,7 @@ export class RestaurantSummaryComponent implements OnInit {
   private mapHelper: MapHelper;
 
   @Input() restaurantId;
-
-  restaurant: Restaurant;
+  @Input() restaurant: Restaurant;
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.envHelper = new EnvironmentHelper();
@@ -27,6 +26,11 @@ export class RestaurantSummaryComponent implements OnInit {
   }
   
   ngOnInit() {
+    if(this.restaurant != undefined || null)
+    {
+      return;      
+    }
+
     if (this.restaurantId == undefined || null) {
       this.restaurantId = this.route.snapshot.params['_id'];
     }
@@ -40,7 +44,5 @@ export class RestaurantSummaryComponent implements OnInit {
       }
     });
   }
-
-
-
+  
 }

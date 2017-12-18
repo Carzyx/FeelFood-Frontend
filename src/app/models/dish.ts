@@ -4,7 +4,7 @@ export class Dish {
     name: String;
     category: String;
     description: String;
-    amount: Number;
+    price: Number;
     ingredients: Array<Ingredient>;
     stock: Number;
     totalCalories: Number;
@@ -13,7 +13,7 @@ export class Dish {
     this.name = '',
     this.category = '',
     this.description = '',
-    this.amount = null,
+    this.price = null,
     this.ingredients = [],
     this.stock = null,
     this.totalCalories = 0;

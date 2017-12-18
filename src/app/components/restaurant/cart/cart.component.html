@@ -1,0 +1,58 @@
+<figure class="snip1423">
+    <h3>Selected options:</h3>
+    <figcaption>
+        <div *ngIf="myOrder.menusDetails.length > 0">
+            <table *ngFor="let menu of myOrder.menusDetails">
+                <tr>
+                    <h3>{{menu.name}}: {{menu.price}} €</h3>
+                </tr>
+                <tr *ngFor="let dish of menu.starters">
+                    <p>{{dish.name}}</p>
+                </tr>
+                <tr *ngFor="let dish of menu.firstOptions">
+                    <p>{{dish.name}}</p>
+                </tr>
+                <tr *ngFor="let dish of menu.secondOptions">
+                    <p>{{dish.name}}</p>
+                </tr>
+                <tr *ngFor="let dish of menu.thirdOptions">
+                    <p>{{dish.name}}</p>
+                </tr>
+                <tr *ngFor="let dish of menu.drinksOptions">
+                    <p>{{dish.name}}</p>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="myOrder.dishesDetails.length > 0">
+            <h3>Dishes</h3>
+            <table>
+                <tr *ngFor="let dish of myOrder.dishesDetails">
+                    <p>{{dish.name}} : {{dish.price}} €</p>
+                </tr>
+            </table>
+        </div>
+    </figcaption>
+    <i class="ion-android-cart"></i>
+    <a href="#"></a>
+</figure>
+
+
+
+
+<!--
+
+<figure class="snip1423">
+    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
+    <figcaption>
+        <h3>Pudol Doux</h3>
+        <p>All this modern technology just makes people try to do everything at once.</p>
+        <div class="price">
+            <s>$24.00</s>$19.00
+        </div>
+    </figcaption>
+    <i class="ion-android-cart"></i>
+    <a href="#"></a>
+</figure>
+
+
+-->

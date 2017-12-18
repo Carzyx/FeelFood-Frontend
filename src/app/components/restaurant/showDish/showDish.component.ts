@@ -12,5 +12,16 @@ import { Dish } from '../../../models/dish';
 export class ShowDishComponent {
 
     @Input() myDish : Dish;
+
+    private isSelected: boolean;
+
+    constructor(){
+        this.isSelected = false;
+    }
+
+    setSelected()
+    {
+        this.isSelected = !this.isSelected;
+    }
     
 }

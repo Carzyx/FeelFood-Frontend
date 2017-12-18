@@ -9,7 +9,7 @@
             </thead>
             <tbody *ngFor="let dish of dishes">
             <tr><th>{{dish?.name}}</th>
-              <th>{{dish?.amount}}</th> <th>{{dish.stock}}</th> <button class="btn btn-danger" (click)="DelDish(dish.name)">Delete</button><button class="btn btn-outline-info" (click)="EditDish(dish)">Update</button></tr>
+              <th>{{dish?.price}}</th> <th>{{dish.stock}}</th> <button class="btn btn-danger" (click)="DelDish(dish.name)">Delete</button><button class="btn btn-outline-info" (click)="EditDish(dish)">Update</button></tr>
             <tr>Description: {{dish?.description}}</tr>
             </tbody>
           </table>
@@ -17,7 +17,7 @@
           <div align="center" *ngIf="addDish" class="border-dark">
             <div>
               <th><label>Name of the dish</label><input [(ngModel)]="dish.name" class="form-control" name="nameDish"></th>
-              <th><label>Price</label><input [(ngModel)]="dish.amount" type="number" class="form-control" name="amountDish"></th>
+              <th><label>Price</label><input [(ngModel)]="dish.price" type="number" class="form-control" name="amountDish"></th>
               <th><label>Type of Dish</label><select [(ngModel)]="dish.category" class="form-control" name="categoryDish">
                 <option>Carne</option>
                 <option>Pescado</option>
