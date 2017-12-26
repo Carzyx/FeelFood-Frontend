@@ -17,11 +17,10 @@ export const Router: Routes = [
   { path: 'home/restaurant/:_id', redirectTo: '/restaurant/:_id', pathMatch: 'full'},
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard]},
   { path: 'userProfile', component: UserComponent, canActivate: [AuthGuard]},
-  { path: 'restaurant/:_id', component: RestaurantSummaryComponent},
+  { path: 'restaurant/:_id', component: ShowRestaurantComponent},
   { path: 'restaurantProfile', component: RestaurantProfileComponent },
   { path: 'menu', component: MenuComponent},
   { path: 'home', component: HomeComponent},  
-  { path: 'restaurantTest', component: ShowRestaurantComponent},  
   { path: 'auth/:username/:token', component: AuthFbComponent, canActivate: [NotAuthGuard]},
   { path: '**', redirectTo: '/home'}
 ];

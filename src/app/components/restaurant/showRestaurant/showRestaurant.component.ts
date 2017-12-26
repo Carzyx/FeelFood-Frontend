@@ -27,8 +27,8 @@ export class ShowRestaurantComponent implements OnInit {
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.envHelper = new EnvironmentHelper();
     this.mapHelper = new MapHelper();
-    this.restaurantId = "5a2c426ef5ad533e44a818bc";
-
+    this.restaurantId = this.route.snapshot.params['_id'];
+    
     this.getRestaurant();
   }
 
