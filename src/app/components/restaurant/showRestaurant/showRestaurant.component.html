@@ -1,3 +1,6 @@
-<app-restaurantSummary [restaurantId] = 'restaurantId'></app-restaurantSummary>
+<app-cart [myOrder]="myOrder"></app-cart>
 
-<app-restaurantServices [myRestaurant]='myRestaurant'></app-restaurantServices>
+<div class="restaurant">
+    <app-restaurantSummary [restaurantId]='restaurantId'></app-restaurantSummary>
+    <app-restaurantServices [myRestaurant]='myRestaurant'(myOrderOutput)="myOrder=$event"></app-restaurantServices>
+</div>

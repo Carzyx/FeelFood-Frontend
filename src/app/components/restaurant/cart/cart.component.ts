@@ -16,11 +16,12 @@ export class CartComponent implements OnInit {
     @Input() myOrder: Order;
 
     constructor() {
-        this.myOrder = new Order;
+        
     }
 
     ngOnInit() {
-
+        console.log("CartComponent:")
+        console.log(this.myOrder);
     }
 
 }

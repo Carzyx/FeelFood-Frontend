@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Restaurant } from '../../../models/restaurant';
 import { Menu } from '../../../models/menu';
 import { Dish } from '../../../models/dish';
@@ -14,7 +14,9 @@ export class RestaurantServicesComponent implements OnInit {
 
     @Input() myRestaurant;
 
-    private myOrder: Order;
+    @Output() myOrderOutput: EventEmitter<Order> = new EventEmitter(); 
+
+    private myOrder : Order;
 
 
     showItemDictionary = { showMenu: true, showCard: false };
@@ -28,8 +30,11 @@ export class RestaurantServicesComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.myRestaurant)
-        this.createShowDictionaryMenu();
+        if(this.myRestaurant != undefined || null)
+        {
+            this.createShowDictionaryMenu();           
+        }
+        this.sendOrder();
     }
 
     changeShowStatus(key) {
@@ -68,10 +73,12 @@ export class RestaurantServicesComponent implements OnInit {
             var index = this.myOrder.menusDetails.indexOf(myMenu);
 
             this.setOrRemoveOptionDishToMenu(this.myOrder.menusDetails[index], dish, option)
+            this.sendOrder();
             return;
         }
 
         this.setOrRemoveOptionDishToMenu(myMenu, dish, option)
+        this.sendOrder();        
     }
 
     setOrRemoveOptionDishToMenu(myMenu: Menu, dish: Dish, option: string) {
@@ -110,5 +117,9 @@ export class RestaurantServicesComponent implements OnInit {
 
         //Remove element
         this.myOrder.dishesDetails = this.myOrder.dishesDetails.filter(obj => obj !== dish);
+    }
+
+    sendOrder(){
+        this.myOrderOutput.emit(this.myOrder);
     }
 }

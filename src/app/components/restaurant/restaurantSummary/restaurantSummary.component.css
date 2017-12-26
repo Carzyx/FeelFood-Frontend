@@ -7,7 +7,7 @@
 
 .restaurantSummary{
   height: auto;
-  width: 950px;
+  max-width: 950px;
   min-width: 430px;
   margin-left: auto;
   margin-right: auto;

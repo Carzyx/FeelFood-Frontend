@@ -36,10 +36,9 @@ export class RestaurantSummaryComponent implements OnInit {
     }
 
     this.http.get(this.url + `?id=${this.restaurantId}`).subscribe(data => {
-      console.log(data);
       if (data) {
         this.restaurant = this.mapHelper.map(Restaurant, data);
-        console.log("I have the restaurant!")
+        console.log("RestaurantSummaryComponent:")
         console.log(JSON.stringify(this.restaurant))
       }
     });

@@ -1,8 +1,16 @@
 .cart {
     float: right;
     display: inline-block;
-    background-color: #2EB872;
+    background-color: #2EB872;  
 }
+
+.cart-component {
+  display: list-item;
+  position: sticky;
+  top: 10%;
+  margin-left: 80%;
+}
+
 
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 @import url(https://fonts.googleapis.com/css?family=Oswald:300,400);

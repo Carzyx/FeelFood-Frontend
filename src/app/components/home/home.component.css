@@ -11,6 +11,7 @@ div.div-map{
 }
 
 div.item-restaurant{
+  height: auto;
   max-width: 950px;
   min-width: 430px;
   margin-left: auto;

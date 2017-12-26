@@ -1,41 +1,41 @@
-<figure class="snip1423">
-    <h3>Selected options:</h3>
-    <figcaption>
-        <div *ngIf="myOrder.menusDetails.length > 0">
-            <table *ngFor="let menu of myOrder.menusDetails">
-                <tr>
-                    <h3>{{menu.name}}: {{menu.price}} €</h3>
-                </tr>
-                <tr *ngFor="let dish of menu.starters">
-                    <p>{{dish.name}}</p>
-                </tr>
-                <tr *ngFor="let dish of menu.firstOptions">
-                    <p>{{dish.name}}</p>
-                </tr>
-                <tr *ngFor="let dish of menu.secondOptions">
-                    <p>{{dish.name}}</p>
-                </tr>
-                <tr *ngFor="let dish of menu.thirdOptions">
-                    <p>{{dish.name}}</p>
-                </tr>
-                <tr *ngFor="let dish of menu.drinksOptions">
-                    <p>{{dish.name}}</p>
-                </tr>
-            </table>
-        </div>
-        <div *ngIf="myOrder.dishesDetails.length > 0">
-            <h3>Dishes</h3>
-            <table>
-                <tr *ngFor="let dish of myOrder.dishesDetails">
-                    <p>{{dish.name}} : {{dish.price}} €</p>
-                </tr>
-            </table>
-        </div>
-    </figcaption>
-    <i class="ion-android-cart"></i>
-    <a href="#"></a>
-</figure>
-
+<div class="cart-component">
+    <figure class="snip1423" *ngIf="myOrder">
+        <figcaption>
+            <div *ngIf="myOrder.menusDetails.length > 0">
+                <table *ngFor="let menu of myOrder.menusDetails">
+                    <tr>
+                        <h3>{{menu.name}}: {{menu.price}} €</h3>
+                    </tr>
+                    <tr *ngFor="let dish of menu.starters">
+                        <p>{{dish.name}}</p>
+                    </tr>
+                    <tr *ngFor="let dish of menu.firstOptions">
+                        <p>{{dish.name}}</p>
+                    </tr>
+                    <tr *ngFor="let dish of menu.secondOptions">
+                        <p>{{dish.name}}</p>
+                    </tr>
+                    <tr *ngFor="let dish of menu.thirdOptions">
+                        <p>{{dish.name}}</p>
+                    </tr>
+                    <tr *ngFor="let dish of menu.drinksOptions">
+                        <p>{{dish.name}}</p>
+                    </tr>
+                </table>
+            </div>
+            <div *ngIf="myOrder.dishesDetails.length > 0">
+                <h3>Dishes</h3>
+                <table>
+                    <tr *ngFor="let dish of myOrder.dishesDetails">
+                        <p>{{dish.name}} : {{dish.price}} €</p>
+                    </tr>
+                </table>
+            </div>
+        </figcaption>
+        <i class="ion-android-cart"></i>
+        <a href="#"></a>
+    </figure>
+</div>
 
 
 
