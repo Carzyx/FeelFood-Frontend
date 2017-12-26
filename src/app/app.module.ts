@@ -12,6 +12,9 @@ import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
 import { RestaurantSummaryComponent } from './components/restaurant/restaurantSummary/restaurantSummary.component';
 import { RestaurantServicesComponent } from './components/restaurant/restaurantServices/restaurantServices.component';
+import { ShowDishComponent } from './components/restaurant/showDish/showDish.component';
+import { ShowRestaurantComponent } from './components/restaurant/showRestaurant/showRestaurant.component';
+import { CartComponent } from './components/restaurant/cart/cart.component';
 import { MapComponent } from './components/map/map.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { HomeComponent } from './components/home/home.component';
@@ -34,6 +37,9 @@ import { ModalComponent } from './shared/modal/modal.component';
     MapComponent,
     RestaurantSummaryComponent,
     RestaurantServicesComponent,
+    ShowDishComponent,
+    ShowRestaurantComponent,
+    CartComponent,
     UserComponent,
     MenuComponent,
     HomeComponent,

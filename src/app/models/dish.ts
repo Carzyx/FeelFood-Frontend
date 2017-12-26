@@ -2,10 +2,10 @@ import { Ingredient } from './ingredient';
 import { Validators, FormControl } from '@angular/forms';
 
 export class Dish {
-    name;
-    category;
-    description;
-    amount;
+    name: String;
+    category: String;
+    description: String;
+    price: Number;
     ingredients: Array<Ingredient>;
     stock;
     totalCalories;
@@ -14,7 +14,7 @@ export class Dish {
     this.name = '',
     this.category = '',
     this.description = '',
-    this.amount = null,
+    this.price = null,
     this.ingredients = [],
     this.stock = null,
     this.totalCalories = 0;

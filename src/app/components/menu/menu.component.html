@@ -25,7 +25,7 @@
   <div class="card border-success">
     <tr>Carta</tr>
     <tr *ngFor="let dish of restaurant.dishes">
-      <td>{{dish?.name}}</td> <td>{{dish?.amount}}€</td>
+      <td>{{dish?.name}}</td> <td>{{dish?.price}}€</td>
     </tr>
   </div>
 </td>
@@ -37,7 +37,7 @@
   <div>
     <th><label>Name of the dish</label><input [(ngModel)]="dish.name"></th>
 
-    <th><label>Price</label><input [(ngModel)]="dish.amount" type="number"></th>
+    <th><label>Price</label><input [(ngModel)]="dish.price" type="number"></th>
 
     <th><label>Description</label><input [(ngModel)]="dish.description"></th>
     <button (click)="AddDish()">Create</button>

@@ -6,6 +6,7 @@ import { UserComponent } from './components/user/user.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { HomeComponent } from './components/home/home.component';
 import { RestaurantSummaryComponent } from './components/restaurant/restaurantSummary/restaurantSummary.component';
+import { ShowRestaurantComponent } from './components/restaurant/showRestaurant/showRestaurant.component';
 import { RestaurantProfileComponent } from './components/restaurantProfile/restaurantProfile.component';
 import { AuthFbComponent } from './components/authFb/authFb.component';
 import { AuthGuard} from './guards/auth.guard';
@@ -19,7 +20,8 @@ export const Router: Routes = [
   { path: 'restaurant/:_id', component: RestaurantSummaryComponent},
   { path: 'restaurantProfile', component: RestaurantProfileComponent },
   { path: 'menu', component: MenuComponent},
-  { path: 'home', component: HomeComponent},
+  { path: 'home', component: HomeComponent},  
+  { path: 'restaurantTest', component: ShowRestaurantComponent},  
   { path: 'auth/:username/:token', component: AuthFbComponent, canActivate: [NotAuthGuard]},
   { path: '**', redirectTo: '/home'}
 ];

@@ -1,25 +1,123 @@
-<div class="jumbotron restaurantSummary" *ngIf="myRestaurant">
-    <table>
-        <tr>
-            <td *ngIf="myRestaurant.menus">
-                <p>Menu</p>
-            </td>
-            <td *ngIf="myRestaurant.dishes">
-                <p>Card</p>
-                <table class="card-options">
-                    <div *ngFor="let dish of myRestaurant.dishes">
+<div class="jumbotron" *ngIf="myRestaurant">
+    <div class="btn-options-services">
+        <button type="button" class="btn btn-outline-warning" (click)="changeShowStatus('showMenu')">Menu</button>
+        <button type="button" class="btn btn-outline-success" (click)="changeShowStatus('showCard')">Card</button>
+    </div>
+
+    <div class=" restaurantServices">
+        <table>
+            <tr>
+                <td *ngIf="myRestaurant.menus">
+                    <table class="menu-table" [hidden]="!showItemDictionary.showMenu">
                         <tr>
-                            <h5 class="card-title">{{dish.name}}</h5>
-                            <h6 class="card-subtitle text-muted">{{dish.description}}</h6>
+                            <h1>Menu</h1>
+                        </tr>
+                        <tr *ngFor="let menu of myRestaurant.menus; let indexMenu = index">
+                            <table class="menu-content">
+                                <div class="description-content">
+                                    <tr>
+                                        <td>
+                                            <tr>
+                                                <td>
+                                                    <tr>
+                                                        <td>
+                                                            <h4>{{menu.name}} &nbsp;</h4>
+                                                        </td>
+                                                        <td>
+                                                            <small>
+                                                                <a href="javascript:void(0)" (click)="changeShowIndexMenu(indexMenu)">show/hide</a>
+                                                            </small>
+                                                        </td>
+                                                    </tr>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <p>{{menu.description}}</p>
+                                                <p class="text-muted">{{menu.comments}}</p>
+                                            </tr>
+                                        </td>
+                                    </tr>
+                                </div>
+
+                                <div class="dishes-content" [hidden]="this.showDictionaryMenu[indexMenu]">
+                                    <div class="starter-content" *ngIf="menu.starters.length > 0">
+                                        <tr>
+                                            <h4>Starters</h4>
+                                            <hr style="background:#555555">
+                                        </tr>
+                                        <div *ngFor="let dish of menu.starters">
+                                            <tr>
+                                                <app-showDish [myDish]="dish" (click)="dishToMenu(menu, dish, 'starters')"></app-showDish>
+                                            </tr>
+                                        </div>
+                                    </div>
+
+                                    <div class="first-content" *ngIf="menu.firstOptions.length > 0">
+                                        <tr>
+                                            <h4>First</h4>
+                                            <hr style="background:#555555">
+                                        </tr>
+                                        <div *ngFor="let dish of menu.firstOptions">
+                                            <tr>
+                                                <app-showDish [myDish]="dish" (click)="dishToMenu(menu, dish, 'firstOptions')"></app-showDish>
+                                            </tr>
+                                        </div>
+                                    </div>
+
+                                    <div class="second-content" *ngIf="menu.secondOptions.length > 0">
+                                        <tr>
+                                            <h4>Second</h4>
+                                            <hr style="background:#555555">
+                                        </tr>
+                                        <div *ngFor="let dish of menu.secondOptions">
+                                            <tr>
+                                                <app-showDish [myDish]="dish" (click)="dishToMenu(menu, dish, 'secondOptions')"></app-showDish>
+                                            </tr>
+                                        </div>
+                                    </div>
+
+                                    <div class="third-content" *ngIf="menu.thirdOptions.length > 0">
+                                        <tr>
+                                            <h4>Third</h4>
+                                            <hr style="background:#555555">
+                                        </tr>
+                                        <div *ngFor="let dish of menu.thirdOptions">
+                                            <tr>
+                                                <app-showDish [myDish]="dish" (click)="dishToMenu(menu, dish, 'thirdOptions')"></app-showDish>
+                                            </tr>
+                                        </div>
+                                    </div>
+
+                                    <div class="drink-content" *ngIf="menu.drinksOptions.length > 0">
+                                        <tr>
+                                            <h4>Drinks</h4>
+                                            <hr style="background:#555555">
+                                        </tr>
+                                        <tr>
+                                            <div *ngFor="let dish of menu.drinksOptions">
+                                                <app-showDish [myDish]="dish" (click)="dishToMenu(menu, dish, 'drinksOptions')"></app-showDish>
+                                                <hr>
+                                            </div>
+                                        </tr>
+                                    </div>
+                                </div>
+                            </table>
+                        </tr>
+                    </table>
+                </td>
+                <td *ngIf="myRestaurant.dishes">
+                    <table class="card-table" [hidden]="!showItemDictionary.showCard">
+                        <tr>
+                            <h1>Card</h1>
                         </tr>
                         <tr>
-                            <div class="card-footer text-muted">
-                                <p *ngFor="let ingredient of ingredients">{{ingredient.ingredient}} </p>
+                            <div class="ingredient-item" *ngFor="let dish of myRestaurant.dishes">
+                                <app-showDish [myDish]="dish" (click)="setOrRemoveDishToList(dish)"></app-showDish>
                             </div>
                         </tr>
-                    </div>
-                </table>
-            </td>
-        </tr>
-    </table>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>

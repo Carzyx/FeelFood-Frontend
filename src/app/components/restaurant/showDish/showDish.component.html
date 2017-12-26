@@ -1,0 +1,23 @@
+<div class="list-group-item list-group-item-action" (click)="setSelected()" [class.selected]="isSelected">
+<table>
+    <tr>
+        <td>
+            <tr>
+                <h5 class="">
+                    <b>{{myDish.name}}</b>
+                </h5>
+                <p class="card-subtitle">{{myDish.description}}</p>
+            </tr>
+            <tr>
+                <table class="ingredient-table">
+                    <tr>
+                        <td class="card-subtitle text-muted ingredient-item" *ngFor="let ing of myDish.ingredients">
+                            <em>{{ing.ingredient}} ({{ing.weight}}g.) &nbsp;</em>
+                        </td>
+                    </tr>
+                </table>
+            </tr>
+        </td>
+    </tr>
+</table>
+</div>
