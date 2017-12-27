@@ -46,6 +46,12 @@ export class AuthService {
     this.user = restaurant;
   }
 
+  readTypeUser () {
+    if (localStorage.getItem('user')) {
+      return true;
+    }
+  }
+
   readToken () {
     this.authToken = localStorage.getItem('token');
   }
