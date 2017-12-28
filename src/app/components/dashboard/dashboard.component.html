@@ -1,0 +1,39 @@
+<div class="jumbotron">
+  <h2>Hello, {{user.username}}</h2>
+  <p class="lead">Welcome to your dashboard.</p>
+  <hr class="my-4">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="jumbotron" style="background: #E9E9E5;">
+        <img *ngIf="!user.avatar" src="assets/defaultAvatar.png" class="rounded-circle" alt="Avatar">
+        <img *ngIf="user.avatar" src="{{user.avatar}}" class="rounded-circle" alt="Avatar">
+        <hr class="my-4">
+        <h4 *ngIf="user.firstName && user.lastName">{{user.firstName}} {{user.lastName}}, {{user.username}}</h4>
+        <h5 class="text-muted">{{user.email}}</h5>
+        <p>Member since: <strong>{{signupDate}}</strong></p>
+        <hr class="my-4">
+        <p>My addresses:</p>
+        <ul *ngIf="user.locations" class="list-group">
+          <li class="list-group-item" *ngFor="let location of user.locations">
+            <strong><em>{{location.locationName}}:</em></strong>
+            <h6>{{location.address}}</h6>
+            <h6>{{location.city}}, {{location.postalCode}} {{location.country}}</h6>
+          </li>
+        </ul>
+        <hr class="my-4">
+        <p>My allergies:</p>
+        <ul *ngIf="user.allergies" class="list-group">
+          <li class="list-group-item">
+            <h6 *ngFor="let allergy of user.allergies">- {{allergy.name}}</h6>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="jumbotron" style="background: #E9E9E5;">
+        <h4>Orders in progress</h4>
+        <hr class="my-4">
+      </div>
+    </div>
+  </div>
+</div>
