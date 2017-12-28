@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/map';
-import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
 import { Location } from '../../models/location';
 import { Allergy } from '../../models/allergy';
@@ -37,7 +36,7 @@ export class UserComponent implements OnInit {
   address;
   message;
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
     this.createForm();
     this.getUser();
     this.getAllergies();
@@ -125,17 +124,20 @@ export class UserComponent implements OnInit {
 
   private updateEmail () {
     this.user.email = this.emailForm.get('email').value;
+    this.emailForm.reset();
     this.updateUser();
   }
 
   private updatePassword () {
     this.user.password = this.passwordForm.get('password').value;
+    this.passwordForm.reset();
     this.updateUser();
   }
 
   private updateName() {
     this.user.firstName = this.profileForm.get('firstName').value;
     this.user.lastName = this.profileForm.get('lastName').value;
+    this.profileForm.reset();
     this.updateUser();
   }
 
@@ -146,6 +148,7 @@ export class UserComponent implements OnInit {
     this.location.city = this.addressForm.get('city').value;
     this.location.country = this.addressForm.get('country').value;
     this.user.locations.push(this.location);
+    this.addressForm.reset();
     this.updateUser();
     this.changeShowStatus('showAddress');
     this.location = new Location;

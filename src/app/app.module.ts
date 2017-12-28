@@ -28,6 +28,7 @@ import { AuthService } from './services/authentication/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { ModalComponent } from './shared/modal/modal.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ModalComponent } from './shared/modal/modal.component';
     DishComponent,
     AppNavbar,
     AuthFbComponent,
-    ModalComponent
+    ModalComponent,
+    DashboardComponent
   ],
   imports: [
     ReactiveFormsModule,

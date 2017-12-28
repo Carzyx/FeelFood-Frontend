@@ -108,11 +108,9 @@
               <th>{{ location['postalCode'] }}</th>
               <th>{{ location['country'] }}</th>
             </tr>
-            <tr *ngIf="!user.locations[0]">
-              <i>No addresses defined.</i>
-            </tr>
             </tbody>
           </table>
+          <p *ngIf="!user.locations[0]">No addresses defined.</p>
         </div>
         <button type="button" (click)="changeShowStatus('showAddAddress')" class="btn btn-outline-info">Add</button>
         <button type="button" (click)="deleteAddress()" class="btn btn-outline-info">Delete</button>
