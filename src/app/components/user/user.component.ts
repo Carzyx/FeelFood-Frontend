@@ -32,7 +32,7 @@ export class UserComponent implements OnInit {
   passwordForm;
   emailForm;
   profileForm;
-  allergies;
+  allAllergies;
   address;
   message;
 
@@ -42,19 +42,27 @@ export class UserComponent implements OnInit {
     this.getAllergies();
     this.location = new Location;
     this.allergy = new Allergy;
-    this.allergies = new Array;
+    this.allAllergies = new Array;
   }
 
   createForm() {
     this.addressForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      address: ['', Validators.required],
+      name: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(20)])],
+      address: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(20)])],
       postalCode: ['', Validators.compose([
         Validators.required,
         this.validatePostalCode
       ])],
-      city: ['', Validators.required],
-      country: ['', Validators.required],
+      city: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(20)])],
+      country: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(20)])]
     });
     this.passwordForm = this.formBuilder.group({
       password: ['', Validators.compose([
@@ -209,7 +217,7 @@ export class UserComponent implements OnInit {
 
   private getAllergies() {
     this.authService.getAllergies().subscribe(data => {
-      this.allergies = data;
+      this.allAllergies = data;
     }, err => { console.log(err)});
   }
 

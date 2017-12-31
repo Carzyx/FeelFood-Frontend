@@ -71,6 +71,11 @@ export class AuthService {
     return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.login, JSON.stringify(body), this.options);
   }
 
+  loginFb (body) {
+    this.createHeaders();
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.loginFb, body, this.options);
+  }
+
   signUpUser (user) {
     this.createHeaders();
     return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.signup, JSON.stringify(user), this.options);

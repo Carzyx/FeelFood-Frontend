@@ -8,30 +8,32 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
   templateUrl: './authFb.component.html'
 })
 export class AuthFbComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService,
-              private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService) { }
   token;
   username;
   messageClass;
   message;
+  body;
   ngOnInit() {
     this.token = this.route.snapshot.params['token'];
     this.username = this.route.snapshot.params['username'];
     if (this.token && this.username) {
-      this.http.get('http://localhost:3001/user?username=' + this.username, { headers: new HttpHeaders()
-        .set('Authorization', 'JWT ' + this.token)})
-        .subscribe(data => {
-            this.authService.storeUserData(this.token, data);
-            this.router.navigate(['home']);
-          },
-          err => {
+      this.body = {
+        username: this.username,
+        tokenFb: this.token
+      };
+      this.authService.loginFb(this.body).subscribe(data => {
+        this.authService.storeUserData(data['token'], data['user']);
+        this.router.navigate(['home']);
+        },
+        err => {
           console.log(err);
           this.messageClass = 'alert alert-danger';
           this.message = 'Login failed.';
-            setTimeout(() => {
-              this.router.navigate(['login']);
-            }, 1500);
-          });
+          setTimeout(() => {
+            this.router.navigate(['login']);
+          }, 1500);
+        });
     }
   }
 }

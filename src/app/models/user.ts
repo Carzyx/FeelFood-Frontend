@@ -12,6 +12,7 @@ export class User {
     locations: Array<Location>;
     allergies: Array<Allergy>;
     favoriteRestaurants: Array<Restaurant>;
+    lastLogin: Date;
     //orders: [Schema.Types.ObjectId, ref: 'orders' }],
     //isAdmin: Boolean
 }
