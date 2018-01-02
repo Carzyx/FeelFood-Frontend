@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/map';
-import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
 import { Location } from '../../models/location';
 import { Allergy } from '../../models/allergy';
@@ -33,29 +32,37 @@ export class UserComponent implements OnInit {
   passwordForm;
   emailForm;
   profileForm;
-  allergies;
+  allAllergies;
   address;
   message;
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
     this.createForm();
     this.getUser();
     this.getAllergies();
     this.location = new Location;
     this.allergy = new Allergy;
-    this.allergies = new Array;
+    this.allAllergies = new Array;
   }
 
   createForm() {
     this.addressForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      address: ['', Validators.required],
+      name: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(20)])],
+      address: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(20)])],
       postalCode: ['', Validators.compose([
         Validators.required,
         this.validatePostalCode
       ])],
-      city: ['', Validators.required],
-      country: ['', Validators.required],
+      city: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(20)])],
+      country: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(20)])]
     });
     this.passwordForm = this.formBuilder.group({
       password: ['', Validators.compose([
@@ -125,17 +132,20 @@ export class UserComponent implements OnInit {
 
   private updateEmail () {
     this.user.email = this.emailForm.get('email').value;
+    this.emailForm.reset();
     this.updateUser();
   }
 
   private updatePassword () {
     this.user.password = this.passwordForm.get('password').value;
+    this.passwordForm.reset();
     this.updateUser();
   }
 
   private updateName() {
     this.user.firstName = this.profileForm.get('firstName').value;
     this.user.lastName = this.profileForm.get('lastName').value;
+    this.profileForm.reset();
     this.updateUser();
   }
 
@@ -146,6 +156,7 @@ export class UserComponent implements OnInit {
     this.location.city = this.addressForm.get('city').value;
     this.location.country = this.addressForm.get('country').value;
     this.user.locations.push(this.location);
+    this.addressForm.reset();
     this.updateUser();
     this.changeShowStatus('showAddress');
     this.location = new Location;
@@ -206,7 +217,7 @@ export class UserComponent implements OnInit {
 
   private getAllergies() {
     this.authService.getAllergies().subscribe(data => {
-      this.allergies = data;
+      this.allAllergies = data;
     }, err => { console.log(err)});
   }
 

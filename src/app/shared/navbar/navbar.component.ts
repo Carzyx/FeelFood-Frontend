@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { AuthService} from '../../services/authentication/auth.service';
 import { Router} from '@angular/router';
 
@@ -7,10 +7,18 @@ import { Router} from '@angular/router';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class AppNavbar {
+export class AppNavbar implements OnInit {
   profile: String;
 
   constructor (private router: Router, private authService: AuthService) {}
+
+  ngOnInit() {
+    if (this.authService.readTypeUser()) {
+      this.profile = '/userProfile';
+    } else {
+      this.profile = '/restaurantProfile';
+    }
+  }
 
   onLogOutClick () {
     this.authService.logout();

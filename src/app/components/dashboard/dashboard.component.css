@@ -1,0 +1,15 @@
+.dashboard{
+  height: auto;
+  max-width: 950px;
+  min-width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+}
+
+img.rounded-circle{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+}

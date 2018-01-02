@@ -108,11 +108,9 @@
               <th>{{ location['postalCode'] }}</th>
               <th>{{ location['country'] }}</th>
             </tr>
-            <tr *ngIf="!user.locations[0]">
-              <i>No addresses defined.</i>
-            </tr>
             </tbody>
           </table>
+          <p *ngIf="!user.locations[0]">No addresses defined.</p>
         </div>
         <button type="button" (click)="changeShowStatus('showAddAddress')" class="btn btn-outline-info">Add</button>
         <button type="button" (click)="deleteAddress()" class="btn btn-outline-info">Delete</button>
@@ -130,13 +128,15 @@
               <input type="text" name="username" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.name.errors && addressForm.controls.name.dirty), 'is-valid': !addressForm.controls.name.errors}" autocomplete="off" formControlName="name"/>
               <ul class="help-block">
                 <li *ngIf="addressForm.controls.name.errors?.required && addressForm.controls.name.dirty">This field is required</li>
+                <li *ngIf="addressForm.controls.name.errors?.maxlength && addressForm.controls.name.dirty">Maximum characters: 20</li>
               </ul>
           </div>
-          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.address.errors && addressForm.controls.address.dirty) || addressForm.controls.address.dirty, 'has-success': !addressForm.controls.address.errors && emailValid}">
+          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.address.errors && addressForm.controls.address.dirty) || addressForm.controls.address.dirty, 'has-success': !addressForm.controls.address.errors}">
             <label>Address</label>
-              <input type="text" name="address" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.address.errors && addressForm.controls.address.dirty) || addressForm.controls.address.dirty, 'is-valid': !addressForm.controls.address.errors && emailValid}" autocomplete="off" formControlName="address"/>
+              <input type="text" name="address" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.address.errors && addressForm.controls.address.dirty), 'is-valid': !addressForm.controls.address.errors}" autocomplete="off" formControlName="address"/>
               <ul class="help-block">
                 <li *ngIf="addressForm.controls.address.errors?.required && addressForm.controls.address.dirty">This field is required</li>
+                <li *ngIf="addressForm.controls.address.errors?.maxlength && addressForm.controls.address.dirty">Maximum characters: 20</li>
               </ul>
           </div>
           <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.city.errors && addressForm.controls.city.dirty), 'has-success': !addressForm.controls.city.errors}">
@@ -145,6 +145,7 @@
               <!-- Validation -->
               <ul class="help-block">
                 <li *ngIf="addressForm.controls.city.errors?.required && addressForm.controls.city.dirty">This field is required</li>
+                <li *ngIf="addressForm.controls.city.errors?.maxlength && addressForm.controls.city.dirty">Maximum characters: 20</li>
               </ul>
           </div>
           <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.postalCode.errors && addressForm.controls.postalCode.dirty), 'has-success': !addressForm.controls.postalCode.errors}">
@@ -162,6 +163,7 @@
               <!-- Validation -->
               <ul class="help-block">
                 <li *ngIf="addressForm.controls.country.errors?.required && addressForm.controls.country.dirty">This field is required</li>
+                <li *ngIf="addressForm.controls.country.errors?.maxlength && addressForm.controls.country.dirty">Maximum characters: 20</li>
               </ul>
           </div>
           <input [disabled]="!addressForm.valid" type="submit" class="btn btn-outline-info" value="Submit"/>
@@ -247,7 +249,7 @@
             <div class="form-group">
               <label for="allergies"><strong>Available allergies</strong></label>
               <select #addField class="form-control" id="allergies">
-                <ng-container *ngFor="let allergy of allergies">
+                <ng-container *ngFor="let allergy of allAllergies">
                 <option>{{allergy['name']}}</option>
                 </ng-container>
               </select>

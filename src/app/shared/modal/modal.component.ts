@@ -6,9 +6,9 @@ import {Component} from '@angular/core';
   styleUrls: ['./modal.component.css']
 })
 export class ModalComponent {
-
   public visible = false;
   private visibleAnimate = false;
+  private blocked = false;
 
   constructor() {}
 
@@ -18,12 +18,17 @@ export class ModalComponent {
   }
 
   public hide(): void {
+    this.blocked = false;
     this.visibleAnimate = false;
     setTimeout(() => this.visible = false, 300);
   }
 
+  public block(): void {
+    this.blocked = true;
+  }
+
   public onContainerClicked(event: MouseEvent): void {
-    if ((<HTMLElement>event.target).classList.contains('modal')) {
+    if ((<HTMLElement>event.target).classList.contains('modal') && !this.blocked) {
       this.hide();
     }
   }
