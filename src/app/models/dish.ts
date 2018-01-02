@@ -5,7 +5,7 @@ export class Dish {
     name: String;
     category: String;
     description: String;
-    price: Number;
+    price: number;
     ingredients: Array<Ingredient>;
     stock;
     totalCalories;

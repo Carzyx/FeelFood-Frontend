@@ -20,8 +20,7 @@ export class CartComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log("CartComponent:")
-        console.log(this.myOrder);
+
     }
 
 }

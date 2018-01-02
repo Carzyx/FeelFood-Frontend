@@ -33,8 +33,6 @@ export class ShowRestaurantComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("ShowRestaurantComponent");
-    console.log(this.myOrder);
     this.getRestaurant();
   }
 

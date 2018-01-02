@@ -14,9 +14,9 @@ export class RestaurantServicesComponent implements OnInit {
 
     @Input() myRestaurant;
 
-    @Output() myOrderOutput: EventEmitter<Order> = new EventEmitter(); 
+    @Output() myOrderOutput: EventEmitter<Order> = new EventEmitter();
 
-    private myOrder : Order;
+    private myOrder: Order;
 
 
     showItemDictionary = { showMenu: true, showCard: false };
@@ -30,9 +30,8 @@ export class RestaurantServicesComponent implements OnInit {
     }
 
     ngOnInit() {
-        if(this.myRestaurant != undefined || null)
-        {
-            this.createShowDictionaryMenu();           
+        if (this.myRestaurant != undefined || null) {
+            this.createShowDictionaryMenu();
         }
         this.sendOrder();
     }
@@ -68,17 +67,20 @@ export class RestaurantServicesComponent implements OnInit {
             myMenu.name = menu.name;
             myMenu.description = menu.description;
             myMenu.comments = menu.comments;
+            myMenu.price = menu.price;
 
             this.myOrder.menusDetails.push(myMenu);
             var index = this.myOrder.menusDetails.indexOf(myMenu);
 
             this.setOrRemoveOptionDishToMenu(this.myOrder.menusDetails[index], dish, option)
-            this.sendOrder();
-            return;
+
+        }
+        else {
+            this.setOrRemoveOptionDishToMenu(myMenu, dish, option)
         }
 
-        this.setOrRemoveOptionDishToMenu(myMenu, dish, option)
-        this.sendOrder();        
+        this.updateServiceTotalPrice();
+        this.sendOrder();
     }
 
     setOrRemoveOptionDishToMenu(myMenu: Menu, dish: Dish, option: string) {
@@ -94,7 +96,7 @@ export class RestaurantServicesComponent implements OnInit {
         //Remove element
         myMenu[option] = myMenu[option].filter(obj => obj !== dish);
 
-        if(!this.containsAnyDish(myMenu)){
+        if (!this.containsAnyDish(myMenu)) {
             this.myOrder.menusDetails = this.myOrder.menusDetails.filter(obj => obj !== myMenu);
         }
     }
@@ -119,7 +121,21 @@ export class RestaurantServicesComponent implements OnInit {
         this.myOrder.dishesDetails = this.myOrder.dishesDetails.filter(obj => obj !== dish);
     }
 
-    sendOrder(){
+    sendOrder() {
         this.myOrderOutput.emit(this.myOrder);
+    }
+
+    updateServiceTotalPrice() {
+
+        var totalPrice = 0;
+        this.myOrder.menusDetails.forEach(menu => {
+            totalPrice += menu.price;
+        });
+
+        this.myOrder.dishesDetails.forEach(dish => {
+            totalPrice += dish.price;
+        });
+
+        this.myOrder.totalPrice = totalPrice;
     }
 }

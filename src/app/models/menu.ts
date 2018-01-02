@@ -6,7 +6,7 @@ export class Menu {
     description: String
     comments: String
     visible: boolean
-    price: Number
+    price: number
     starters: Dish[]
     firstOptions: Dish[]
     secondOptions: Dish[]
