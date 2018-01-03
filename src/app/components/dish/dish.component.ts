@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Directive} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import { EnvironmentHelper } from '../../../environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
