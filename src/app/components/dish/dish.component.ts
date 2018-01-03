@@ -50,7 +50,7 @@ export class DishComponent implements OnInit {
 
   // TODO Add update method.
   private updateRestaurant() {
-    this.authService.updateProfileRestaurant(this.restaurant).subscribe(data => {
+    this.authService.updateProfilerRestaurant(this.restaurant.id).subscribe(data => {
       this.dish = new Dish();
       if (!this.menuName)
         this.dishes = this.restaurant.dishes;

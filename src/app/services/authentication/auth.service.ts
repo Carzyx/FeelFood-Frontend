@@ -93,7 +93,6 @@ export class AuthService {
   getProfileRestaurant(id) {
     this.createAuthHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.profile + id, this.options);
-
   }
   updateProfile(user) {
     this.createAuthHeaders();
@@ -132,6 +131,20 @@ export class AuthService {
   getAllergies() {
     this.createHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.user.allergies, this.options);
+  }
+
+  getIngredients() {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.ingredients, this.options);
+  }
+
+  searchReastaurantByName(name) {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.name + name, this.options);
+  }
+  searchReastaurantByConditions(conditions) {
+    this.createHeaders();
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.search.search, JSON.stringify(conditions), this.options);
   }
 
   sendOrder(order) {
