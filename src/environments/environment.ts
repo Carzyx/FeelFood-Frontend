@@ -28,12 +28,18 @@ export class EnvironmentHelper {
     loginFb: '/auth/facebook',
     restaurant: '/restaurant',
     allRestaurants: '/restaurants',
-    profile: '/restaurant?username=',
+    profile: '/restaurant?id=',
+    delete: '/restaurant?id=',
     ingredients: '/ingredient'
+  }
+  private readonly searchDictionary = {
+    search: '/search',
+    name : '/search?name='
   }
 
   readonly urlDictionary = {
     user: this.userDictionary,
-    restaurant : this.restaurantDictionary
+    restaurant : this.restaurantDictionary,
+    search: this.searchDictionary
   }
 }

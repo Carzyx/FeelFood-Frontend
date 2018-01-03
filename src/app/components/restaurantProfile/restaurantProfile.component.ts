@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
-// import { AuthService} from '../../services/auth.service';
+import {AuthService} from '../../services/authentication/auth.service';
 import {Router} from '@angular/router';
 import {Restaurant} from '../../models/restaurant';
 import {Menu} from '../../models/menu';
@@ -24,13 +23,10 @@ export class RestaurantProfileComponent implements OnInit {
   restaurantOriginal;
   currentRestaurant;
 
-  constructor(private http: HttpClient, private router: Router) {
-    //USE THESE
-
+  constructor(private authService: AuthService, private router: Router) {
     this.menu = new Menu();
     this.envHelper = new EnvironmentHelper();
     this.getRestaurant();
-
   }
 
   ngOnInit() {
@@ -45,35 +41,31 @@ export class RestaurantProfileComponent implements OnInit {
     }
   }
 
-// GET RESTAURANT WITHOUT LOGIN
   private getRestaurant() {
     this.currentRestaurant = JSON.parse(localStorage.getItem('restaurant'));
-    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant + '?id=' + this.currentRestaurant._id;
-    this.http.get(url).subscribe(data => {
+    this.authService.getProfileRestaurant(this.currentRestaurant._id).subscribe(data => {
         this.restaurantOriginal = data;
         this.restaurant = this.restaurantOriginal;
-        console.log(this.restaurant);
       },
       err => { console.log(err); });
   }
 
   // TODO Add update method.
   private updateRestaurant() {
-    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
-    this.http.put(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
+    this.authService.updateProfilerRestaurant(this.restaurant).subscribe(data => {
       this.getRestaurant();
     });
   }
 
   private deleteRestaurant() {
-    if(this.confirmar()) {
-      // this.authService.deleteProfile(this.currentRestaurant.id).subscribe(data => {
-      //   alert('Restaurant deleted.');
-      //   this.authService.logout();
-      //   this.router.navigate(['/home']);
-      // }, err => {
-      //   console.log(err);
-      // });
+    if (this.confirmar()) {
+      this.authService.deleteRestaurantProfile(this.currentRestaurant.id).subscribe(data => {
+        alert('Restaurant deleted.');
+        this.authService.logout();
+        this.router.navigate(['/home']);
+      }, err => {
+        console.log(err);
+      });
     }
   }
 
