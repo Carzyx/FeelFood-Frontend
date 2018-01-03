@@ -193,10 +193,15 @@ export class RestaurantProfileComponent implements OnInit {
   }
 
   private deleteRestaurant() {
-    this.authService.deleteProfileRestaurant(this.currentRestaurant._id).subscribe(data => {
-      this.authService.logout();
-      this.router.navigate(['/home']);
-    }, err => { console.log(err) });
+    if (this.confirmar()) {
+      this.authService.deleteRestaurantProfile(this.currentRestaurant.id).subscribe(data => {
+        alert('Restaurant deleted.');
+        this.authService.logout();
+        this.router.navigate(['/home']);
+      }, err => {
+        console.log(err);
+      });
+    }
   }
 
   private ShowMenu() {

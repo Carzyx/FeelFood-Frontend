@@ -93,14 +93,12 @@ export class AuthService {
   getProfileRestaurant(id) {
     this.createAuthHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.profile + id, this.options);
-
   }
   updateProfile(user) {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user, JSON.stringify(user), this.options);
   }
-
-  updateProfileRestaurant(user) {
+  updateProfilerRestaurant (id) {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant, JSON.stringify(user), this.options);
   }

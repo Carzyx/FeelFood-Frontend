@@ -22,7 +22,6 @@ import { HomeComponent } from './components/home/home.component';
 import { RestaurantProfileComponent } from './components/restaurantProfile/restaurantProfile.component';
 import { DishComponent } from './components/dish/dish.component';
 import {SearchComponent} from './components/search/search.component';
-
 import { FooterComponent } from './shared/footer/footer.component';
 import { AppNavbar } from './shared/navbar/navbar.component';
 import { AuthFbComponent } from './components/authFb/authFb.component';
@@ -55,7 +54,6 @@ import { NouisliderModule } from 'ng2-nouislider';
     SearchComponent,
     AppNavbar,
     AuthFbComponent,
-
     ModalComponent,
     DashboardComponent
   ],
