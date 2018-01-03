@@ -16,7 +16,6 @@ import { CustomValidator } from '../../helpers/customValidator';
   templateUrl: './restaurantProfile.component.html',
   styleUrls: ['./restaurantProfile.component.css']
 })
-
 export class RestaurantProfileComponent implements OnInit {
   @ViewChild('modal') modalUpdate: ModalComponent;
   // ShowHide

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 
 import { AppComponent } from './app.component';
+import {Ng2SliderComponent} from 'ng2-slider-component/ng2-slider.component';
 import { HttpClientModule } from '@angular/common/http';
 
 /*Import app Components*/
@@ -21,6 +22,8 @@ import { MenuComponent } from './components/menu/menu.component';
 import { HomeComponent } from './components/home/home.component';
 import { RestaurantProfileComponent } from './components/restaurantProfile/restaurantProfile.component';
 import { DishComponent } from './components/dish/dish.component';
+import {SearchComponent} from './components/search/search.component';
+
 import { FooterComponent } from './shared/footer/footer.component';
 import { AppNavbar } from './shared/navbar/navbar.component';
 import { AuthFbComponent } from './components/authFb/authFb.component';
@@ -48,6 +51,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     HomeComponent,
     RestaurantProfileComponent,
     DishComponent,
+    // Ng2SliderComponent,
+    SearchComponent,
     AppNavbar,
     AuthFbComponent,
     ModalComponent,

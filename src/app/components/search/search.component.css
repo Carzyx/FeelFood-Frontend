@@ -1,0 +1,47 @@
+@import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
+@import url(https://fonts.googleapis.com/css?family=Oswald:300,400);
+div.item-restaurant{
+  height: auto;
+  max-width: 950px;
+  min-width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+}
+input{
+  z-index: 1;
+  border-radius: 10px;
+  min-width: 20px;
+  max-width: 120px;
+}
+.sidebar-filters{
+  z-index: 1;
+  min-width: 20px;
+  max-width: 150px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  position: absolute;
+  padding: 5px;
+}
+
+.title-section {
+  font-size: 16px;
+  margin: 12px 0;
+  width: 100%;
+}
+
+.price-slider span {
+  font-weight: 200;
+  display: inline-block;
+  /*color: #7f8c8d;*/
+  font-size: 13px;
+}
+
+.cart-component {
+  display: list-item;
+  position: sticky;
+  top: 20%;
+  margin-right: 90%;
+  list-style: none;
+}

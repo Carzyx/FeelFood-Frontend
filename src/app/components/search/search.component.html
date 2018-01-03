@@ -1,0 +1,32 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="cart-component">
+  <figure class="sidebar-filters">
+    <form [formGroup]="searchDetails" (change)="searchByDetails()">
+      <h3>Search by:</h3>
+      <!--<i class="material-icons" (click)="ChangeStatus()">close</i>-->
+    <figcaption>
+      <div class="price-slider form-group">
+        <span class="title-section">Price:</span>
+        <input type="number" name="priceMin" formControlName="priceMin" placeholder="min" >
+        <input type="number" name="priceMax" formControlName="priceMax" placeholder="max" >
+      </div>
+      <div class="price-slider form-group">
+        <span class="title-section">Distance:</span>
+        <input type="number" name="distanceMin" formControlName="distanceMin" placeholder="min">
+        <input type="number" name="distanceMax" formControlName="distanceMax" placeholder="max">
+        <!--<ng2-slider></ng2-slider>-->
+      </div>
+      <div class="price-slider form-group">
+        <span class="title-section">Others:</span>
+        <span> Home delivery: <input type="checkbox"  name="homeDelivery" formControlName="homeDelivery"></span>
+        <span> Take away: <input type="checkbox"  name="takeAway" formControlName="takeAway"> </span>
+      </div>
+    </figcaption>
+    </form>
+  </figure>
+</div>
+<div class="item-restaurant" *ngFor="let restaurant of restaurants">
+  <app-restaurantSummary [restaurantId]="restaurant._id" [routerLink]="['restaurant',restaurant._id]"></app-restaurantSummary>
+</div>
+

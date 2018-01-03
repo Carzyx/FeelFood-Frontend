@@ -26,4 +26,15 @@ export class AppNavbar implements OnInit {
       this.router.navigate(['/home']);
     }, 1000);
   }
+  Search(value) {
+   this.router.navigate(['/search', value]);
+  }
+
+  selectProfile() {
+    if (JSON.parse(localStorage.getItem('user'))) {
+      this.profile = 'userProfile';
+    } else {
+      this.profile = 'restaurantProfile';
+    }
+  }
 }
