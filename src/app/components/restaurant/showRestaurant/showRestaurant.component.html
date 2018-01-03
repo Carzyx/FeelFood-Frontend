@@ -1,6 +1,76 @@
 <app-cart [myOrder]="myOrder"></app-cart>
 
 <div class="restaurant">
-    <app-restaurantSummary [restaurantId]='restaurantId'></app-restaurantSummary>
-    <app-restaurantServices [myRestaurant]='myRestaurant'(myOrderOutput)="myOrder=$event"></app-restaurantServices>
+  <app-restaurantSummary [restaurantId]='restaurantId'></app-restaurantSummary>
+  <app-restaurantServices [myRestaurant]='myRestaurant' (myOrderOutput)="myOrder=$event"></app-restaurantServices>
 </div>
+
+<app-modal #modal>
+  <div class="app-modal-header">
+    <h5>Complete your order</h5>
+  </div>
+  <div class="app-modal-body">
+    <div class="orderSummary">
+      <div *ngIf="myOrder.menusDetails.length > 0">
+        <table *ngFor="let menu of myOrder.menusDetails">
+          <tr>
+            <h5>
+              <strong>{{menu.name}}: {{menu.price}} €</strong>
+            </h5>
+          </tr>
+          <tr *ngFor="let dish of menu.starters">
+            <p>{{dish.name}}</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+          <tr *ngFor="let dish of menu.firstOptions">
+            <p>{{dish.name}}</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+          <tr *ngFor="let dish of menu.secondOptions">
+            <p>{{dish.name}}</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+          <tr *ngFor="let dish of menu.thirdOptions">
+            <p>{{dish.name}}</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+          <tr *ngFor="let dish of menu.drinksOptions">
+            <p>{{dish.name}}</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+        </table>
+      </div>
+      <div *ngIf="myOrder.dishesDetails.length > 0">
+        <h5>
+          <strong>Dishes</strong>
+        </h5>
+        <table>
+          <tr *ngFor="let dish of myOrder.dishesDetails">
+            <p>{{dish.name}} : {{dish.price}} €</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+        </table>
+      </div>
+      <div *ngIf="myOrder.totalPrice != 0">
+        <hr>
+        <p>Total: {{myOrder.totalPrice}} €</p>
+      </div>
+    </div>
+    <div class="userInformation" *ngIf="myUser">
+      <p>Select address</p>
+      <select class="form-control" (change)="setLocationToOrder(selectedLocation.value)" #selectedLocation>
+        <option *ngFor="let location of myUser.locations">{{location.locationName}}</option>
+      </select>
+      <div class="selectedLocation" *ngIf="setLocationToOrder(selectedLocation.value)">
+        <p>{{myOrder.location.address}}
+          <br> {{myOrder.location.postalCode}}
+          <br> {{myOrder.location.city}}, {{myOrder.location.country}}</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default">Continue</button>
+  </div>
+</app-modal>
+<button (click)="modal.show();">Show MODEL</button>

@@ -1,5 +1,7 @@
 import { Menu } from './menu';
 import { Dish } from './dish';
+import { Location } from './location';
+
 
 export class Order {
     username: String

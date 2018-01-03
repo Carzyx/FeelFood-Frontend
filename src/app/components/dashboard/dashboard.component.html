@@ -10,7 +10,9 @@
         <hr class="my-4">
         <h4 *ngIf="user.firstName || user.lastName">{{user.firstName}} {{user.lastName}}, {{user.username}}</h4>
         <h5 class="text-muted">{{user.email}}</h5>
-        <p>Member since: <strong>{{signupDate}}</strong></p>
+        <p>Member since:
+          <strong>{{signupDate}}</strong>
+        </p>
         <small *ngIf="user.lastLogin">Last login: {{lastLogin}}</small>
         <hr class="my-4">
         <p>My addresses:</p>
@@ -19,7 +21,9 @@
             <em>No addresses defined.</em>
           </li>
           <li class="list-group-item" *ngFor="let location of user.locations">
-            <strong><em>{{location.locationName}}:</em></strong>
+            <strong>
+              <em>{{location.locationName}}:</em>
+            </strong>
             <h6>{{location.address}}</h6>
             <h6>{{location.city}}, {{location.postalCode}} {{location.country}}</h6>
           </li>

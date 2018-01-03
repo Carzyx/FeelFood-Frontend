@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
 // import { AuthService} from '../../services/auth.service';
-import {Router} from '@angular/router';
-import {Restaurant} from '../../models/restaurant';
-import {Menu} from '../../models/menu';
-
+import { Router } from '@angular/router';
+import { Restaurant } from '../../models/restaurant';
+import { Menu } from '../../models/menu';
 
 @Component({
   selector: 'app-restaurantprofile',
@@ -16,7 +15,7 @@ import {Menu} from '../../models/menu';
 export class RestaurantProfileComponent implements OnInit {
 
   // ShowHide
-  showItemDictionary = { showProfile: true, showAddress: false, showAccount: false, showMenus: false , showDishes: false};
+  showItemDictionary = { showProfile: true, showAddress: false, showAccount: false, showMenus: false, showDishes: false };
   addMenu = false;
   menu: Menu;
   envHelper: EnvironmentHelper;
@@ -30,7 +29,6 @@ export class RestaurantProfileComponent implements OnInit {
     this.menu = new Menu();
     this.envHelper = new EnvironmentHelper();
     this.getRestaurant();
-
   }
 
   ngOnInit() {
@@ -45,28 +43,28 @@ export class RestaurantProfileComponent implements OnInit {
     }
   }
 
-// GET RESTAURANT WITHOUT LOGIN
+  // GET RESTAURANT WITHOUT LOGIN
   private getRestaurant() {
     this.currentRestaurant = JSON.parse(localStorage.getItem('restaurant'));
     const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant + '?id=' + this.currentRestaurant._id;
     this.http.get(url).subscribe(data => {
-        this.restaurantOriginal = data;
-        this.restaurant = this.restaurantOriginal;
-        console.log(this.restaurant);
-      },
+      this.restaurantOriginal = data;
+      this.restaurant = this.restaurantOriginal;
+      console.log(this.restaurant);
+    },
       err => { console.log(err); });
   }
 
   // TODO Add update method.
   private updateRestaurant() {
     const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
-    this.http.put(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
+    this.http.put(url, this.restaurant, { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
       this.getRestaurant();
     });
   }
 
   private deleteRestaurant() {
-    if(this.confirmar()) {
+    if (this.confirmar()) {
       // this.authService.deleteProfile(this.currentRestaurant.id).subscribe(data => {
       //   alert('Restaurant deleted.');
       //   this.authService.logout();
