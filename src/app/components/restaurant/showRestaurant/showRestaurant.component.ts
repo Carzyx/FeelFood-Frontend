@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 
 import { Restaurant } from '../../../models/restaurant';
 import { Order } from '../../../models/order';
 import { MapHelper } from '../../../helpers/mapHelper';
 import { EnvironmentHelper } from '../../../../environments/environment';
+import {AuthService} from '../../../services/authentication/auth.service';
 
 
 @Component({
@@ -24,42 +24,34 @@ export class ShowRestaurantComponent implements OnInit {
   private envHelper: EnvironmentHelper;
   private mapHelper: MapHelper;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private authService: AuthService) {
     this.envHelper = new EnvironmentHelper();
     this.mapHelper = new MapHelper();
     this.restaurantId = this.route.snapshot.params['_id'];
-    
     this.getRestaurant();
   }
 
   ngOnInit() {
-    console.log("ShowRestaurantComponent");
+    console.log('ShowRestaurantComponent');
     console.log(this.myOrder);
     this.getRestaurant();
   }
 
   getRestaurant() {
 
-    if (this.myRestaurant != undefined || null) {
-      console.log("ShowRestaurantComponent: Unable get Restaurant;")
+    if (this.myRestaurant !== undefined || null) {
+      console.log('ShowRestaurantComponent: Unable get Restaurant');
       return;
     }
 
-    if (this.restaurantId == undefined || null) {
-      console.log("ShowRestaurantComponent: Unable get Restaurant;")
+    if (this.restaurantId === undefined || null) {
+      console.log('ShowRestaurantComponent: Unable get Restaurant');
       return;
     }
 
-    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
-
-
-    this.http.get(url + `?id=${this.restaurantId}`).subscribe(data => {
-      if (data) {
-        this.myRestaurant = this.mapHelper.map(Restaurant, data);
-        console.log("ShowRestaurantComponent:")
-        console.log(JSON.stringify(this.myRestaurant))
-      }
+    this.authService.getPublicRestaurant(this.restaurantId).subscribe(data => {
+      this.myRestaurant = this.mapHelper.map(Restaurant, data);
+      console.log('RestaurantSummary:' + this.myRestaurant);
     });
   }
-
 }

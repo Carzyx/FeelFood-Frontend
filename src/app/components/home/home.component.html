@@ -1,3 +1,3 @@
 <div class="item-restaurant" *ngFor="let restaurant of restaurants">
-  <app-restaurantSummary [restaurantId]="restaurant._id" [routerLink]="['restaurant',restaurant._id]"></app-restaurantSummary>
+  <app-restaurantSummary [restaurant]="restaurant" [routerLink]="['restaurant',restaurant._id]"></app-restaurantSummary>
 </div>

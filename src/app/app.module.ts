@@ -29,6 +29,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { ModalComponent } from './shared/modal/modal.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import {CustomValidator} from './helpers/customValidator';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     }),
     FormsModule
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard],
+  providers: [AuthService, AuthGuard, NotAuthGuard, CustomValidator],
   bootstrap: [
     AppNavbar,
     FooterComponent
