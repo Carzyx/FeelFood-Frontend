@@ -1,13 +1,13 @@
-import { Component, Input, OnInit, Directive } from '@angular/core';
+import {Component, Input, OnInit, Directive} from '@angular/core';
 import 'rxjs/add/operator/map';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// import { AuthService} from '../../services/auth.service';
-import { Router } from '@angular/router';
-import { Restaurant } from '../../models/restaurant';
-import { Ingredient } from '../../models/ingredient';
-import { Dish } from '../../models/dish';
+import { AuthService } from '../../services/authentication/auth.service';
+
+import {Router} from '@angular/router';
+import {Restaurant} from '../../models/restaurant';
+import {Ingredient} from '../../models/ingredient';
+import {Dish} from '../../models/dish';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class DishComponent implements OnInit {
   currentImport;
 
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
     this.dish = new Dish();
     this.envHelper = new EnvironmentHelper();
     this.currentList = 'Dishes';
@@ -48,8 +48,7 @@ export class DishComponent implements OnInit {
 
   // TODO Add update method.
   private updateRestaurant() {
-    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
-    this.http.put(url, this.restaurant, { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
+    this.authService.updateProfilerRestaurant(this.restaurant.id).subscribe(data => {
       this.dish = new Dish();
       if (!this.menuName)
         this.dishes = this.restaurant.dishes;
@@ -64,9 +63,7 @@ export class DishComponent implements OnInit {
   private AddDish(value) {
     this.addDish = this.addDish ? false : true;
     if ((!this.addDish) && (value === 'Dishes')) {
-      console.log('ADDING TO DISHES');
       this.restaurant.dishes.push(this.dish);
-      console.log(this.dish);
       this.updateRestaurant();
       this.getIngredients();
     }
@@ -129,8 +126,7 @@ export class DishComponent implements OnInit {
 
   }
   private getIngredients() {
-    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.ingredients;
-    this.http.get(url).subscribe(data => {
+    this.authService.getIngredients().subscribe(data => {
       this.ingredients = data;
       for (let i = 0; i < this.dish.ingredients.length; i++) {
         for (let j = 0; j < this.ingredients.length; j++) {

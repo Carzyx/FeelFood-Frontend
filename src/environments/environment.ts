@@ -35,9 +35,14 @@ export class EnvironmentHelper {
     orders: '/orders',
     orderDetail: '/orders?id='
   }
+  private readonly searchDictionary = {
+    search: '/search',
+    name : '/search?name='
+  }
 
   readonly urlDictionary = {
     user: this.userDictionary,
-    restaurant: this.restaurantDictionary
+    restaurant : this.restaurantDictionary,
+    search: this.searchDictionary
   }
 }

@@ -16,10 +16,9 @@ import { CustomValidator } from '../../helpers/customValidator';
   templateUrl: './restaurantProfile.component.html',
   styleUrls: ['./restaurantProfile.component.css']
 })
-
 export class RestaurantProfileComponent implements OnInit {
 
-  @Input() addressCompleted: Location;    
+  @Input() addressCompleted: Location;
   @ViewChild('modal') modalUpdate: ModalComponent;
   // ShowHide
   showItemDictionary = { showProfile: true, showAddress: false, showAddAddress: false, showAccount: false, showMenus: false, showDishes: false };
@@ -122,7 +121,7 @@ export class RestaurantProfileComponent implements OnInit {
   }
 
   private updateAddress() {
-    this.location = this.addressCompleted;   
+    this.location = this.addressCompleted;
     this.restaurant.locations.push(this.location);
     this.updateRestaurant();
     this.changeShowStatus('showAddress');
@@ -153,10 +152,9 @@ export class RestaurantProfileComponent implements OnInit {
   private getRestaurant() {
     this.currentRestaurant = JSON.parse(localStorage.getItem('restaurant'));
     this.authService.getProfileRestaurant(this.currentRestaurant._id).subscribe(data => {
-      this.restaurantOriginal = data;
-      this.restaurant = this.restaurantOriginal;
-      console.log(this.restaurant);
-    },
+        this.restaurantOriginal = data;
+        this.restaurant = this.restaurantOriginal;
+      },
       err => { console.log(err); });
   }
 
@@ -172,10 +170,15 @@ export class RestaurantProfileComponent implements OnInit {
   }
 
   private deleteRestaurant() {
-    this.authService.deleteProfileRestaurant(this.currentRestaurant._id).subscribe(data => {
-      this.authService.logout();
-      this.router.navigate(['/home']);
-    }, err => { console.log(err) });
+    if (this.confirmar()) {
+      this.authService.deleteRestaurantProfile(this.currentRestaurant.id).subscribe(data => {
+        alert('Restaurant deleted.');
+        this.authService.logout();
+        this.router.navigate(['/home']);
+      }, err => {
+        console.log(err);
+      });
+    }
   }
 
   private ShowMenu() {
