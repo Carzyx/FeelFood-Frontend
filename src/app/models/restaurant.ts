@@ -3,7 +3,7 @@ import { Menu } from './menu';
 import { Dish } from './dish';
 
 export class Restaurant {
-  id: String
+  _id: String
   username: String
   password: String
   email: String

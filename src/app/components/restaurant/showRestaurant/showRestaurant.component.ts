@@ -28,6 +28,15 @@ export class ShowRestaurantComponent implements OnInit {
   private envHelper: EnvironmentHelper;
   private mapHelper: MapHelper;
 
+  //DateTime Picker Configuration
+  deliveryDate: Date = new Date();
+	settings = {
+		bigBanner: true,
+		timePicker: true,
+		format: 'medium',
+		defaultOpen: false
+	}
+
   constructor(private authService: AuthService, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.envHelper = new EnvironmentHelper();
     this.mapHelper = new MapHelper();
@@ -39,7 +48,6 @@ export class ShowRestaurantComponent implements OnInit {
 
   ngOnInit() {
     this.getRestaurant();
-    //this.modal.show();
   }
 
   getRestaurant() {
@@ -73,9 +81,26 @@ export class ShowRestaurantComponent implements OnInit {
     });
   }
 
-  setLocationToOrder(locationName: String) {
-    this.myOrder.location = this.myUser.locations.find(loc => loc.locationName == locationName);
-    return this.myOrder.location;
+  setUserLocationToOrder(locationName: String) {
+    this.myOrder.user_location = this.myUser.locations.find(loc => loc.locationName == locationName);
+    return this.myOrder.user_location;
+  }
+
+  sendOrder()
+  {
+    this.myOrder.deliveryDate = this.deliveryDate;
+    this.myOrder.createDate = new Date();
+
+    this.myOrder.username_id = this.myUser._id;
+    this.myOrder.firstName = this.myUser.firstName;
+    this.myOrder.lastName = this.myUser.lastName;
+
+    this.myOrder.restaurant_id = this.myRestaurant._id;
+    this.myOrder.restaurant = this.myRestaurant.name;
+    this.myOrder.restaurant_location = this.myRestaurant.location[0];
+    
+    console.log("delivery order");
+    console.log(this.myOrder);
   }
 
 }

@@ -1,4 +1,4 @@
-<app-cart [myOrder]="myOrder"></app-cart>
+<app-cart [myOrder]="myOrder" (click)="modal.show(); modal.block();"></app-cart>
 
 <div class="restaurant">
   <app-restaurantSummary [restaurantId]='restaurantId'></app-restaurantSummary>
@@ -7,10 +7,10 @@
 
 <app-modal #modal>
   <div class="app-modal-header">
-    <h5>Complete your order</h5>
+    <h5>Summary Order</h5>
   </div>
   <div class="app-modal-body">
-    <div class="orderSummary">
+    <div class="orderSummary bodyOrder">
       <div *ngIf="myOrder.menusDetails.length > 0">
         <table *ngFor="let menu of myOrder.menusDetails">
           <tr>
@@ -52,25 +52,28 @@
         </table>
       </div>
       <div *ngIf="myOrder.totalPrice != 0">
-        <hr>
         <p>Total: {{myOrder.totalPrice}} €</p>
       </div>
     </div>
-    <div class="userInformation" *ngIf="myUser">
-      <p>Select address</p>
-      <select class="form-control" (change)="setLocationToOrder(selectedLocation.value)" #selectedLocation>
+    <div class="userInformation bodyOrder" *ngIf="myUser">
+      <h5>Address</h5>
+      <select class="form-control" (change)="setUserLocationToOrder(selectedLocation.value)" #selectedLocation>
         <option *ngFor="let location of myUser.locations">{{location.locationName}}</option>
       </select>
-      <div class="selectedLocation" *ngIf="setLocationToOrder(selectedLocation.value)">
-        <p>{{myOrder.location.address}}
-          <br> {{myOrder.location.postalCode}}
-          <br> {{myOrder.location.city}}, {{myOrder.location.country}}</p>
+      <div class="selectedLocation" *ngIf="setUserLocationToOrder(selectedLocation.value)">
+        <p>{{myOrder.user_location.address}}
+          <br> {{myOrder.user_location.postalCode}}
+          <br> {{myOrder.user_location.city}}, {{myOrder.user_location.country}}</p>
       </div>
-
+    </div>
+    <div class="deliveryDate bodyOrder">
+      <h5>Delivery date</h5>
+      <angular2-date-picker (onDateSelect)="onDateSelect($event)" [(ngModel)]="deliveryDate" [settings]="settings">
+      </angular2-date-picker>
     </div>
   </div>
   <div class="app-modal-footer">
-    <button type="button" class="btn btn-default">Continue</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.hide();">Cancel</button>
+    <button type="button" class="btn btn-outline-success" (click)="sendOrder(); modal.hide();">Delivery</button>
   </div>
 </app-modal>
-<button (click)="modal.show();">Show MODEL</button>

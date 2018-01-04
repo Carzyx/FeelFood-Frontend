@@ -4,4 +4,5 @@
 
 .modal-dialog {
   margin-top: 10%;
+  overflow-y: auto;
 }

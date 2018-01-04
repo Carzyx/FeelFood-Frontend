@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
 import { AppRoutes } from './app.routing.module';
 import { FormsModule } from '@angular/forms';
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -53,6 +54,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
   ],
   imports: [
     ReactiveFormsModule,
+    AngularDateTimePickerModule,    
     FormsModule,
     BrowserModule,
     HttpClientModule,
