@@ -17,10 +17,10 @@ export class EnvironmentHelper {
     login: '/login',
     loginFb: '/auth/facebook/user',
     user: '/user',
-    profile: '/user?id=',
+    profile: '/user?username=',
     delete: '/user?id=',
     allergies: '/allergies'
-  };
+  }
 
   private readonly restaurantDictionary = {
     signup : '/restaurant/signup',
@@ -28,14 +28,12 @@ export class EnvironmentHelper {
     loginFb: '/auth/facebook',
     restaurant: '/restaurant',
     allRestaurants: '/restaurants',
-    profile: '/restaurant?id=',
-    ingredients: '/ingredient',
-    delete: '/restaurant?id=',
-    publicRestaurant: '/restaurant/public?id='
-  };
+    profile: '/restaurant?username=',
+    ingredients: '/ingredient'
+  }
 
   readonly urlDictionary = {
     user: this.userDictionary,
     restaurant : this.restaurantDictionary
-  };
+  }
 }

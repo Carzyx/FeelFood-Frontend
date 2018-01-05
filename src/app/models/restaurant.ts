@@ -9,9 +9,8 @@ export class Restaurant {
   email: String
   name: String
   images: Array<String>
-  phone: String
+  phone: Number
   location: Array<Location>
   menus: Array<Menu>
   dishes: Array<Dish>;
-  lastLogin: Date;
 }

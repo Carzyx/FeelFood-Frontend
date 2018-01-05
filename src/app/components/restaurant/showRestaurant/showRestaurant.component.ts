@@ -30,12 +30,12 @@ export class ShowRestaurantComponent implements OnInit {
 
   //DateTime Picker Configuration
   deliveryDate: Date = new Date();
-  settings = {
-    bigBanner: true,
-    timePicker: true,
-    format: 'medium',
-    defaultOpen: false
-  }
+	settings = {
+		bigBanner: true,
+		timePicker: true,
+		format: 'medium',
+		defaultOpen: false
+	}
 
   constructor(private authService: AuthService, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.envHelper = new EnvironmentHelper();
@@ -52,19 +52,25 @@ export class ShowRestaurantComponent implements OnInit {
 
   getRestaurant() {
 
-    if (this.myRestaurant !== undefined || null) {
-      console.log('ShowRestaurantComponent: Unable get Restaurant');
+    if (this.myRestaurant != undefined || null) {
+      console.log("ShowRestaurantComponent: Unable get Restaurant;")
       return;
     }
 
-    if (this.restaurantId === undefined || null) {
-      console.log('ShowRestaurantComponent: Unable get Restaurant');
+    if (this.restaurantId == undefined || null) {
+      console.log("ShowRestaurantComponent: Unable get Restaurant;")
       return;
     }
 
-    this.authService.getPublicRestaurant(this.restaurantId).subscribe(data => {
-      this.myRestaurant = this.mapHelper.map(Restaurant, data);
-      console.log('RestaurantSummary:' + this.myRestaurant);
+    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
+
+
+    this.http.get(url + `?id=${this.restaurantId}`).subscribe(data => {
+      if (data) {
+        this.myRestaurant = this.mapHelper.map(Restaurant, data);
+        console.log("ShowRestaurantComponent:")
+        console.log(JSON.stringify(this.myRestaurant))
+      }
     });
   }
 
@@ -80,7 +86,8 @@ export class ShowRestaurantComponent implements OnInit {
     return this.myOrder.user_location;
   }
 
-  sendOrder() {
+  sendOrder()
+  {
     this.myOrder.deliveryDate = this.deliveryDate;
     this.myOrder.createDate = new Date();
 
@@ -91,7 +98,7 @@ export class ShowRestaurantComponent implements OnInit {
     this.myOrder.restaurant_id = this.myRestaurant._id;
     this.myOrder.restaurant = this.myRestaurant.name;
     this.myOrder.restaurant_location = this.myRestaurant.location[0];
-
+    
     console.log("delivery order");
     console.log(this.myOrder);
   }

@@ -216,12 +216,8 @@ export class LoginComponent implements OnInit {
     this.authService.signUpUser(this.user).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
-        this.messageClass = 'text-danger';
+        this.messageClass = 'alert alert-danger';
         this.message = data['message'];
-        this.modal.show();
-        setTimeout(() => {
-          this.modal.hide();
-        }, 1500);
         this.proccessing = false;
         this.enableForm();
       } else {
@@ -235,12 +231,8 @@ export class LoginComponent implements OnInit {
     this.authService.signUpRestaurant(this.restaurant).subscribe(data => {
       console.log(JSON.stringify(data));
       if (!data['success']) {
-        this.messageClass = 'text-danger';
+        this.messageClass = 'alert alert-danger';
         this.message = data['message'];
-        this.modal.show();
-        setTimeout(() => {
-          this.modal.hide();
-        }, 1500);
         this.proccessing = false;
         this.enableForm();
       } else {

@@ -86,14 +86,9 @@ export class AuthService {
     return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.signup, JSON.stringify(restaurant), this.options);
   }
 
-  getProfile(id) {
+  getProfile(name) {
     this.createAuthHeaders();
-    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.user.profile + id, this.options);
-  }
-
-  getProfileRestaurant(id) {
-    this.createAuthHeaders();
-    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.profile + id, this.options);
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.user.profile + name, this.options);
   }
 
   updateProfile (user) {
@@ -101,33 +96,14 @@ export class AuthService {
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user, JSON.stringify(user), this.options);
   }
 
-  updateProfileRestaurant (user) {
-    this.createAuthHeaders();
-    return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant, JSON.stringify(user), this.options);
-  }
-
   deleteProfile (id) {
     this.createAuthHeaders();
     return this.http.delete(this.envHelper.urlbase + this.envHelper.urlDictionary.user.delete + id, this.options);
-  }
-
-  deleteProfileRestaurant (id) {
-    this.createAuthHeaders();
-    return this.http.delete(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.delete + id, this.options);
-  }
-
-  getAllRestaurants() {
-    this.createHeaders();
-    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.allRestaurants, this.options);
-  }
-
-  getPublicRestaurant (id) {
-    this.createHeaders();
-    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.publicRestaurant + id, this.options);
   }
 
   getAllergies() {
     this.createHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.user.allergies, this.options);
   }
+
 }

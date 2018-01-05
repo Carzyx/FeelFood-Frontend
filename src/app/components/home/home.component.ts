@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
-import {AuthService} from '../../services/authentication/auth.service';
+import { Restaurant } from '../../models/restaurant';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +11,18 @@ import {AuthService} from '../../services/authentication/auth.service';
 export class HomeComponent implements OnInit {
   envHelper: EnvironmentHelper;
   restaurants;
-  constructor(private authService: AuthService) {
+  constructor(private http: HttpClient) {
     this.envHelper = new EnvironmentHelper();
-    this.getRandomRestaurants();
+    this.getRandomResturants();
   }
   ngOnInit() {
   }
-  private getRandomRestaurants() {
-    this.authService.getAllRestaurants().subscribe(data => {
+  private getRandomResturants() {
+    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.allRestaurants;
+    this.http.get(url, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+    }).subscribe(data => {
       this.restaurants = data;
       console.log(this.restaurants);
     });

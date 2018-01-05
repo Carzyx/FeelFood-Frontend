@@ -7,8 +7,8 @@ import {mapNewObject} from '../../models/user';
 import {Router} from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService} from '../../services/authentication/auth.service';
+
 import {ModalComponent} from '../../shared/modal/modal.component';
-import {CustomValidator} from '../../helpers/customValidator';
 
 
 
@@ -36,7 +36,7 @@ export class UserComponent implements OnInit {
   address;
   message;
 
-  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder, private validator: CustomValidator) {
+  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
     this.createForm();
     this.getUser();
     this.getAllergies();
@@ -55,7 +55,7 @@ export class UserComponent implements OnInit {
         Validators.maxLength(20)])],
       postalCode: ['', Validators.compose([
         Validators.required,
-        this.validator.validatePostalCode
+        this.validatePostalCode
       ])],
       city: ['', Validators.compose([
         Validators.required,
@@ -70,17 +70,48 @@ export class UserComponent implements OnInit {
         Validators.minLength(8)
       ])],
       confirm: ['', Validators.required]
-    }, { validator: this.validator.matchingPasswords('password', 'confirm') });
+    }, { validator: this.matchingPasswords('password', 'confirm') });
     this.emailForm = this.formBuilder.group({
       email: ['', Validators.compose([
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(20),
-        this.validator.validateEmail
+        this.validateEmail
       ])]});
     this.profileForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required]});
+  }
+
+  validateEmail(controls) {
+    const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    // Test email against regular expression
+    if (regExp.test(controls.value)) {
+      return null; // Return as valid email
+    } else {
+      return { 'validateEmail': true }; // Return as invalid email
+    }
+  }
+
+  validatePostalCode(controls) {
+    const regExp = new RegExp(/^\d{5}(?:[-\s]\d{4})?$/);
+    // Test email against regular expression
+    if (regExp.test(controls.value)) {
+      return null; // Return as valid postal code
+    } else {
+      return { 'validatePostalCode': true }; // Return as invalid postal code
+    }
+  }
+
+  matchingPasswords(password, confirm) {
+    return (group: FormGroup) => {
+      // Check if both fields are the same
+      if (group.controls[password].value === group.controls[confirm].value) {
+        return null; // Return as a match
+      } else {
+        return { 'matchingPasswords': true }; // Return as error: do not match
+      }
+    };
   }
 
   ngOnInit() {
@@ -192,7 +223,7 @@ export class UserComponent implements OnInit {
 
   private getUser() {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
-    this.authService.getProfile(this.currentUser._id).subscribe(data => {
+    this.authService.getProfile(this.currentUser.username).subscribe(data => {
         this.userOriginal = data;
         this.user = this.userOriginal;
         console.log(this.user);
@@ -203,6 +234,8 @@ export class UserComponent implements OnInit {
   // TODO Add update method.
   private updateUser() {
     this.authService.updateProfile(this.user).subscribe(data => {
+      this.userOriginal = data;
+      this.user = this.userOriginal;
       this.message = 'User update success.';
       this.modalUpdate.show();
       this.getUser();
