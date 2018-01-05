@@ -106,4 +106,9 @@ export class AuthService {
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.user.allergies, this.options);
   }
 
+  sendOrder(order) {
+    this.createHeaders();
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.orders, JSON.stringify(order), this.options)
+  }
+
 }

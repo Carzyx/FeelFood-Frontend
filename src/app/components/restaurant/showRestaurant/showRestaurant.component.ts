@@ -30,12 +30,12 @@ export class ShowRestaurantComponent implements OnInit {
 
   //DateTime Picker Configuration
   deliveryDate: Date = new Date();
-	settings = {
-		bigBanner: true,
-		timePicker: true,
-		format: 'medium',
-		defaultOpen: false
-	}
+  settings = {
+    bigBanner: true,
+    timePicker: true,
+    format: 'medium',
+    defaultOpen: false
+  }
 
   constructor(private authService: AuthService, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.envHelper = new EnvironmentHelper();
@@ -86,8 +86,7 @@ export class ShowRestaurantComponent implements OnInit {
     return this.myOrder.user_location;
   }
 
-  sendOrder()
-  {
+  sendOrder() {
     this.myOrder.deliveryDate = this.deliveryDate;
     this.myOrder.createDate = new Date();
 
@@ -97,10 +96,8 @@ export class ShowRestaurantComponent implements OnInit {
 
     this.myOrder.restaurant_id = this.myRestaurant._id;
     this.myOrder.restaurant = this.myRestaurant.name;
-    this.myOrder.restaurant_location = this.myRestaurant.location[0];
-    
-    console.log("delivery order");
-    console.log(this.myOrder);
-  }
+    this.myOrder.restaurant_location = this.myRestaurant.locations[0];
 
+    this.authService.sendOrder(this.myOrder).subscribe(data => console.log(data));    
+  }
 }

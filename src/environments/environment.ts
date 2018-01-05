@@ -29,7 +29,8 @@ export class EnvironmentHelper {
     restaurant: '/restaurant',
     allRestaurants: '/restaurants',
     profile: '/restaurant?username=',
-    ingredients: '/ingredient'
+    ingredients: '/ingredient',
+    orders: '/orders'
   }
 
   readonly urlDictionary = {

@@ -4,8 +4,7 @@ import { Location } from './location';
 
 
 export class Order {
-    username: String
-    restaurant_id: String
+    restaurant_id: String  
     restaurant: String
     restaurant_location: Location
     

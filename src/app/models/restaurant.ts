@@ -10,7 +10,7 @@ export class Restaurant {
   name: String
   images: Array<String>
   phone: Number
-  location: Array<Location>
+  locations: Array<Location>
   menus: Array<Menu>
   dishes: Array<Dish>;
 }
