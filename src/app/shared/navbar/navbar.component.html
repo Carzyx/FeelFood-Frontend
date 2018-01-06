@@ -8,21 +8,28 @@
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" routerLink="home"><i class="fa fa-home fa-lg"></i> Home
+        <a class="nav-link" routerLink="home">
+          <i class="fa fa-home fa-lg"></i> Home
           <span class="sr-only">(current)</span>
         </a>
       </li>
       <li class="nav-item dropdown active" *ngIf="authService.loggedIn()">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg"></i></a>
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-user fa-lg"></i>
+        </a>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 37px, 0px); top: 0px; left: 0px; will-change: transform;">
-          <a class="dropdown-item" routerLink="dashboard"><i class="fa fa-home"></i> Dashboard</a>
-          <a class="dropdown-item" routerLink={{profile}}><i class="fa fa-cog"></i> Profile settings</a>
+          <a class="dropdown-item" routerLink="dashboard">
+            <i class="fa fa-home"></i> Dashboard</a>
+          <a class="dropdown-item" routerLink={{profile}}>
+            <i class="fa fa-cog"></i> Profile settings</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#"(click)="onLogOutClick()"><i class="fa fa-sign-out"></i> Logout</a>
+          <a class="dropdown-item" href="#" (click)="onLogOutClick()">
+            <i class="fa fa-sign-out"></i> Logout</a>
         </div>
       </li>
       <li class="nav-item">
-        <a *ngIf="!authService.loggedIn()" class="nav-link active" routerLink="login"><i class="fa fa-sign-in fa-lg"></i> Login/Signup</a>
+        <a *ngIf="!authService.loggedIn()" class="nav-link active" routerLink="login">
+          <i class="fa fa-sign-in fa-lg"></i> Login/Signup</a>
       </li>
     </ul>
     <form class="form-inline">
@@ -34,5 +41,5 @@
 <app-root>Loading root...</app-root>
 
 <div class="body-component">
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>

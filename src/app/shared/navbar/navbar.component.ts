@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import { AuthService} from '../../services/authentication/auth.service';
-import { Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/authentication/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +10,7 @@ import { Router} from '@angular/router';
 export class AppNavbar implements OnInit {
   profile: String;
 
-  constructor (private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
     if (this.authService.readTypeUser()) {
@@ -20,7 +20,7 @@ export class AppNavbar implements OnInit {
     }
   }
 
-  onLogOutClick () {
+  onLogOutClick() {
     this.authService.logout();
     setTimeout(() => {
       this.router.navigate(['/home']);

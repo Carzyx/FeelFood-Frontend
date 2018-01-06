@@ -98,6 +98,6 @@ export class ShowRestaurantComponent implements OnInit {
     this.myOrder.restaurant = this.myRestaurant.name;
     this.myOrder.restaurant_location = this.myRestaurant.locations[0];
 
-    this.authService.sendOrder(this.myOrder).subscribe(data => console.log(data));    
+    this.authService.sendOrder(this.myOrder).subscribe(data => console.log(data));
   }
 }

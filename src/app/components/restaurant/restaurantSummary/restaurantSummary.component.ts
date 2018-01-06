@@ -24,11 +24,10 @@ export class RestaurantSummaryComponent implements OnInit {
     this.mapHelper = new MapHelper();
     this.url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
   }
-  
+
   ngOnInit() {
-    if(this.restaurant != undefined || null)
-    {
-      return;      
+    if (this.restaurant != undefined || null) {
+      return;
     }
 
     if (this.restaurantId == undefined || null) {
@@ -43,5 +42,5 @@ export class RestaurantSummaryComponent implements OnInit {
       }
     });
   }
-  
+
 }

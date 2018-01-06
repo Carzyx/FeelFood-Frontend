@@ -13,7 +13,7 @@ export class EnvironmentHelper {
   readonly urlbase: string = this.environment.developer ? 'http://localhost:3001' : 'http://147.83.7.157:3001';
   // readonly urlbase: string = 'http://147.83.7.157:3001';
   private readonly userDictionary = {
-    signup : '/user/signup',
+    signup: '/user/signup',
     login: '/login',
     loginFb: '/auth/facebook/user',
     user: '/user',
@@ -23,7 +23,7 @@ export class EnvironmentHelper {
   }
 
   private readonly restaurantDictionary = {
-    signup : '/restaurant/signup',
+    signup: '/restaurant/signup',
     login: '/restaurant/login',
     loginFb: '/auth/facebook',
     restaurant: '/restaurant',
@@ -35,6 +35,6 @@ export class EnvironmentHelper {
 
   readonly urlDictionary = {
     user: this.userDictionary,
-    restaurant : this.restaurantDictionary
+    restaurant: this.restaurantDictionary
   }
 }

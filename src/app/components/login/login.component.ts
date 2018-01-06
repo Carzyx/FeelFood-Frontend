@@ -1,17 +1,17 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { User } from '../../models/user';
 import { Restaurant } from '../../models/restaurant';
 import { MapHelper } from '../../helpers/mapHelper';
 import { EnvironmentHelper } from '../../../environments/environment';
 import { AuthService } from '../../services/authentication/auth.service';
-import { AppNavbar} from '../../shared/navbar/navbar.component';
+import { AppNavbar } from '../../shared/navbar/navbar.component';
 import { AuthGuard } from '../../guards/auth.guard';
-import {ModalComponent} from '../../shared/modal/modal.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-login',
@@ -201,13 +201,13 @@ export class LoginComponent implements OnInit {
 
   setInputValues(form: FormGroup) {
     if (this.isRestaurant) {
-        this.restaurant.username = form.get('username').value;
-        this.restaurant.email = form.get('email').value;
-        this.restaurant.password = form.get('password').value;
+      this.restaurant.username = form.get('username').value;
+      this.restaurant.email = form.get('email').value;
+      this.restaurant.password = form.get('password').value;
     } else {
-        this.user.username = form.get('username').value;
-        this.user.email = form.get('email').value;
-        this.user.password = form.get('password').value;
+      this.user.username = form.get('username').value;
+      this.user.email = form.get('email').value;
+      this.user.password = form.get('password').value;
     }
   }
 

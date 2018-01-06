@@ -54,7 +54,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
   ],
   imports: [
     ReactiveFormsModule,
-    AngularDateTimePickerModule,    
+    AngularDateTimePickerModule,
     FormsModule,
     BrowserModule,
     HttpClientModule,

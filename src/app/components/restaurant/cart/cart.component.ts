@@ -16,7 +16,7 @@ export class CartComponent implements OnInit {
     @Input() myOrder: Order;
 
     constructor() {
-        
+
     }
 
     ngOnInit() {

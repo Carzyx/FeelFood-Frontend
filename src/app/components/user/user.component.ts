@@ -1,14 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { User } from '../../models/user';
 import { Location } from '../../models/location';
 import { Allergy } from '../../models/allergy';
-import {mapNewObject} from '../../models/user';
-import {Router} from '@angular/router';
+import { mapNewObject } from '../../models/user';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService} from '../../services/authentication/auth.service';
+import { AuthService } from '../../services/authentication/auth.service';
 
-import {ModalComponent} from '../../shared/modal/modal.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
 
 
 
@@ -22,7 +22,7 @@ export class UserComponent implements OnInit {
   @ViewChild('modal') modalUpdate: ModalComponent;
 
   // ShowHide
-  showItemDictionary = { showProfile: true, showAddress: false, showAccount: false, showAllergies: false, showAddAddress: false};
+  showItemDictionary = { showProfile: true, showAddress: false, showAccount: false, showAllergies: false, showAddAddress: false };
   user: User;
   location: Location;
   allergy: Allergy;
@@ -77,10 +77,12 @@ export class UserComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(20),
         this.validateEmail
-      ])]});
+      ])]
+    });
     this.profileForm = this.formBuilder.group({
       firstName: ['', Validators.required],
-      lastName: ['', Validators.required]});
+      lastName: ['', Validators.required]
+    });
   }
 
   validateEmail(controls) {
@@ -130,13 +132,13 @@ export class UserComponent implements OnInit {
 
   }
 
-  private updateEmail () {
+  private updateEmail() {
     this.user.email = this.emailForm.get('email').value;
     this.emailForm.reset();
     this.updateUser();
   }
 
-  private updatePassword () {
+  private updatePassword() {
     this.user.password = this.passwordForm.get('password').value;
     this.passwordForm.reset();
     this.updateUser();
@@ -149,7 +151,7 @@ export class UserComponent implements OnInit {
     this.updateUser();
   }
 
-  private updateAddress () {
+  private updateAddress() {
     this.location.locationName = this.addressForm.get('name').value;
     this.location.address = this.addressForm.get('address').value;
     this.location.postalCode = this.addressForm.get('postalCode').value;
@@ -182,7 +184,7 @@ export class UserComponent implements OnInit {
     this.address = locationName;
   }
 
-  private addAllergy (name) {
+  private addAllergy(name) {
     let found = false;
     this.user.allergies.forEach(function (value) {
       if (value['name'] === name) {
@@ -200,7 +202,7 @@ export class UserComponent implements OnInit {
     }
   }
 
-  private deleteAllergy (name) {
+  private deleteAllergy(name) {
     if (name) {
       this.user.allergies.forEach(function (value, index, array) {
         if (value['name'] === name) {
@@ -218,17 +220,17 @@ export class UserComponent implements OnInit {
   private getAllergies() {
     this.authService.getAllergies().subscribe(data => {
       this.allAllergies = data;
-    }, err => { console.log(err)});
+    }, err => { console.log(err) });
   }
 
   private getUser() {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.authService.getProfile(this.currentUser.username).subscribe(data => {
-        this.userOriginal = data;
-        this.user = this.userOriginal;
-        console.log(this.user);
-      },
-      err => { console.log(err)});
+      this.userOriginal = data;
+      this.user = this.userOriginal;
+      console.log(this.user);
+    },
+      err => { console.log(err) });
   }
 
   // TODO Add update method.
@@ -241,13 +243,13 @@ export class UserComponent implements OnInit {
       this.getUser();
       setTimeout(() => this.modalUpdate.hide(), 1500);
     },
-    err => { console.log(err)});
+      err => { console.log(err) });
   }
 
   private deleteUser() {
     this.authService.deleteProfile(this.currentUser._id).subscribe(data => {
       this.authService.logout();
       this.router.navigate(['/home']);
-    }, err => { console.log(err)});
+    }, err => { console.log(err) });
   }
 }
