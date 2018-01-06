@@ -1,7 +1,7 @@
-export class Ingredient{
-    ingredient: String
-    calories: Number
-    weight: Number
+export class Ingredient {
+  ingredient: String
+  calories: Number
+  weight: Number
 
   constructor(ingredient?: String, calories?: Number, weight?: Number) {
     this.ingredient = ingredient;

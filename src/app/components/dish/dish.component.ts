@@ -1,13 +1,13 @@
-import {Component, Input, OnInit, Directive} from '@angular/core';
+import { Component, Input, OnInit, Directive } from '@angular/core';
 import 'rxjs/add/operator/map';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import { AuthService} from '../../services/auth.service';
-import {Router} from '@angular/router';
-import {Restaurant} from '../../models/restaurant';
-import {Ingredient} from '../../models/ingredient';
-import {Dish} from '../../models/dish';
+import { Router } from '@angular/router';
+import { Restaurant } from '../../models/restaurant';
+import { Ingredient } from '../../models/ingredient';
+import { Dish } from '../../models/dish';
 
 
 @Component({
@@ -20,8 +20,8 @@ export class DishComponent implements OnInit {
 
   @Input() restaurant: Restaurant;
   @Input() dishes;
-  @Input() menuName ;
-  @Input() currentList ;
+  @Input() menuName;
+  @Input() currentList;
 
   positionMenu;
   addDish = false;
@@ -49,7 +49,7 @@ export class DishComponent implements OnInit {
   // TODO Add update method.
   private updateRestaurant() {
     const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
-    this.http.put(url, this.restaurant, {headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe(data => {
+    this.http.put(url, this.restaurant, { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
       this.dish = new Dish();
       if (!this.menuName)
         this.dishes = this.restaurant.dishes;
@@ -58,11 +58,11 @@ export class DishComponent implements OnInit {
 
   private ShowDish() {
     this.dish = new Dish();
-    this.addDish = !this.addDish ;
+    this.addDish = !this.addDish;
     this.getIngredients();
   }
   private AddDish(value) {
-    this.addDish = this.addDish ? false : true ;
+    this.addDish = this.addDish ? false : true;
     if ((!this.addDish) && (value === 'Dishes')) {
       console.log('ADDING TO DISHES');
       this.restaurant.dishes.push(this.dish);
@@ -75,12 +75,12 @@ export class DishComponent implements OnInit {
     }
   }
   private EditDish(dish: Dish) {
-    this.dish = dish ;
-    this.addDish = !this.addDish ;
-    this.editDish = !this.editDish ;
+    this.dish = dish;
+    this.addDish = !this.addDish;
+    this.editDish = !this.editDish;
   }
   private UpdateDish() {
-    for (let i  = 0; i < this.restaurant.dishes.length; i++) {
+    for (let i = 0; i < this.restaurant.dishes.length; i++) {
       if (this.restaurant.dishes[i].name === this.dish.name)
         this.restaurant.dishes[i] = this.dish;
     }
@@ -96,18 +96,17 @@ export class DishComponent implements OnInit {
           return;
         }
       });
-    if (this.currentList === 'Dishes')
-      this.restaurant.dishes = this.dishes;
-    else
-      this.restaurant.menus[this.positionMenu][this.currentList] = this.dishes;
-    this.updateRestaurant();
+      if (this.currentList === 'Dishes')
+        this.restaurant.dishes = this.dishes;
+      else
+        this.restaurant.menus[this.positionMenu][this.currentList] = this.dishes;
+      this.updateRestaurant();
     }
   }
 
   private AddIngredient(name, weigth) {
     if ((weigth > 0) && (weigth < 3000)) {
-      for (let i = 0; i < this.ingredients.length; i++)
-      {
+      for (let i = 0; i < this.ingredients.length; i++) {
         if (name === this.ingredients[i].name) {
           const ingredient = new Ingredient(name, (this.ingredients[i].calories * weigth) / 100, weigth);
           this.dish.ingredients.push(ingredient);
@@ -129,7 +128,7 @@ export class DishComponent implements OnInit {
   private findIngredient() {
 
   }
-  private getIngredients(){
+  private getIngredients() {
     const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.ingredients;
     this.http.get(url).subscribe(data => {
       this.ingredients = data;
@@ -155,29 +154,29 @@ export class DishComponent implements OnInit {
   private ListToImport(value) {
     this.currentImport = new Array<Dish>();
     if (value !== 'Select one') {
-      if ( value === 'Dishes') {
+      if (value === 'Dishes') {
         this.currentImport = this.restaurant.dishes;
       }
       else {
-       for (let i = 0; i < this.restaurant.menus.length; i++) {
-         if (this.restaurant.menus[i].name === value) {
-           for (let j = 0; j < this.restaurant.menus[i].starters.length; j++) {
-           this.currentImport.push(this.restaurant.menus[i].starters[j]);
-           }
-           for (let j = 0; j < this.restaurant.menus[i].firstOptions.length; j++) {
-             this.currentImport.push(this.restaurant.menus[i].firstOptions[j]);
-           }
-           for (let j = 0; j < this.restaurant.menus[i].secondOptions.length; j++) {
-             this.currentImport.push(this.restaurant.menus[i].secondOptions[j]);
-           }
-           for (let j = 0; j < this.restaurant.menus[i].thirdOptions.length; j++) {
-             this.currentImport.push(this.restaurant.menus[i].thirdOptions[j]);
-           }
-           for (let j = 0; j < this.restaurant.menus[i].drinksOptions.length; j++) {
-             this.currentImport.push(this.restaurant.menus[i].drinksOptions[j]);
-           }
-         }
-       }
+        for (let i = 0; i < this.restaurant.menus.length; i++) {
+          if (this.restaurant.menus[i].name === value) {
+            for (let j = 0; j < this.restaurant.menus[i].starters.length; j++) {
+              this.currentImport.push(this.restaurant.menus[i].starters[j]);
+            }
+            for (let j = 0; j < this.restaurant.menus[i].firstOptions.length; j++) {
+              this.currentImport.push(this.restaurant.menus[i].firstOptions[j]);
+            }
+            for (let j = 0; j < this.restaurant.menus[i].secondOptions.length; j++) {
+              this.currentImport.push(this.restaurant.menus[i].secondOptions[j]);
+            }
+            for (let j = 0; j < this.restaurant.menus[i].thirdOptions.length; j++) {
+              this.currentImport.push(this.restaurant.menus[i].thirdOptions[j]);
+            }
+            for (let j = 0; j < this.restaurant.menus[i].drinksOptions.length; j++) {
+              this.currentImport.push(this.restaurant.menus[i].drinksOptions[j]);
+            }
+          }
+        }
       }
     }
   }
@@ -206,7 +205,7 @@ export class DishComponent implements OnInit {
   private getMenuPosition() {
     for (let i = 0; i < this.restaurant.menus.length; i++) {
       if (this.restaurant.menus[i].name === this.menuName)
-        this.positionMenu = i ;
+        this.positionMenu = i;
     }
   }
 }

@@ -12,4 +12,3 @@ export class Order {
     dishesDetails: Array<Dish>
     totalPrice: Number
 }
-    

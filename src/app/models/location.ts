@@ -1,11 +1,11 @@
 export class Location {
-    locationName: String;
-    address: String;
-    postalCode: Number;
-    country: String;
-    city: String;
-    lat: Number;
-    lng: Number;
+  locationName: String;
+  address: String;
+  postalCode: Number;
+  country: String;
+  city: String;
+  lat: Number;
+  lng: Number;
 
   constructor() {
     this.locationName = '';

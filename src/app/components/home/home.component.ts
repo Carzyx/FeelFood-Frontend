@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EnvironmentHelper } from '../../../environments/environment';
-import {AuthService} from '../../services/authentication/auth.service';
+import { AuthService } from '../../services/authentication/auth.service';
 
 @Component({
   selector: 'app-home',

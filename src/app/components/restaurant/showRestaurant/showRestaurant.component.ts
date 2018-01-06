@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { Restaurant } from '../../../models/restaurant';
 import { Order } from '../../../models/order';
 import { MapHelper } from '../../../helpers/mapHelper';
 import { EnvironmentHelper } from '../../../../environments/environment';
-import {AuthService} from '../../../services/authentication/auth.service';
+import { AuthService } from '../../../services/authentication/auth.service';
 
 
 @Component({

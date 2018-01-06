@@ -11,17 +11,16 @@ import { Dish } from '../../../models/dish';
 
 export class ShowDishComponent {
 
-    @Input() myDish : Dish;
+    @Input() myDish: Dish;
 
     private isSelected: boolean;
 
-    constructor(){
+    constructor() {
         this.isSelected = false;
     }
 
-    setSelected()
-    {
+    setSelected() {
         this.isSelected = !this.isSelected;
     }
-    
+
 }

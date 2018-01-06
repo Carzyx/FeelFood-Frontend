@@ -1,6 +1,7 @@
 <div class="jumbotron">
   <div class="progress" *ngIf="!restaurant.username && !user.username">
-    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%">LOADING</div>
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+      aria-valuemax="100" style="width: 100%">LOADING</div>
   </div>
   <ng-container *ngIf="user.username">
     <h2>Hello, {{user.username}}</h2>
@@ -14,7 +15,9 @@
           <hr class="my-4">
           <h4 *ngIf="user.firstName || user.lastName">{{user.firstName}} {{user.lastName}}, {{user.username}}</h4>
           <h5 class="text-muted">{{user.email}}</h5>
-          <p>Member since: <strong>{{signupDate}}</strong></p>
+          <p>Member since:
+            <strong>{{signupDate}}</strong>
+          </p>
           <small *ngIf="user.lastLogin">Last login: {{lastLogin}}</small>
           <hr class="my-4">
           <p>My addresses:</p>
@@ -23,7 +26,9 @@
               <em>No addresses defined.</em>
             </li>
             <li class="list-group-item" *ngFor="let location of user.locations">
-              <strong><em>{{location.locationName}}:</em></strong>
+              <strong>
+                <em>{{location.locationName}}:</em>
+              </strong>
               <h6>{{location.address}}</h6>
               <h6>{{location.city}}, {{location.postalCode}} {{location.country}}</h6>
             </li>
@@ -59,7 +64,9 @@
           <h4 *ngIf="restaurant.name">{{restaurant.name}}</h4>
           <h5 class="text-muted">{{restaurant.email}}</h5>
           <h6 class="lead">{{restaurant.phone}}</h6>
-          <p>Member since: <strong>{{signupDate}}</strong></p>
+          <p>Member since:
+            <strong>{{signupDate}}</strong>
+          </p>
           <small *ngIf="restaurant.lastLogin">Last login: {{lastLogin}}</small>
           <hr class="my-4">
           <p>My address:</p>
@@ -68,7 +75,9 @@
               <em>No address defined.</em>
             </li>
             <li class="list-group-item" *ngFor="let location of restaurant.location">
-              <strong><em>{{location.locationName}}:</em></strong>
+              <strong>
+                <em>{{location.locationName}}:</em>
+              </strong>
               <h6>{{location.address}}</h6>
               <h6>{{location.city}}, {{location.postalCode}} {{location.country}}</h6>
             </li>

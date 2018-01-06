@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -10,7 +10,7 @@ export class ModalComponent {
   private visibleAnimate = false;
   private blocked = false;
 
-  constructor() {}
+  constructor() { }
 
   public show(): void {
     this.visible = true;

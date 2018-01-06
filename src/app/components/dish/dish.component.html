@@ -1,91 +1,115 @@
-      <div class="update-allergies" >
-        <div  *ngIf="!addDish" align="center">
-          <button class="btn btn-success" (click)="ShowDish()">Add Dish</button>
-          <table class="table table-striped table-hover table-bordered">
-            <thead>
-            <th>Name</th>
-            <th>Price €</th>
-            <th>Stock</th>
-            </thead>
-            <tbody *ngFor="let dish of dishes">
-            <tr><th>{{dish?.name}}</th>
-              <th>{{dish?.price}}</th> <th>{{dish.stock}}</th> <button class="btn btn-danger" (click)="DelDish(dish.name)">Delete</button><button class="btn btn-outline-info" (click)="EditDish(dish)">Update</button></tr>
-            <tr>Description: {{dish?.description}}</tr>
-            </tbody>
-          </table>
-        </div>
-          <div align="center" *ngIf="addDish" class="border-dark">
-            <div>
-              <th><label>Name of the dish</label><input [(ngModel)]="dish.name" class="form-control" name="nameDish"></th>
-              <th><label>Price</label><input [(ngModel)]="dish.price" type="number" class="form-control" name="amountDish"></th>
-              <th><label>Type of Dish</label><select [(ngModel)]="dish.category" class="form-control" name="categoryDish">
-                <option>Carne</option>
-                <option>Pescado</option>
-                <option>Ensalada</option>
-                <option>Pasta</option>
-                <option>Postre</option>
-                <option>Pizza</option>
-                <option>Bebida</option>
-              </select></th>
-              <th><label>Stock</label><input [(ngModel)]="dish.stock" class="form-control" name="stockDish"></th>
-              <div class="container" align="left">
-              <strong>Description</strong>
-              <input [(ngModel)]="dish.description" class="form-control" name="descriptionDish">
-              </div>
-              <div class="container">
-              <button (click)="AddDish(menuName)" *ngIf="!editDish" class="btn btn-success" [disabled]="!nameDish.valid">Create</button>
-              <button (click)="UpdateDish()" *ngIf="editDish" class="btn btn-success">Update</button>
-              <button (click)="Cancel()" class="btn btn-danger">Cancel</button>
-              </div>
-              <div align="left">
-              <strong>Your Ingredients</strong>
-                <table class="table table-striped table-hover table-bordered">
-                  <thead>
-                  <th>Name</th>
-                  <th>Calories (100g)</th>
-                  <th>Weight (g)</th>
-                  </thead>
-                  <tr *ngFor="let ingredient of dish.ingredients">
-                    <th>{{ingredient?.ingredient}}</th>
-                    <th>{{ingredient?.calories}}</th>
-                    <th>{{ingredient?.weight}}</th>
-                    <button type="button" class="btn success disabled " (click)="DeleteIngredient(ingredient.ingredient)">X</button>
-                  </tr>
-                </table>
-              </div>
-            </div>
-            <div align="left">
-              <strong>Select your ingredients</strong>
-              <button (click)="ShowImport()" class="btn btn-info">Import dish</button>
-              <table class="table table-striped table-hover table-bordered">
-                <thead>
-                <th>Name</th>
-                <th>Calories (100g)</th>
-                <th>Weight (g)</th>
-                </thead>
-                <tr *ngFor="let ingredient of ingredients">
-                  <th>{{ingredient?.name}}</th>
-                  <th>{{ingredient?.calories}}</th>
-                  <input #weight type="number">
-                  <button type="button" class="btn success disabled " (click)="AddIngredient(ingredient.name,weight.value)">Add</button>
-                </tr>
-              </table>
-            </div>
-          </div>
-
-      </div>
-      <div *ngIf="import">
-        <tr><label>Import from:</label>
-        <th><button (click)="importDish()" class="btn btn-success">Create</button></th>
-        <th><button (click)="ShowImport()" class="btn btn-danger">Cancel</button></th>
+<div class="update-allergies">
+  <div *ngIf="!addDish" align="center">
+    <button class="btn btn-success" (click)="ShowDish()">Add Dish</button>
+    <table class="table table-striped table-hover table-bordered">
+      <thead>
+        <th>Name</th>
+        <th>Price €</th>
+        <th>Stock</th>
+      </thead>
+      <tbody *ngFor="let dish of dishes">
+        <tr>
+          <th>{{dish?.name}}</th>
+          <th>{{dish?.price}}</th>
+          <th>{{dish.stock}}</th>
+          <button class="btn btn-danger" (click)="DelDish(dish.name)">Delete</button>
+          <button class="btn btn-outline-info" (click)="EditDish(dish)">Update</button>
         </tr>
-        <select class="form-control" #import (change)="ListToImport(import.value)">
-          <option>Select one</option>
-          <option>Dishes</option>
-          <option *ngFor="let menu of restaurant.menus" >{{menu.name}}</option>
+        <tr>Description: {{dish?.description}}</tr>
+      </tbody>
+    </table>
+  </div>
+  <div align="center" *ngIf="addDish" class="border-dark">
+    <div>
+      <th>
+        <label>Name of the dish</label>
+        <input [(ngModel)]="dish.name" class="form-control" name="nameDish">
+      </th>
+      <th>
+        <label>Price</label>
+        <input [(ngModel)]="dish.price" type="number" class="form-control" name="amountDish">
+      </th>
+      <th>
+        <label>Type of Dish</label>
+        <select [(ngModel)]="dish.category" class="form-control" name="categoryDish">
+          <option>Carne</option>
+          <option>Pescado</option>
+          <option>Ensalada</option>
+          <option>Pasta</option>
+          <option>Postre</option>
+          <option>Pizza</option>
+          <option>Bebida</option>
         </select>
-        <select class="form-control" #impdishes (change)="GetImport(impdishes.value)">
-          <option>Select one</option>
-          <option *ngFor="let dish of currentImport" ><strong>{{dish.name}}</strong></option>
-        </select>
+      </th>
+      <th>
+        <label>Stock</label>
+        <input [(ngModel)]="dish.stock" class="form-control" name="stockDish">
+      </th>
+      <div class="container" align="left">
+        <strong>Description</strong>
+        <input [(ngModel)]="dish.description" class="form-control" name="descriptionDish">
       </div>
+      <div class="container">
+        <button (click)="AddDish(menuName)" *ngIf="!editDish" class="btn btn-success" [disabled]="!nameDish.valid">Create</button>
+        <button (click)="UpdateDish()" *ngIf="editDish" class="btn btn-success">Update</button>
+        <button (click)="Cancel()" class="btn btn-danger">Cancel</button>
+      </div>
+      <div align="left">
+        <strong>Your Ingredients</strong>
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+            <th>Name</th>
+            <th>Calories (100g)</th>
+            <th>Weight (g)</th>
+          </thead>
+          <tr *ngFor="let ingredient of dish.ingredients">
+            <th>{{ingredient?.ingredient}}</th>
+            <th>{{ingredient?.calories}}</th>
+            <th>{{ingredient?.weight}}</th>
+            <button type="button" class="btn success disabled " (click)="DeleteIngredient(ingredient.ingredient)">X</button>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div align="left">
+      <strong>Select your ingredients</strong>
+      <button (click)="ShowImport()" class="btn btn-info">Import dish</button>
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+          <th>Name</th>
+          <th>Calories (100g)</th>
+          <th>Weight (g)</th>
+        </thead>
+        <tr *ngFor="let ingredient of ingredients">
+          <th>{{ingredient?.name}}</th>
+          <th>{{ingredient?.calories}}</th>
+          <input #weight type="number">
+          <button type="button" class="btn success disabled " (click)="AddIngredient(ingredient.name,weight.value)">Add</button>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+<div *ngIf="import">
+  <tr>
+    <label>Import from:</label>
+    <th>
+      <button (click)="importDish()" class="btn btn-success">Create</button>
+    </th>
+    <th>
+      <button (click)="ShowImport()" class="btn btn-danger">Cancel</button>
+    </th>
+  </tr>
+  <select class="form-control" #import (change)="ListToImport(import.value)">
+    <option>Select one</option>
+    <option>Dishes</option>
+    <option *ngFor="let menu of restaurant.menus">{{menu.name}}</option>
+  </select>
+  <select class="form-control" #impdishes (change)="GetImport(impdishes.value)">
+    <option>Select one</option>
+    <option *ngFor="let dish of currentImport">
+      <strong>{{dish.name}}</strong>
+    </option>
+  </select>
+</div>

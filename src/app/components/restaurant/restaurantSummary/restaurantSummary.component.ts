@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Restaurant } from '../../../models/restaurant';
 import { EnvironmentHelper } from '../../../../environments/environment';
 import { MapHelper } from '../../../helpers/mapHelper';
-import {AuthService} from "../../../services/authentication/auth.service";
+import { AuthService } from "../../../services/authentication/auth.service";
 
 @Component({
   selector: 'app-restaurantSummary',
@@ -36,8 +36,8 @@ export class RestaurantSummaryComponent implements OnInit {
     }
 
     this.authService.getPublicRestaurant(this.restaurantId).subscribe(data => {
-        this.restaurant = this.mapHelper.map(Restaurant, data);
-        console.log('RestaurantSummary:' + this.restaurant);
+      this.restaurant = this.mapHelper.map(Restaurant, data);
+      console.log('RestaurantSummary:' + this.restaurant);
     });
   }
 }
