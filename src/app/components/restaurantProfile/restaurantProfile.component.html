@@ -1,5 +1,30 @@
+<app-modal #modalDelete>
+  <div class="app-modal-header">
+    <h5>Delete account</h5>
+  </div>
+  <div class="app-modal-body">
+    <strong>Are you sure to delete your account?</strong>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-danger" (click)="deleteRestaurant()">Confirm delete</button>
+    <button type="button" class="btn btn-default" (click)="modalDelete.hide()">Close</button>
+  </div>
+</app-modal>
+
+<app-modal #modal>
+  <div class="app-modal-header">
+    <h5>Information</h5>
+  </div>
+  <div class="app-modal-body">
+    <strong>{{message}}</strong>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="modal.hide()">Close</button>
+  </div>
+</app-modal>
+
 <form class="form-profile">
-  <ul class="nav nav-tabs form-selector">
+  <ul class="nav nav-tabs">
     <li class="nav-item" (click)="changeShowStatus('showProfile')">
       <a class="nav-link active" data-toggle="tab">Profile</a>
     </li>
@@ -19,9 +44,10 @@
 
 
   <div class="jumbotron">
-      <div class="progress" *ngIf="!restaurant">
-          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%">LOADING</div>
-        </div>
+    <div class="progress" *ngIf="!restaurant">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+        aria-valuemax="100" style="width: 100%">LOADING</div>
+    </div>
     <form class="form-data" *ngIf="restaurant">
 
       <div class="update-profile" [hidden]="!showItemDictionary.showProfile">
@@ -33,16 +59,35 @@
         </div>
         <div class="input-form">
           <label class="col-form-label">
-            <strong>User name</strong>
+            <strong>Username</strong>
           </label>
           <input class="form-control" id="readOnlyInput" type="text" placeholder="{{restaurant.username}}" readonly="" #username>
-
-          <label class="col-form-label">
-            <strong>Restaurant name</strong>
-          </label>
-          <input type="text" class="form-control" [(ngModel)]="restaurant.name" name="firstName" />
+          <form [formGroup]="profileForm" (submit)="updateName()">
+            <label class="col-form-label">
+              <strong>Restaurant Name: {{restaurant.name}}</strong>
+            </label>
+            <div class="form-group" [ngClass]="{'has-danger': (profileForm.controls.restaurantName.errors && profileForm.controls.restaurantName.dirty), 'has-success': !profileForm.controls.restaurantName.errors}">
+              <input type="text" name="restaurantName" class="form-control" [ngClass]="{'is-invalid': (profileForm.controls.restaurantName.errors && profileForm.controls.restaurantName.dirty), 'is-valid': !profileForm.controls.restaurantName.errors}"
+                autocomplete="off" formControlName="restaurantName" />
+              <ul class="help-block">
+                <li *ngIf="profileForm.controls.restaurantName.errors?.required && profileForm.controls.restaurantName.dirty">This field is required</li>
+                <li *ngIf="profileForm.controls.restaurantName.errors?.maxlength && profileForm.controls.restaurantName.dirty">Maximum characters: 20</li>
+              </ul>
+            </div>
+            <div class="form-group" [ngClass]="{'has-danger': (profileForm.controls.phone.errors && profileForm.controls.phone.dirty), 'has-success': !profileForm.controls.phone.errors}">
+              <label class="col-form-label">
+                <strong>Phone Number: {{restaurant.phone}}</strong>
+              </label>
+              <input type="text" name="phone" class="form-control" [ngClass]="{'is-invalid': (profileForm.controls.phone.errors && profileForm.controls.phone.dirty), 'is-valid': !profileForm.controls.phone.errors}"
+                autocomplete="off" formControlName="phone" />
+              <ul class="help-block">
+                <li *ngIf="profileForm.controls.phone.errors?.required && profileForm.controls.phone.dirty">This field is required</li>
+                <li *ngIf="profileForm.controls.phone.errors?.validatePhoneNumber && profileForm.controls.phone.dirty">This must be a valid phone number</li>
+              </ul>
+            </div>
+            <input [disabled]="!profileForm.valid" type="submit" class="btn btn-outline-info" value="Update" />
+          </form>
         </div>
-        <button type="button" (click)="updateRestaurant()" class="btn btn-outline-info">Update</button>
       </div>
 
       <div class="update-address" [hidden]="!showItemDictionary.showAddress">
@@ -52,71 +97,155 @@
             <i>Edit your address</i>
           </p>
         </div>
-        <div class="table-responsive">
-          <table class="table">
+        <div *ngIf="restaurant.locations" class="table-responsive">
+          <table class="table table-striped table-hover table-bordered">
             <thead>
-            <tr>
-              <th>Name</th>
-              <th>Adress</th>
-              <th>City</th>
-              <th>Zip code</th>
-              <th>Country</th>
-            </tr>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Zip code</th>
+                <th>Country</th>
+              </tr>
             </thead>
-            <tbody>
-            <tr *ngFor="let location of restaurant.location">
-              <th>{{ location['locationName'] }}</th>
-              <th>{{ location['address'] }}</th>
-              <th>{{ location['city'] }}</th>
-              <th>{{ location['postalCode'] }}</th>
-              <th>{{ location['country'] }}</th>
-            </tr>
+            <tbody *ngFor="let location of restaurant.locations">
+              <tr>
+                <th>
+                  <input type="radio" (click)="selectedAddress(location['locationName'])">
+                </th>
+                <th>{{ location['locationName'] }}</th>
+                <th>{{ location['address'] }}</th>
+                <th>{{ location['city'] }}</th>
+                <th>{{ location['postalCode'] }}</th>
+                <th>{{ location['country'] }}</th>
+              </tr>
             </tbody>
           </table>
+          <p *ngIf="!restaurant.locations">No addresses defined.</p>
         </div>
+        <button *ngIf="!restaurant.locations.length > 0" type="button" (click)="changeShowStatus('showAddAddress')" class="btn btn-outline-info">Add</button>
+        <button *ngIf="restaurant.locations.length > 0" type="button" (click)="deleteAddress()" class="btn btn-outline-info">Delete</button>
+      </div>
+
+      <div class="addAddress" [hidden]="!showItemDictionary.showAddAddress">
+        <div class="component-title">
+          <h2 class="display-5">User Address</h2>
+          <p>
+            <i>Edit your address</i>
+          </p>
+        </div>
+        <form [formGroup]="addressForm" (submit)="updateAddress()">
+          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.name.errors && addressForm.controls.name.dirty), 'has-success': !addressForm.controls.name.errors}">
+            <label>Name</label>
+            <input type="text" name="username" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.name.errors && addressForm.controls.name.dirty), 'is-valid': !addressForm.controls.name.errors}"
+              autocomplete="off" formControlName="name" />
+            <ul class="help-block">
+              <li *ngIf="addressForm.controls.name.errors?.required && addressForm.controls.name.dirty">This field is required</li>
+              <li *ngIf="addressForm.controls.name.errors?.maxlength && addressForm.controls.name.dirty">Maximum characters: 20</li>
+            </ul>
+          </div>
+          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.address.errors && addressForm.controls.address.dirty) || addressForm.controls.address.dirty, 'has-success': !addressForm.controls.address.errors}">
+            <label>Address</label>
+            <input type="text" name="address" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.address.errors && addressForm.controls.address.dirty), 'is-valid': !addressForm.controls.address.errors}"
+              autocomplete="off" formControlName="address" />
+            <ul class="help-block">
+              <li *ngIf="addressForm.controls.address.errors?.required && addressForm.controls.address.dirty">This field is required</li>
+              <li *ngIf="addressForm.controls.address.errors?.maxlength && addressForm.controls.address.dirty">Maximum characters: 20</li>
+            </ul>
+          </div>
+          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.city.errors && addressForm.controls.city.dirty), 'has-success': !addressForm.controls.city.errors}">
+            <label>City</label>
+            <input type="text" name="city" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.city.errors && addressForm.controls.city.dirty), 'is-valid': !addressForm.controls.city.errors}"
+              autocomplete="off" formControlName="city" />
+            <!-- Validation -->
+            <ul class="help-block">
+              <li *ngIf="addressForm.controls.city.errors?.required && addressForm.controls.city.dirty">This field is required</li>
+              <li *ngIf="addressForm.controls.city.errors?.maxlength && addressForm.controls.city.dirty">Maximum characters: 20</li>
+            </ul>
+          </div>
+          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.postalCode.errors && addressForm.controls.postalCode.dirty), 'has-success': !addressForm.controls.postalCode.errors}">
+            <label>Zip Code</label>
+            <input type="text" name="postalCode" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.postalCode.errors && addressForm.controls.postalCode.dirty), 'is-valid': !addressForm.controls.postalCode.errors}"
+              autocomplete="off" formControlName="postalCode" />
+            <!-- Validation -->
+            <ul class="help-block">
+              <li *ngIf="addressForm.controls.postalCode.errors?.required && addressForm.controls.postalCode.dirty">This field is required</li>
+              <li *ngIf="addressForm.controls.postalCode.errors?.validatePostalCode && addressForm.controls.postalCode.dirty">This must be a valid zip code</li>
+            </ul>
+          </div>
+          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.country.errors && addressForm.controls.country.dirty), 'has-success': !addressForm.controls.country.errors}">
+            <label>Country</label>
+            <input type="text" name="country" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.country.errors && addressForm.controls.country.dirty), 'is-valid': !addressForm.controls.country.errors}"
+              autocomplete="off" formControlName="country" />
+            <!-- Validation -->
+            <ul class="help-block">
+              <li *ngIf="addressForm.controls.country.errors?.required && addressForm.controls.country.dirty">This field is required</li>
+              <li *ngIf="addressForm.controls.country.errors?.maxlength && addressForm.controls.country.dirty">Maximum characters: 20</li>
+            </ul>
+          </div>
+          <input [disabled]="!addressForm.valid" type="submit" class="btn btn-outline-info" value="Submit" />
+        </form>
       </div>
 
       <div class="update-account" [hidden]="!showItemDictionary.showAccount">
         <div class="component-title">
-          <h2 class="display-5">Restaurant Account</h2>
+          <h2 class="display-5">User Account</h2>
           <p>
             <i>Edit your account</i>
           </p>
         </div>
-        <div class="update-password">
-          <div class="update-password">
-            <div class="input-form">
-              <label class="col-form-label">
-                <strong> Password</strong>
-              </label>
-              <input type="password" class="form-control" #oldPassword/>
-              <label class="col-form-label">
-                <strong>New Password</strong>
-              </label>
-              <input type="password" class="form-control" #newPassword/>
-              <label class="col-form-label">
-                <strong>New Password Confirmation</strong>
-              </label>
-              <input type="password" class="form-control" #newPasswordConfirmation/>
-            </div>
-            <button type="button" (click)="updateRestaurant()" class="btn btn-outline-info">Update</button>
+        <form [formGroup]="passwordForm" (submit)="updatePassword()">
+          <div class="form-group" [ngClass]="{'has-danger': (passwordForm.controls.password.errors && passwordForm.controls.password.dirty), 'has-success': !passwordForm.controls.password.errors}">
+            <label class="col-form-label">
+              <strong>Password</strong>
+            </label>
+            <input type="password" name="password" class="form-control" [ngClass]="{'is-invalid': (passwordForm.controls.password.errors && passwordForm.controls.password.dirty), 'is-valid': !passwordForm.controls.password.errors}"
+              autocomplete="off" placeholder="Insert new password" formControlName="password" />
+            <!-- Validation -->
+            <ul class="help-block">
+              <li *ngIf="passwordForm.controls.password.errors?.required && passwordForm.controls.password.dirty">This field is required</li>
+              <li *ngIf="passwordForm.controls.password.errors?.minlength && passwordForm.controls.password.dirty">Password must have at least 8 characters</li>
+            </ul>
           </div>
-        </div>
-
+          <div class="form-group" [ngClass]="{'has-danger': (passwordForm.controls.confirm.errors && passwordForm.controls.confirm.dirty) || (passwordForm.errors?.matchingPasswords && passwordForm.controls.confirm.dirty), 'has-success': !passwordForm.controls.confirm.errors && !passwordForm.errors?.matchingPasswords}">
+            <label class="col-form-label">
+              <strong>Confirm password</strong>
+            </label>
+            <input type="password" name="confirm" class="form-control" [ngClass]="{'is-invalid': (passwordForm.controls.confirm.errors && passwordForm.controls.confirm.dirty) || (passwordForm.errors?.matchingPasswords && passwordForm.controls.confirm.dirty), 'is-valid': !passwordForm.controls.confirm.errors && !passwordForm.errors?.matchingPasswords}"
+              autocomplete="off" placeholder="Repeat new password" formControlName="confirm" />
+            <!-- Validation -->
+            <ul class="help-block">
+              <li *ngIf="passwordForm.controls.confirm.errors?.required && passwordForm.controls.confirm.dirty">This field is required</li>
+              <li *ngIf="passwordForm.errors?.matchingPasswords && passwordForm.controls.confirm.dirty">Password do not match</li>
+            </ul>
+          </div>
+          <input [disabled]="!passwordForm.valid" type="submit" class="btn btn-outline-info" value="Change password" />
+        </form>
         <div class="update-email">
           <div class="input-form">
             <label class="col-form-label">
-              <strong>Old Email</strong>
+              <strong>Old E-mail</strong>
             </label>
-            <input type="text" class="form-control" [(ngModel)]="restaurant.email" readonly="" name="oldEmail"/>
-            <label class="col-form-label">
-              <strong>New Email</strong>
-            </label>
-            <input type="text" class="form-control" #newEmail/>
+            <input type="text" class="form-control" [(ngModel)]="restaurant.email" readonly="" name="oldEmail" />
           </div>
-          <button type="button" (click)="updateRestaurant()" class="btn btn-outline-info">Update</button>
-          <button type="button" (click)="deleteRestaurant()" class="btn btn-danger">Delete</button>
         </div>
+        <form [formGroup]="emailForm" (submit)="updateEmail()">
+          <label class="col-form-label">
+            <strong>New E-mail</strong>
+          </label>
+          <div class="form-group" [ngClass]="{'has-danger': (emailForm.controls.email.errors && emailForm.controls.email.dirty) || emailForm.controls.email.dirty, 'has-success': !emailForm.controls.email.errors && emailValid}">
+            <input type="text" name="email" class="form-control" [ngClass]="{'is-invalid': (emailForm.controls.email.errors && emailForm.controls.email.dirty) || emailForm.controls.email.dirty, 'is-valid': !emailForm.controls.email.errors && emailValid}"
+              autocomplete="off" placeholder="Insert new E-mail" formControlName="email" />
+            <ul class="help-block">
+              <li *ngIf="emailForm.controls.email.errors?.required && emailForm.controls.email.dirty">This field is required</li>
+              <li *ngIf="(emailForm.controls.email.errors?.minlength && emailForm.controls.email.dirty || emailForm.controls.email.errors?.maxlength && emailForm.controls.email.dirty ) && emailForm.controls.email.dirty">Minimum characters: 5, Maximum characters: 20</li>
+              <li *ngIf="emailForm.controls.email.errors?.validateEmail && emailForm.controls.email.dirty">This must be a valid e-mail</li>
+            </ul>
+          </div>
+          <input [disabled]="!emailForm.valid" type="submit" class="btn btn-outline-info" value="Update" />
+          <button type="button" (click)="modalDelete.show()" class="btn btn-danger">Delete</button>
+        </form>
       </div>
 
       <div class="update-menu" [hidden]="!showItemDictionary.showMenus">
@@ -130,7 +259,10 @@
         <div *ngIf="!addMenu">
           <table class="table table-striped table-hover table-bordered" *ngFor="let menu of restaurant.menus">
             <h2>{{menu.name}}</h2>
-            <div> <i>Price:{{menu.price}}€</i><button (click)="deleteMenu(menu._id)" class="btn btn-danger">Delete Menu</button></div>
+            <div>
+              <i>Price:{{menu.price}}€</i>
+              <button (click)="deleteMenu(menu._id)" class="btn btn-danger">Delete Menu</button>
+            </div>
             <h3>Starters</h3>
             <app-dish [restaurant]="restaurant" [menuName]="menu.name" [dishes]="menu.starters" [currentList]="'starters'"></app-dish>
             <h3>First Options</h3>
@@ -145,19 +277,32 @@
         </div>
 
         <div align="center" *ngIf="addMenu" class="border-dark">
-            <th><label>Name of the Menu</label><input [(ngModel)]="menu.name" class="form-control" name="nameDish"></th>
-            <th><label>Price</label><input [(ngModel)]="menu.price" type="number" class="form-control" name="amountDish"></th>
-            <th><label>Visible </label><input type="checkbox" [(ngModel)]="menu.visible" name="visible" ></th>
-            <th><button (click)="createMenu()" class="btn btn-success">Create</button></th>
-            <th><button (click)="ShowMenu()" class="btn btn-danger">Cancel</button></th>
-            <div class="container" align="left">
-              <strong>Description</strong>
-              <input [(ngModel)]="menu.description" class="form-control" name="descriptionDish">
-            </div>
-            <div class="container" align="left">
-              <strong>Comments</strong>
-              <input [(ngModel)]="menu.comments" class="form-control" name="descriptionDish">
-            </div>
+          <th>
+            <label>Name of the Menu</label>
+            <input [(ngModel)]="menu.name" class="form-control" name="nameDish">
+          </th>
+          <th>
+            <label>Price</label>
+            <input [(ngModel)]="menu.price" type="number" class="form-control" name="amountDish">
+          </th>
+          <th>
+            <label>Visible </label>
+            <input type="checkbox" [(ngModel)]="menu.visible" name="visible">
+          </th>
+          <th>
+            <button (click)="createMenu()" class="btn btn-success">Create</button>
+          </th>
+          <th>
+            <button (click)="ShowMenu()" class="btn btn-danger">Cancel</button>
+          </th>
+          <div class="container" align="left">
+            <strong>Description</strong>
+            <input [(ngModel)]="menu.description" class="form-control" name="descriptionDish">
+          </div>
+          <div class="container" align="left">
+            <strong>Comments</strong>
+            <input [(ngModel)]="menu.comments" class="form-control" name="descriptionDish">
+          </div>
         </div>
 
       </div>

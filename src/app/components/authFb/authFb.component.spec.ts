@@ -8,9 +8,9 @@ describe('AuthFbComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AuthFbComponent ]
+      declarations: [AuthFbComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

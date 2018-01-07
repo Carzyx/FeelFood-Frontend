@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
 // import { AuthService} from '../../services/auth.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
 import { AppRoutes } from './app.routing.module';
 import { FormsModule } from '@angular/forms';
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 
 import { AppComponent } from './app.component';
 import {Ng2SliderComponent} from 'ng2-slider-component/ng2-slider.component';
@@ -30,6 +31,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/authentication/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
+import { CustomValidator } from './helpers/customValidator';
 import { ModalComponent } from './shared/modal/modal.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
@@ -58,6 +60,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
   ],
   imports: [
     ReactiveFormsModule,
+    AngularDateTimePickerModule,
     FormsModule,
     BrowserModule,
     HttpClientModule,
@@ -67,7 +70,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     }),
     FormsModule
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard],
+  providers: [
+    AuthService,
+    AuthGuard,
+    NotAuthGuard,
+    CustomValidator
+  ],
   bootstrap: [
     AppNavbar,
     FooterComponent

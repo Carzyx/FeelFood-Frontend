@@ -1,6 +1,79 @@
-<app-cart [myOrder]="myOrder"></app-cart>
+<app-cart [myOrder]="myOrder" (click)="modal.show(); modal.block();"></app-cart>
 
 <div class="restaurant">
-    <app-restaurantSummary [restaurantId]='restaurantId'></app-restaurantSummary>
-    <app-restaurantServices [myRestaurant]='myRestaurant'(myOrderOutput)="myOrder=$event"></app-restaurantServices>
+  <app-restaurantSummary [restaurantId]='restaurantId'></app-restaurantSummary>
+  <app-restaurantServices [myRestaurant]='myRestaurant' (myOrderOutput)="myOrder=$event"></app-restaurantServices>
 </div>
+
+<app-modal #modal>
+  <div class="app-modal-header">
+    <h5>Summary Order</h5>
+  </div>
+  <div class="app-modal-body">
+    <div class="orderSummary bodyOrder">
+      <div *ngIf="myOrder.menusDetails.length > 0">
+        <table *ngFor="let menu of myOrder.menusDetails">
+          <tr>
+            <h5>
+              <strong>{{menu.name}}: {{menu.price}} €</strong>
+            </h5>
+          </tr>
+          <tr *ngFor="let dish of menu.starters">
+            <p>{{dish.name}}</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+          <tr *ngFor="let dish of menu.firstOptions">
+            <p>{{dish.name}}</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+          <tr *ngFor="let dish of menu.secondOptions">
+            <p>{{dish.name}}</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+          <tr *ngFor="let dish of menu.thirdOptions">
+            <p>{{dish.name}}</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+          <tr *ngFor="let dish of menu.drinksOptions">
+            <p>{{dish.name}}</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+        </table>
+      </div>
+      <div *ngIf="myOrder.dishesDetails.length > 0">
+        <h5>
+          <strong>Dishes</strong>
+        </h5>
+        <table>
+          <tr *ngFor="let dish of myOrder.dishesDetails">
+            <p>{{dish.name}} : {{dish.price}} €</p>
+            <p class="text-muted">{{dish.description}}</p>
+          </tr>
+        </table>
+      </div>
+      <div *ngIf="myOrder.totalPrice != 0">
+        <p>Total: {{myOrder.totalPrice}} €</p>
+      </div>
+    </div>
+    <div class="userInformation bodyOrder" *ngIf="myUser">
+      <h5>Address</h5>
+      <select class="form-control" (change)="setUserLocationToOrder(selectedLocation.value)" #selectedLocation>
+        <option *ngFor="let location of myUser.locations">{{location.locationName}}</option>
+      </select>
+      <div class="selectedLocation" *ngIf="setUserLocationToOrder(selectedLocation.value)">
+        <p>{{myOrder.user_location.address}}
+          <br> {{myOrder.user_location.postalCode}}
+          <br> {{myOrder.user_location.city}}, {{myOrder.user_location.country}}</p>
+      </div>
+    </div>
+    <div class="deliveryDate bodyOrder">
+      <h5>Delivery date</h5>
+      <angular2-date-picker (onDateSelect)="onDateSelect($event)" [(ngModel)]="deliveryDate" [settings]="settings">
+      </angular2-date-picker>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="modal.hide();">Cancel</button>
+    <button type="button" class="btn btn-outline-success" (click)="sendOrder(); modal.hide();">Delivery</button>
+  </div>
+</app-modal>

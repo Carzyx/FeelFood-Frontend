@@ -29,49 +29,49 @@
       <form [formGroup]="loginForm" (submit)="loginSubmit(null,null)">
         <div class="form-group" [ngClass]="{'has-danger': (loginForm.controls.email.errors && loginForm.controls.email.dirty), 'has-success': !loginForm.controls.email.errors}">
           <label>Email</label>
-            <input type="text" name="email" class="form-control" [ngClass]="{'is-invalid': (loginForm.controls.email.errors && loginForm.controls.email.dirty), 'is-valid': !loginForm.controls.email.errors}" autocomplete="off" placeholder="example@gmail.com" formControlName="email"
-            />
-            <ul class="help-block">
-              <li *ngIf="loginForm.controls.email.errors?.required && loginForm.controls.email.dirty">This field is required</li>
-              <li *ngIf="loginForm.controls.email.errors?.validateEmail && loginForm.controls.email.dirty">This must be a valid e-mail</li>
-            </ul>
+          <input type="text" name="email" class="form-control" [ngClass]="{'is-invalid': (loginForm.controls.email.errors && loginForm.controls.email.dirty), 'is-valid': !loginForm.controls.email.errors}"
+            autocomplete="off" placeholder="example@gmail.com" formControlName="email" />
+          <ul class="help-block">
+            <li *ngIf="loginForm.controls.email.errors?.required && loginForm.controls.email.dirty">This field is required</li>
+            <li *ngIf="loginForm.controls.email.errors?.validateEmail && loginForm.controls.email.dirty">This must be a valid e-mail</li>
+          </ul>
         </div>
         <div class="form-group" [ngClass]="{'has-danger': (loginForm.controls.password.errors && loginForm.controls.password.dirty), 'has-success': !loginForm.controls.password.errors}">
           <label>Password</label>
-            <input type="password" name="password" class="form-control" [ngClass]="{'is-invalid': (loginForm.controls.password.errors && loginForm.controls.password.dirty), 'is-valid': !loginForm.controls.password.errors}" autocomplete="off" placeholder="Insert password" formControlName="password"
-            />
-            <ul class="help-block">
-              <li *ngIf="loginForm.controls.password.errors?.required && loginForm.controls.password.dirty">This field is required</li>
-            </ul>
+          <input type="password" name="password" class="form-control" [ngClass]="{'is-invalid': (loginForm.controls.password.errors && loginForm.controls.password.dirty), 'is-valid': !loginForm.controls.password.errors}"
+            autocomplete="off" placeholder="Insert password" formControlName="password" />
+          <ul class="help-block">
+            <li *ngIf="loginForm.controls.password.errors?.required && loginForm.controls.password.dirty">This field is required</li>
+          </ul>
         </div>
         <input [disabled]="!loginForm.valid || proccessing" type="submit" class="btn btn-success" value="Submit" />
-        <a href="http://localhost:3001/auth/facebook" class="btn btn-default"><i class="fa fa-facebook-official fa-lg"></i> Login with Facebook</a>
+        <a href="http://localhost:3001/auth/facebook" class="btn btn-default">
+          <i class="fa fa-facebook-official fa-lg"></i> Login with Facebook</a>
       </form>
     </div>
 
     <div class="form-group login-inputs" [hidden]="!showItemDictionary.showSignup">
-      <div class="form-check" (change)=setRestaurantOption()>
-        <label class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" >
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">I am a restaurant</span>
-        </label>
-      </div>
+        <div class="type.accoun form-check">
+            <label class="form-check-label" (change)=setRestaurantOption()>
+              <input type="checkbox" class="form-check-input" /> I am a restaurant
+            </label>
+        </div>
 
       <form [formGroup]="signupForm" (submit)="singUpSubmit()">
         <div class="form-group" [ngClass]="{'has-danger': (signupForm.controls.username.errors && signupForm.controls.username.dirty), 'has-success': !signupForm.controls.username.errors}">
           <label>Username</label>
-            <input type="text" name="username" class="form-control" [ngClass]="{'is-invalid': (signupForm.controls.username.errors && signupForm.controls.username.dirty), 'is-valid': !signupForm.controls.username.errors}" autocomplete="off" placeholder="Insert username" formControlName="username" />
-            <ul class="help-block">
-              <li *ngIf="signupForm.controls.username.errors?.required && signupForm.controls.username.dirty">This field is required</li>
-              <li *ngIf="signupForm.controls.username.errors?.minlength && signupForm.controls.username.dirty || signupForm.controls.username.errors?.maxlength && signupForm.controls.username.dirty ">Minimum characters: 3, Maximum characters: 15</li>
-              <li *ngIf="signupForm.controls.username.errors?.validateUsername && signupForm.controls.username.dirty">Username must not have any special characters</li>
-            </ul>
+          <input type="text" name="username" class="form-control" [ngClass]="{'is-invalid': (signupForm.controls.username.errors && signupForm.controls.username.dirty), 'is-valid': !signupForm.controls.username.errors}"
+            autocomplete="off" placeholder="Insert username" formControlName="username" />
+          <ul class="help-block">
+            <li *ngIf="signupForm.controls.username.errors?.required && signupForm.controls.username.dirty">This field is required</li>
+            <li *ngIf="signupForm.controls.username.errors?.minlength && signupForm.controls.username.dirty || signupForm.controls.username.errors?.maxlength && signupForm.controls.username.dirty ">Minimum characters: 3, Maximum characters: 15</li>
+            <li *ngIf="signupForm.controls.username.errors?.validateUsername && signupForm.controls.username.dirty">Username must not have any special characters</li>
+          </ul>
         </div>
         <div class="form-group" [ngClass]="{'has-danger': (signupForm.controls.email.errors && signupForm.controls.email.dirty), 'has-success': !signupForm.controls.email.errors}">
           <label>Email</label>
-          <input type="text" name="email" class="form-control" [ngClass]="{'is-invalid': (signupForm.controls.email.errors && signupForm.controls.email.dirty), 'is-valid': !signupForm.controls.email.errors}" autocomplete="off" placeholder="example@gmail.com" formControlName="email"
-          />
+          <input type="text" name="email" class="form-control" [ngClass]="{'is-invalid': (signupForm.controls.email.errors && signupForm.controls.email.dirty), 'is-valid': !signupForm.controls.email.errors}"
+            autocomplete="off" placeholder="example@gmail.com" formControlName="email" />
           <ul class="help-block">
             <li *ngIf="signupForm.controls.email.errors?.required && signupForm.controls.email.dirty">This field is required</li>
             <li *ngIf="signupForm.controls.email.errors?.validateEmail && signupForm.controls.email.dirty">This must be a valid e-mail</li>
@@ -79,24 +79,27 @@
         </div>
         <div class="form-group" [ngClass]="{'has-danger': (signupForm.controls.password.errors && signupForm.controls.password.dirty), 'has-success': !signupForm.controls.password.errors}">
           <label>Password</label>
-            <input type="password" name="password" class="form-control" [ngClass]="{'is-invalid': (signupForm.controls.password.errors && signupForm.controls.password.dirty), 'is-valid': !signupForm.controls.password.errors}" autocomplete="off" placeholder="Insert password" formControlName="password"/>
-            <!-- Validation -->
-            <ul class="help-block">
-              <li *ngIf="signupForm.controls.password.errors?.required && signupForm.controls.password.dirty">This field is required</li>
-              <li *ngIf="signupForm.controls.password.errors?.minlength && signupForm.controls.password.dirty">Password must have at least 8 characters</li>
-            </ul>
+          <input type="password" name="password" class="form-control" [ngClass]="{'is-invalid': (signupForm.controls.password.errors && signupForm.controls.password.dirty), 'is-valid': !signupForm.controls.password.errors}"
+            autocomplete="off" placeholder="Insert password" formControlName="password" />
+          <!-- Validation -->
+          <ul class="help-block">
+            <li *ngIf="signupForm.controls.password.errors?.required && signupForm.controls.password.dirty">This field is required</li>
+            <li *ngIf="signupForm.controls.password.errors?.minlength && signupForm.controls.password.dirty">Password must have at least 8 characters</li>
+          </ul>
         </div>
         <div class="form-group" [ngClass]="{'has-danger': (signupForm.controls.confirm.errors && signupForm.controls.confirm.dirty) || (signupForm.errors?.matchingPasswords && signupForm.controls.confirm.dirty), 'has-success': !signupForm.controls.confirm.errors && !signupForm.errors?.matchingPasswords}">
           <label>Confirm Password</label>
-            <input type="password" name="confirm" class="form-control" [ngClass]="{'is-invalid': (signupForm.controls.confirm.errors && signupForm.controls.confirm.dirty) || (signupForm.errors?.matchingPasswords && signupForm.controls.confirm.dirty), 'is-valid': !signupForm.controls.confirm.errors && !signupForm.errors?.matchingPasswords}" autocomplete="off" placeholder="Repeat password" formControlName="confirm"/>
-            <!-- Validation -->
-            <ul class="help-block">
-              <li *ngIf="signupForm.controls.confirm.errors?.required && signupForm.controls.confirm.dirty">This field is required</li>
-              <li *ngIf="signupForm.errors?.matchingPasswords && signupForm.controls.confirm.dirty">Password do not match</li>
-            </ul>
+          <input type="password" name="confirm" class="form-control" [ngClass]="{'is-invalid': (signupForm.controls.confirm.errors && signupForm.controls.confirm.dirty) || (signupForm.errors?.matchingPasswords && signupForm.controls.confirm.dirty), 'is-valid': !signupForm.controls.confirm.errors && !signupForm.errors?.matchingPasswords}"
+            autocomplete="off" placeholder="Repeat password" formControlName="confirm" />
+          <!-- Validation -->
+          <ul class="help-block">
+            <li *ngIf="signupForm.controls.confirm.errors?.required && signupForm.controls.confirm.dirty">This field is required</li>
+            <li *ngIf="signupForm.errors?.matchingPasswords && signupForm.controls.confirm.dirty">Password do not match</li>
+          </ul>
         </div>
         <input [disabled]="!signupForm.valid || proccessing" type="submit" class="btn btn-primary" value="Submit" />
-        <a href="http://localhost:3001/auth/facebook" class="btn btn-default"><i class="fa fa-facebook-official fa-lg"></i> Register with Facebook</a>
+        <a href="http://localhost:3001/auth/facebook" class="btn btn-default">
+          <i class="fa fa-facebook-official fa-lg"></i> Register with Facebook</a>
       </form>
     </div>
   </div>

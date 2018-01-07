@@ -15,7 +15,7 @@ export class AuthService {
     this.envHelper = new EnvironmentHelper();
   }
 
-  createAuthHeaders () {
+  createAuthHeaders() {
     this.readToken();
     this.options = {
       headers: new HttpHeaders({
@@ -25,7 +25,7 @@ export class AuthService {
     };
   }
 
-  createHeaders () {
+  createHeaders() {
     this.options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -33,26 +33,26 @@ export class AuthService {
     };
   }
 
-  storeUserData (token, user) {
+  storeUserData(token, user) {
     localStorage.setItem('token', 'JWT ' + token);
     localStorage.setItem('user', JSON.stringify(user));
     this.authToken = token;
     this.user = user;
   }
-  storeRestaurantData (token, restaurant) {
+  storeRestaurantData(token, restaurant) {
     localStorage.setItem('token', 'JWT ' + token);
     localStorage.setItem('restaurant', JSON.stringify(restaurant));
     this.authToken = token;
     this.user = restaurant;
   }
 
-  readTypeUser () {
+  readTypeUser() {
     if (localStorage.getItem('user')) {
       return true;
     }
   }
 
-  readToken () {
+  readToken() {
     this.authToken = localStorage.getItem('token');
   }
 
@@ -60,28 +60,28 @@ export class AuthService {
     return tokenNotExpired();
   }
 
-  logout () {
+  logout() {
     localStorage.clear();
     this.authToken = null;
     this.user = null;
   }
 
-  login (body) {
+  login(body) {
     this.createHeaders();
     return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.login, JSON.stringify(body), this.options);
   }
 
-  loginFb (body) {
+  loginFb(body) {
     this.createHeaders();
     return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.loginFb, body, this.options);
   }
 
-  signUpUser (user) {
+  signUpUser(user) {
     this.createHeaders();
     return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.signup, JSON.stringify(user), this.options);
   }
 
-  signUpRestaurant (restaurant) {
+  signUpRestaurant(restaurant) {
     this.createHeaders();
     return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.signup, JSON.stringify(restaurant), this.options);
   }
@@ -96,7 +96,12 @@ export class AuthService {
 
   }
 
-  updateProfile (user) {
+  getProfileRestaurant(id) {
+    this.createAuthHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.profile + id, this.options);
+  }
+
+  updateProfile(user) {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user, JSON.stringify(user), this.options);
   }
@@ -107,13 +112,33 @@ export class AuthService {
   }
 
 
-  deleteProfile (id) {
+  updateProfileRestaurant(user) {
+    this.createAuthHeaders();
+    return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant, JSON.stringify(user), this.options);
+  }
+
+  deleteProfile(id) {
     this.createAuthHeaders();
     return this.http.delete(this.envHelper.urlbase + this.envHelper.urlDictionary.user.delete + id, this.options);
   }
   deleteRestaurantProfile (id) {
     this.createAuthHeaders();
     return this.http.delete(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.delete + id, this.options);
+  }
+
+  deleteProfileRestaurant (id) {
+    this.createAuthHeaders();
+    return this.http.delete(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.delete + id, this.options);
+  }
+
+  getAllRestaurants() {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.allRestaurants, this.options);
+  }
+
+  getPublicRestaurant (id) {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.publicRestaurant + id, this.options);
   }
 
   getAllergies() {
@@ -133,6 +158,11 @@ export class AuthService {
   searchReastaurantByConditions(conditions) {
     this.createHeaders();
     return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.search.search, JSON.stringify(conditions), this.options);
+  }
+
+  sendOrder(order) {
+    this.createHeaders();
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.orders, JSON.stringify(order), this.options)
   }
 
 }

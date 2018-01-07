@@ -3,14 +3,14 @@ import { Menu } from './menu';
 import { Dish } from './dish';
 
 export class Restaurant {
-  id: String
+  _id: String
   username: String
   password: String
   email: String
   name: String
   images: Array<String>
   phone: Number
-  location: Array<Location>
+  locations: Array<Location>
   menus: Array<Menu>
   dishes: Array<Dish>;
 }

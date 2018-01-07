@@ -32,9 +32,9 @@
       <td>
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" *ngIf="restaurant.images">
           <div class="carousel-inner" role="listbox">
-              <div class="carousel-item" *ngFor="let image of restaurant.images; let i = index" [class.active]="i == 0">
-                <img class="d-block img-fluid" src="{{image}}" alt="{{i}}">
-              </div>
+            <div class="carousel-item" *ngFor="let image of restaurant.images; let i = index" [class.active]="i == 0">
+              <img class="d-block img-fluid" src="{{image}}" alt="{{i}}">
+            </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

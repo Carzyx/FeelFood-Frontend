@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AuthService} from '../../services/authentication/auth.service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../services/authentication/auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-auth',
@@ -25,7 +25,7 @@ export class AuthFbComponent implements OnInit {
       this.authService.loginFb(this.body).subscribe(data => {
         this.authService.storeUserData(data['token'], data['user']);
         this.router.navigate(['home']);
-        },
+      },
         err => {
           console.log(err);
           this.messageClass = 'alert alert-danger';

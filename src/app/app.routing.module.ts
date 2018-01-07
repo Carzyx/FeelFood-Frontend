@@ -9,9 +9,9 @@ import { ShowRestaurantComponent } from './components/restaurant/showRestaurant/
 import { RestaurantProfileComponent } from './components/restaurantProfile/restaurantProfile.component';
 import { SearchComponent } from './components/search/search.component';
 import { AuthFbComponent } from './components/authFb/authFb.component';
-import { AuthGuard} from './guards/auth.guard';
-import { NotAuthGuard} from './guards/notAuth.guard';
-import {DashboardComponent} from './components/dashboard/dashboard.component';
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/notAuth.guard';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 export const Router: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
