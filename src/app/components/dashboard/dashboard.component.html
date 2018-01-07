@@ -1,50 +1,101 @@
 <div class="jumbotron">
-  <h2>Hello, {{user.username}}</h2>
-  <p class="lead">Welcome to your dashboard.</p>
-  <hr class="my-4">
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="jumbotron" style="background: #E9E9E5;">
-        <img *ngIf="!user.avatar" src="assets/defaultAvatar.png" class="rounded-circle" alt="Avatar">
-        <img *ngIf="user.avatar" src="{{user.avatar}}" class="rounded-circle" alt="Avatar">
-        <hr class="my-4">
-        <h4 *ngIf="user.firstName || user.lastName">{{user.firstName}} {{user.lastName}}, {{user.username}}</h4>
-        <h5 class="text-muted">{{user.email}}</h5>
-        <p>Member since:
-          <strong>{{signupDate}}</strong>
-        </p>
-        <small *ngIf="user.lastLogin">Last login: {{lastLogin}}</small>
-        <hr class="my-4">
-        <p>My addresses:</p>
-        <ul class="list-group">
-          <li class="list-group-item" *ngIf="!user.locations[0]">
-            <em>No addresses defined.</em>
-          </li>
-          <li class="list-group-item" *ngFor="let location of user.locations">
-            <strong>
-              <em>{{location.locationName}}:</em>
-            </strong>
-            <h6>{{location.address}}</h6>
-            <h6>{{location.city}}, {{location.postalCode}} {{location.country}}</h6>
-          </li>
-        </ul>
-        <hr class="my-4">
-        <p>My allergies:</p>
-        <ul class="list-group">
-          <li class="list-group-item">
-            <em *ngIf="!user.allergies[0]">No allergies defined.</em>
-            <h6 *ngFor="let allergy of user.allergies">- {{allergy.name}}</h6>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-sm-8">
-      <div class="jumbotron" style="background: #E9E9E5;">
-        <h4>Orders in progress</h4>
-        <hr class="my-4">
-      </div>
+  <div class="progress" *ngIf="!restaurant.username && !user.username">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+      aria-valuemax="100" style="width: 100%">LOADING
     </div>
   </div>
+
+  <ng-container *ngIf="user.username">
+    <h2>Hello, {{user.username}}</h2>
+    <p class="lead">Welcome to your dashboard.</p>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="jumbotron" style="background: #E9E9E5;">
+          <img *ngIf="!user.avatar" src="assets/defaultAvatar.png" class="rounded-circle" alt="Avatar">
+          <img *ngIf="user.avatar" src="{{user.avatar}}" class="rounded-circle" alt="Avatar">
+          <hr class="my-4">
+          <h4 *ngIf="user.firstName || user.lastName">{{user.firstName}} {{user.lastName}}, {{user.username}}</h4>
+          <h5 class="text-muted">{{user.email}}</h5>
+          <p>Member since:
+            <strong>{{signupDate}}</strong>
+          </p>
+          <small *ngIf="user.lastLogin">Last login: {{lastLogin}}</small>
+          <hr class="my-4">
+          <p>My addresses:</p>
+          <ul class="list-group">
+            <li class="list-group-item" *ngIf="!user.locations[0]">
+              <em>No addresses defined.</em>
+            </li>
+            <li class="list-group-item" *ngFor="let location of user.locations">
+              <strong>
+                <em>{{location.locationName}}:</em>
+              </strong>
+              <h6>{{location.address}}</h6>
+              <h6>{{location.city}}, {{location.postalCode}} {{location.country}}</h6>
+            </li>
+          </ul>
+          <hr class="my-4">
+          <p>My allergies:</p>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <em *ngIf="!user.allergies[0]">No allergies defined.</em>
+              <h6 *ngFor="let allergy of user.allergies">- {{allergy.name}}</h6>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="jumbotron" style="background: #E9E9E5;">
+          <h4>Orders in progress</h4>
+          <hr class="my-4">
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="restaurant.username">
+    <h2>Hello, {{restaurant.username}}</h2>
+    <p class="lead">Welcome to your dashboard.</p>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="jumbotron" style="background: #E9E9E5;">
+          <img *ngIf="!restaurant.avatar" src="assets/defaultAvatar.png" class="rounded-circle" alt="Avatar">
+          <img *ngIf="restaurant.avatar" src="{{restaurant.avatar}}" class="rounded-circle" alt="Avatar">
+          <hr class="my-4">
+          <h4 *ngIf="restaurant.name">{{restaurant.name}}</h4>
+          <h5 class="text-muted">{{restaurant.email}}</h5>
+          <h6 class="lead">{{restaurant.phone}}</h6>
+          <p>Member since:
+            <strong>{{signupDate}}</strong>
+          </p>
+          <small *ngIf="restaurant.lastLogin">Last login: {{lastLogin}}</small>
+          <hr class="my-4">
+          <p>My address:</p>
+          <ul class="list-group">
+            <li class="list-group-item" *ngIf="!restaurant.location[0]">
+              <em>No address defined.</em>
+            </li>
+            <li class="list-group-item" *ngFor="let location of restaurant.location">
+              <strong>
+                <em>{{location.locationName}}:</em>
+              </strong>
+              <h6>{{location.address}}</h6>
+              <h6>{{location.city}}, {{location.postalCode}} {{location.country}}</h6>
+            </li>
+          </ul>
+          <hr class="my-4">
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="jumbotron" style="background: #E9E9E5;">
+          <h4>Orders in progress</h4>
+          <hr class="my-4">
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>
 
 <app-modal #modal>

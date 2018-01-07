@@ -17,7 +17,7 @@ export class EnvironmentHelper {
     login: '/login',
     loginFb: '/auth/facebook/user',
     user: '/user',
-    profile: '/user?username=',
+    profile: '/user?id=',
     delete: '/user?id=',
     allergies: '/allergies'
   }
@@ -28,8 +28,10 @@ export class EnvironmentHelper {
     loginFb: '/auth/facebook',
     restaurant: '/restaurant',
     allRestaurants: '/restaurants',
-    profile: '/restaurant?username=',
+    profile: '/restaurant?id=',
     ingredients: '/ingredient',
+    delete: '/restaurant?id=',
+    publicRestaurant: '/restaurant/public?id=',
     orders: '/orders'
   }
 

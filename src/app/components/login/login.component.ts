@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import 'rxjs/add/operator/map';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import 'rxjs/add/operator/map';
 
 import { User } from '../../models/user';
 import { Restaurant } from '../../models/restaurant';
@@ -36,7 +35,8 @@ export class LoginComponent implements OnInit {
   previousUrl;
 
   constructor(private router: Router, private formBuilder: FormBuilder,
-    private authService: AuthService, private http: HttpClient, private authGuard: AuthGuard, private navBar: AppNavbar) {
+    private authService: AuthService, private authGuard: AuthGuard, private navBar: AppNavbar) {
+      
     this.createForm();
     this.user = new User();
     this.restaurant = new Restaurant();

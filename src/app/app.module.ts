@@ -28,6 +28,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/authentication/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
+import { CustomValidator } from './helpers/customValidator';
 import { ModalComponent } from './shared/modal/modal.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
@@ -64,7 +65,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     }),
     FormsModule
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard],
+  providers: [
+    AuthService,
+    AuthGuard,
+    NotAuthGuard,
+    CustomValidator
+  ],
   bootstrap: [
     AppNavbar,
     FooterComponent

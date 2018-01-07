@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../../../services/authentication/auth.service';
@@ -37,7 +36,7 @@ export class ShowRestaurantComponent implements OnInit {
     defaultOpen: false
   }
 
-  constructor(private authService: AuthService, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
+  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {
     this.envHelper = new EnvironmentHelper();
     this.mapHelper = new MapHelper();
     this.restaurantId = this.route.snapshot.params['_id'];
@@ -62,10 +61,7 @@ export class ShowRestaurantComponent implements OnInit {
       return;
     }
 
-    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
-
-
-    this.http.get(url + `?id=${this.restaurantId}`).subscribe(data => {
+    this.authService.getPublicRestaurant(this.restaurantId).subscribe(data => {
       if (data) {
         this.myRestaurant = this.mapHelper.map(Restaurant, data);
         console.log("ShowRestaurantComponent:")
@@ -75,8 +71,13 @@ export class ShowRestaurantComponent implements OnInit {
   }
 
   getUser() {
-    this.myUser = JSON.parse(localStorage.getItem('user'));
-    this.authService.getProfile(this.myUser.username).subscribe(data => {
+    this.myUser = JSON.parse(localStorage.getItem('user'));    
+    if (!this.myUser) {
+      alert("you need to be login to create an order")
+      return;
+    }
+
+    this.authService.getProfile(this.myUser._id).subscribe(data => {
       this.myUser = this.mapHelper.map(User, data);
     });
   }
