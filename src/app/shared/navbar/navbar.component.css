@@ -6,3 +6,17 @@ div.body-component{
     margin-left: 10%;
     margin-right: 10%;
 }
+
+.navbar-brand.title-company {
+    position: absolute;
+    margin-left: 45%;
+}
+/*
+//To make navbar fixed on the top
+nav.navbar.navbar-expand-lg.navbar-dark.bg-primary{
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
+    top: 0;
+}
+*/

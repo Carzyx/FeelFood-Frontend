@@ -7,8 +7,11 @@
     <div class=" restaurantServices">
         <table>
             <tr>
-                <td *ngIf="myRestaurant.menus">
-                    <table class="menu-table" [hidden]="!showItemDictionary.showMenu">
+                <td [hidden]="!showItemDictionary.showMenu">
+                    <p class="lead" *ngIf="!myRestaurant.menus.length > 0">
+                        Sorry, but menus are not available
+                    </p>
+                    <table class="menu-table" *ngIf="myRestaurant.menus.length > 0">
                         <tr>
                             <h1>Menu</h1>
                         </tr>
@@ -105,8 +108,11 @@
                         </tr>
                     </table>
                 </td>
-                <td *ngIf="myRestaurant.dishes">
-                    <table class="card-table" [hidden]="!showItemDictionary.showCard">
+                <td [hidden]="!showItemDictionary.showCard">
+                    <p class="lead" *ngIf="!myRestaurant.dishes.length > 0">
+                        Sorry, but dishes are not available
+                    </p>
+                    <table class="card-table" *ngIf="myRestaurant.dishes.length > 0">
                         <tr>
                             <h1>Card</h1>
                         </tr>

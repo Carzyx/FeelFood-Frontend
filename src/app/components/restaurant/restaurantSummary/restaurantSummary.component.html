@@ -5,9 +5,13 @@
     <tr>
       <td class="contact-summary">
         <div class="contact-info">
-          <p>Address: {{restaurant?.location}}</p>
-          <p>Phone: {{restaurant?.phone}}</p>
-          <p>Email: {{restaurant?.email}}</p>
+          <h5>Address:</h5>
+          <p class="lead">{{restaurant.locations[0].address}}
+            <br> {{restaurant.locations[0].city}}, {{restaurant.locations[0].country}} {{restaurant.locations[0].postalCode}}</p>
+          <h5>Phone:</h5>
+          <p class="lead">{{restaurant?.phone}}</p>
+          <h5>Email:</h5>
+          <p class="lead">{{restaurant?.email}}</p>
         </div>
 
         <hr class="my-4">
@@ -30,20 +34,22 @@
         </div>
       </td>
       <td>
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" *ngIf="restaurant.images">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" *ngIf="restaurant.images" style="margin-top: -80px">
           <div class="carousel-inner" role="listbox">
             <div class="carousel-item" *ngFor="let image of restaurant.images; let i = index" [class.active]="i == 0">
               <img class="d-block img-fluid" src="{{image}}" alt="{{i}}">
             </div>
           </div>
-          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
+          <div class="btn-control-carousel" [hidden]="this.route.component['name'] == 'HomeComponent'">
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
         </div>
       </td>
     </tr>
