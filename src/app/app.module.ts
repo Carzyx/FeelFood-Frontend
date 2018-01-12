@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 
 import { AppComponent } from './app.component';
-import {Ng2SliderComponent} from 'ng2-slider-component/ng2-slider.component';
 import { HttpClientModule } from '@angular/common/http';
 
 /*Import app Components*/
@@ -34,6 +33,8 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 import { CustomValidator } from './helpers/customValidator';
 import { ModalComponent } from './shared/modal/modal.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NouisliderModule } from 'ng2-nouislider';
+
 
 @NgModule({
   declarations: [
@@ -51,10 +52,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     HomeComponent,
     RestaurantProfileComponent,
     DishComponent,
-    // Ng2SliderComponent,
     SearchComponent,
     AppNavbar,
     AuthFbComponent,
+
     ModalComponent,
     DashboardComponent
   ],
@@ -63,6 +64,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     AngularDateTimePickerModule,
     FormsModule,
     BrowserModule,
+    NouisliderModule,
     HttpClientModule,
     AppRoutes,
     AgmCoreModule.forRoot({

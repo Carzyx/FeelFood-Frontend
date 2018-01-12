@@ -27,6 +27,10 @@ export class AppNavbar implements OnInit {
     }, 1000);
   }
   Search(value) {
+    const search = this.router.url
+    console.log(search);
+    if(search.indexOf('search') > 0)
+      alert('Do it')
    this.router.navigate(['/search', value]);
   }
 

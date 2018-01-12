@@ -50,7 +50,7 @@
         <input [(ngModel)]="dish.description" class="form-control" name="descriptionDish">
       </div>
       <div class="container">
-        <button (click)="AddDish(menuName)" *ngIf="!editDish" class="btn btn-success" [disabled]="!nameDish.valid">Create</button>
+        <button (click)="AddDish(menuName)" *ngIf="!editDish" class="btn btn-success" [disabled]="!dish.name">Create</button>
         <button (click)="UpdateDish()" *ngIf="editDish" class="btn btn-success">Update</button>
         <button (click)="Cancel()" class="btn btn-danger">Cancel</button>
       </div>
@@ -73,6 +73,7 @@
     </div>
     <div align="left">
       <strong>Select your ingredients</strong>
+      <input (change)="SearchIngredient(search.value)" #search>
       <button (click)="ShowImport()" class="btn btn-info">Import dish</button>
       <table class="table table-striped table-hover table-bordered">
         <thead>
@@ -81,10 +82,10 @@
           <th>Weight (g)</th>
         </thead>
         <tr *ngFor="let ingredient of ingredients">
-          <th>{{ingredient?.name}}</th>
+          <th>{{ingredient?.byName}}</th>
           <th>{{ingredient?.calories}}</th>
           <input #weight type="number">
-          <button type="button" class="btn success disabled " (click)="AddIngredient(ingredient.name,weight.value)">Add</button>
+          <button type="button" class="btn success disabled " (click)="AddIngredient(ingredient.byName,weight.value)">Add</button>
         </tr>
       </table>
     </div>
@@ -109,7 +110,7 @@
   <select class="form-control" #impdishes (change)="GetImport(impdishes.value)">
     <option>Select one</option>
     <option *ngFor="let dish of currentImport">
-      <strong>{{dish.name}}</strong>
+      <strong>{{dish.byName}}</strong>
     </option>
   </select>
 </div>
