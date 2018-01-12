@@ -54,6 +54,7 @@ import { NouisliderModule } from 'ng2-nouislider';
     SearchComponent,
     AppNavbar,
     AuthFbComponent,
+
     ModalComponent,
     DashboardComponent
   ],
