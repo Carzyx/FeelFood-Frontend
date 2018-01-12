@@ -43,7 +43,9 @@ export class EnvironmentHelper {
   }
   private readonly searchDictionary = {
     search: '/search',
-    name : '/search?name='
+    name: '/speedSearch?name=',
+    byName : '/search?name=',
+    ingredient: '/ingredient?byName='
   }
 
   readonly urlDictionary = {

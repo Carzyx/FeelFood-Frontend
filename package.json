@@ -1,5 +1,5 @@
 {
-  "name": "webapp",
+  "byName": "webapp",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {

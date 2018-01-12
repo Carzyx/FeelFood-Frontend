@@ -137,10 +137,17 @@ export class AuthService {
     this.createHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.ingredients, this.options);
   }
-
-  searchReastaurantByName(name) {
+  searchIngredient(name) {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.ingredient + name, this.options);
+  }
+  speedSerachRestaurantByName(name) {
     this.createHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.name + name, this.options);
+  }
+  searchReastaurantByName(name) {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.byName + name, this.options);
   }
   searchReastaurantByConditions(conditions) {
     this.createHeaders();
