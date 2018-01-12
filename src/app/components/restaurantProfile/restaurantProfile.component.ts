@@ -31,15 +31,16 @@ export class RestaurantProfileComponent implements OnInit {
   addressForm;
   passwordForm;
   emailForm;
+  tagsForm;
   address;
   message;
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private validator: CustomValidator, private router: Router) {
     this.menu = new Menu();
     this.location = new Location();
-    this.createForm();
-    this.createForm();
     this.getRestaurant();
+
+
   }
 
   createForm() {
@@ -62,10 +63,10 @@ export class RestaurantProfileComponent implements OnInit {
         Validators.maxLength(20)])]
     });
     this.profileForm = this.formBuilder.group({
-      restaurantName: ['', Validators.compose([
+      restaurantName: [this.restaurant.name ? this.restaurant.name : '', Validators.compose([
         Validators.required,
         Validators.maxLength(20)])],
-      phone: ['', Validators.compose([
+      phone: [this.restaurant.phone ? this.restaurant.phone : '', Validators.compose([
         Validators.required,
         this.validator.validatePhoneNumber
       ])]
@@ -84,6 +85,20 @@ export class RestaurantProfileComponent implements OnInit {
         Validators.maxLength(20),
         this.validator.validateEmail
       ])]
+    });
+    this.tagsForm = this.formBuilder.group({
+      homeDelivery: [this.restaurant.tags.homeDelivery ? this.restaurant.tags.homeDelivery : false],
+      takeAway: [this.restaurant.tags.takeAway ? this.restaurant.tags.takeAway : false],
+      dish: [0],
+      menu: [0],
+      description: [{
+        name: ['', Validators.required ],
+        value: ['', Validators.compose([
+          Validators.required,
+          Validators.min(0),
+          Validators.max(100)]
+        )]
+      }, Validators.max(3)],
     });
   }
 
@@ -105,7 +120,11 @@ export class RestaurantProfileComponent implements OnInit {
     this.profileForm.reset();
     this.updateRestaurant();
   }
-
+  private updateTags() {
+    this.restaurant.tags.homeDelivery = this.tagsForm.get('homeDelivery').value;
+    this.restaurant.tags.takeAway = this.tagsForm.get('takeAway').value;
+    console.log(this.restaurant.tags)
+  }
   private updatePassword() {
     this.restaurant.password = this.passwordForm.get('password').value;
     this.passwordForm.reset();
@@ -158,6 +177,7 @@ export class RestaurantProfileComponent implements OnInit {
       this.restaurantOriginal = data;
       this.restaurant = this.restaurantOriginal;
       console.log(this.restaurant);
+        this.createForm();
     },
       err => { console.log(err); });
   }
@@ -186,6 +206,7 @@ export class RestaurantProfileComponent implements OnInit {
 
   private createMenu() {
     this.restaurant.menus.push(this.menu);
+    this.getAveragePrice();
     this.updateRestaurant();
     this.ShowMenu();
     this.menu = new Menu();
@@ -199,10 +220,23 @@ export class RestaurantProfileComponent implements OnInit {
           return;
         }
       });
+      this.getAveragePrice();
       this.updateRestaurant();
     }
   }
   private confirmar() {
     return confirm('Estas seguro?');
+  }
+  private getAveragePrice() {
+    const price = this.restaurant.tags.average.dish ? this.restaurant.tags.average.dish : 0;
+    let menuPrice = 0;
+    this.restaurant.menus.forEach(function (value) {
+      menuPrice = menuPrice + value.price;
+    });
+    const average = {
+      dish: price,
+      menu: menuPrice / this.restaurant.menus.length
+    }
+    this.restaurant.tags.average = average;
   }
 }

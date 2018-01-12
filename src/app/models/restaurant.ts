@@ -8,6 +8,17 @@ export class Restaurant {
   password: String
   email: String
   name: String
+  tags: {
+    homeDelivery: Boolean ,
+    takeAway: Boolean ,
+    average: {
+      dish: Number,
+      menu: Number
+    }};
+  description: [{
+    name: String ,
+    value: Number
+  }];
   images: Array<String>
   phone: Number
   locations: Array<Location>

@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {Restaurant} from '../../models/restaurant';
 import {Ingredient} from '../../models/ingredient';
 import {Dish} from '../../models/dish';
+import {forEach} from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class DishComponent implements OnInit {
   dish: Dish;
   envHelper: EnvironmentHelper;
   ingredients;
+  currentIngredients;
   currentImport;
 
 
@@ -49,7 +51,7 @@ export class DishComponent implements OnInit {
 
   // TODO Add update method.
   private updateRestaurant() {
-    this.authService.updateProfilerRestaurant(this.restaurant.id).subscribe(data => {
+    this.authService.updateProfileRestaurant(this.restaurant).subscribe(data => {
       this.dish = new Dish();
       if (!this.menuName)
         this.dishes = this.restaurant.dishes;
@@ -65,6 +67,7 @@ export class DishComponent implements OnInit {
     this.addDish = this.addDish ? false : true;
     if ((!this.addDish) && (value === 'Dishes')) {
       this.restaurant.dishes.push(this.dish);
+      this.getAveragePrice();
       this.updateRestaurant();
       this.getIngredients();
     }
@@ -98,6 +101,7 @@ export class DishComponent implements OnInit {
         this.restaurant.dishes = this.dishes;
       else
         this.restaurant.menus[this.positionMenu][this.currentList] = this.dishes;
+      this.getAveragePrice();
       this.updateRestaurant();
     }
   }
@@ -109,6 +113,7 @@ export class DishComponent implements OnInit {
           const ingredient = new Ingredient(name, (this.ingredients[i].calories * weigth) / 100, weigth);
           this.dish.ingredients.push(ingredient);
           this.ingredients.splice(i, 1);
+          this.SearchIngredient(null);
         }
       }
     }
@@ -204,5 +209,31 @@ export class DishComponent implements OnInit {
       if (this.restaurant.menus[i].name === this.menuName)
         this.positionMenu = i;
     }
+  }
+  private getAveragePrice() {
+    let price = 0;
+    const menuPrice = this.restaurant.tags.average.menu ? this.restaurant.tags.average.menu : 0;
+    this.restaurant.dishes.forEach(function (value) {
+      price = price + value.price;
+    });
+    const average = {
+      dish: price / this.restaurant.dishes.length,
+      menu: menuPrice
+    };
+    this.restaurant.tags.average = average;
+  }
+
+  SearchIngredient(value) {
+    // this.currentIngredients = this.ingredients;
+
+    this.authService.searchIngredient(value).subscribe(data => {
+      this.ingredients = data;
+      for (let i = 0; i < this.dish.ingredients.length; i++) {
+        for (let j = 0; j < this.ingredients.length; j++) {
+          if (this.ingredients[j].byName === this.dish.ingredients[i].ingredient)
+            this.ingredients.splice(j, 1);
+        }
+      }
+    });
   }
 }

@@ -15,7 +15,7 @@ export class AuthService {
     this.envHelper = new EnvironmentHelper();
   }
 
-  createAuthHeaders() {
+  createAuthHeaders () {
     this.readToken();
     this.options = {
       headers: new HttpHeaders({
@@ -25,7 +25,7 @@ export class AuthService {
     };
   }
 
-  createHeaders() {
+  createHeaders () {
     this.options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -33,13 +33,13 @@ export class AuthService {
     };
   }
 
-  storeUserData(token, user) {
+  storeUserData (token, user) {
     localStorage.setItem('token', 'JWT ' + token);
     localStorage.setItem('user', JSON.stringify(user));
     this.authToken = token;
     this.user = user;
   }
-  storeRestaurantData(token, restaurant) {
+  storeRestaurantData (token, restaurant) {
     localStorage.setItem('token', 'JWT ' + token);
     localStorage.setItem('restaurant', JSON.stringify(restaurant));
     this.authToken = token;
@@ -96,21 +96,10 @@ export class AuthService {
 
   }
 
-  getProfileRestaurant(id) {
-    this.createAuthHeaders();
-    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.profile + id, this.options);
-  }
-
   updateProfile(user) {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user, JSON.stringify(user), this.options);
   }
-  updateProfilerRestaurant(id) {
-    this.createAuthHeaders();
-    return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.profile + id, this.options);
-
-  }
-
 
   updateProfileRestaurant(user) {
     this.createAuthHeaders();
@@ -150,10 +139,17 @@ export class AuthService {
     this.createHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.ingredients, this.options);
   }
-
-  searchReastaurantByName(name) {
+  searchIngredient(name) {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.ingredient + name, this.options);
+  }
+  speedSerachRestaurantByName(name) {
     this.createHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.name + name, this.options);
+  }
+  searchReastaurantByName(name) {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.byName + name, this.options);
   }
   searchReastaurantByConditions(conditions) {
     this.createHeaders();
