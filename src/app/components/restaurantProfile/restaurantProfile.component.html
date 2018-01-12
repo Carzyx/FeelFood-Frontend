@@ -85,6 +85,18 @@
                 <li *ngIf="profileForm.controls.phone.errors?.validatePhoneNumber && profileForm.controls.phone.dirty">This must be a valid phone number</li>
               </ul>
             </div>
+            <form [formGroup]="tagsForm" (submit)="updateTags()">
+              <div class="form-group">
+                <label class="col-form-label">
+                  <strong>Home delivery</strong>
+                </label>
+                <input type="checkbox" name="homeDelivery" class="form-control" formControlName="homeDelivery" (change)="updateTags()" >
+                <label class="col-form-label">
+                  <strong>Take away</strong>
+                </label>
+                <input type="checkbox" name="takeAway" class="form-control" formControlName="takeAway" (change)="updateTags()" >
+              </div>
+            </form>
             <input [disabled]="!profileForm.valid" type="submit" class="btn btn-outline-info" value="Update" />
           </form>
         </div>

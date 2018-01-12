@@ -29,7 +29,7 @@ export class EnvironmentHelper {
     restaurant: '/restaurant',
     allRestaurants: '/restaurants',
     profile: '/restaurant?id=',
-    ingredients: '/ingredient',
+    ingredients: '/ingredients',
     delete: '/restaurant?id=',
     publicRestaurant: '/restaurant/public?id=',
     orders: '/orders',
@@ -37,7 +37,9 @@ export class EnvironmentHelper {
   }
   private readonly searchDictionary = {
     search: '/search',
-    name : '/search?name='
+    name: '/speedSearch?name=',
+    byName : '/search?name=',
+    ingredient: '/ingredient?byName='
   }
 
   readonly urlDictionary = {

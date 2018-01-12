@@ -4,6 +4,7 @@ import { EnvironmentHelper } from '../../../environments/environment';
 import { AuthService } from '../../services/authentication/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
+import {forEach} from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -11,29 +12,39 @@ import {FormBuilder} from '@angular/forms';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
+
 export class SearchComponent implements OnInit {
   searchDetails;
   restaurants;
   image;
   search: boolean;
+  namesList;
+  showItemDictionary= { someRangePrice: false, someRangeDistance: false, Others: false };
+  @Input() someRangePrice: number[];
+  @Input() someRangeDistance: number[];
 
   constructor(private authservice: AuthService, private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
     this.searchDetails = this.formBuilder.group({
-      priceMin: [0],
-      priceMax: [100],
-      distanceMin: [0],
-      distanceMax: [100],
+      priceMin: [],
+      priceMax: [],
+      distanceMin: [],
+      distanceMax: [],
       homeDelivery: [false],
       takeAway: [false]
     });
+    this.someRangePrice = [25, 75];
+    this.someRangeDistance = [25, 75];
     this.search = true;
   }
 
-
+  changeShowStatus(key) {
+    this.showItemDictionary[key] = ! this.showItemDictionary[key];
+  }
   ngOnInit() {
     console.log('INIT');
     this.ngOnChanges();
   }
+
   ngOnChanges() {
     console.log('Change');
     const search = this.route.snapshot.paramMap.get('search');
@@ -57,23 +68,41 @@ export class SearchComponent implements OnInit {
     }
     return null;
   }
+  speedSearch(name) {
+    this.authservice.speedSerachRestaurantByName(name).subscribe(data => {
+      this.namesList = data;
+    });
+  }
   searchByName(name) {
     this.authservice.searchReastaurantByName(name).subscribe(data => {
     this.restaurants = data;
     });
   }
   searchByDetails() {
-    const details = {
-      homeDelivery: this.searchDetails.value.homeDelivery,
-      takeAway: this.searchDetails.get('takeAway').value,
-      priceMin: this.searchDetails.get('priceMin').value,
-      priceMax: this.searchDetails.get('priceMax').value,
-      distanceMin: this.searchDetails.get('distanceMin').value,
-      distanceMax: this.searchDetails.get('distanceMax').value
+    let details = {
+      homeDelivery: false,
+      takeAway: false,
+      priceMin: null,
+      priceMax: null,
+      distanceMin: null,
+      distanceMax: null
     };
+    if (this.showItemDictionary.Others) {
+      details.homeDelivery = this.searchDetails.value.homeDelivery;
+      details.takeAway = this.searchDetails.get('takeAway').value;
+    }
+    if (this.showItemDictionary.someRangeDistance) {
+      details.priceMin = this.someRangePrice[0];
+      details.priceMax = this.someRangePrice[1];
+    }
+    if (this.showItemDictionary.someRangePrice) {
+      details.distanceMin = this.someRangeDistance[0];
+      details.distanceMax = this.someRangeDistance[1];
+    }
     this.authservice.searchReastaurantByConditions(details).subscribe(data => {
       this.restaurants = data;
     });
   }
-
+  onChange(event) {
+  }
 }
