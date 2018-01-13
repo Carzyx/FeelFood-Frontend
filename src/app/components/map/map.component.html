@@ -1,3 +1,16 @@
+<!--
 <agm-map [latitude]="lat" [longitude]="lng">
   <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
 </agm-map>
+-->
+
+<div class="container">
+  <div class="form-group" [hidden]="!showSearch">
+    <h5>Search your location:</h5>
+    <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control"
+      #search [formControl]="searchControl">
+  </div>
+  <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+    <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+  </agm-map>
+</div>

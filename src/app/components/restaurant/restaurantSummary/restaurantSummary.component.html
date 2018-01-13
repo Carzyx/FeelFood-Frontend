@@ -6,12 +6,15 @@
       <td class="contact-summary">
         <div class="contact-info">
           <h5>Address:</h5>
-          <p class="lead">{{restaurant.locations[0].address}}
-            <br> {{restaurant.locations[0].city}}, {{restaurant.locations[0].country}} {{restaurant.locations[0].postalCode}}</p>
+          <p *ngIf="restaurant.locations[0]" class="lead">{{restaurant.locations[0]?.address}}
+            <br> {{restaurant.locations[0]?.city}}, {{restaurant.locations[0]?.country}} {{restaurant.locations[0]?.postalCode}}</p>
+          <p *ngIf="!restaurant.locations[0]">(not defined)</p>
           <h5>Phone:</h5>
           <p class="lead">{{restaurant?.phone}}</p>
+          <p *ngIf="!restaurant.phone">(not defined)</p>
           <h5>Email:</h5>
           <p class="lead">{{restaurant?.email}}</p>
+          <p *ngIf="!restaurant.email">(not defined)</p>
         </div>
 
         <hr class="my-4">

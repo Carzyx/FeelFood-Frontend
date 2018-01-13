@@ -44,8 +44,8 @@
             <li *ngIf="loginForm.controls.password.errors?.required && loginForm.controls.password.dirty">This field is required</li>
           </ul>
         </div>
-        <input [disabled]="!loginForm.valid || proccessing" type="submit" class="btn btn-success" value="Submit" />
-        <a href="http://localhost:3001/auth/facebook" class="btn btn-default">
+        <input [disabled]="!loginForm.valid || proccessing" type="submit" class="btn btn-outline-primary btn-lg" value="Submit" />
+        <a href="http://localhost:3001/auth/facebook" class="btn btn-outline-primary btn-lg">
           <i class="fa fa-facebook-official fa-lg"></i> Login with Facebook</a>
       </form>
     </div>
@@ -97,8 +97,8 @@
             <li *ngIf="signupForm.errors?.matchingPasswords && signupForm.controls.confirm.dirty">Password do not match</li>
           </ul>
         </div>
-        <input [disabled]="!signupForm.valid || proccessing" type="submit" class="btn btn-primary" value="Submit" />
-        <a href="http://localhost:3001/auth/facebook" class="btn btn-default">
+        <input [disabled]="!signupForm.valid || proccessing" type="submit" class="btn btn-outline-primary btn-lg" value="Submit" />
+        <a href="http://localhost:3001/auth/facebook" class="btn btn-outline-primary btn-lg">
           <i class="fa fa-facebook-official fa-lg"></i> Register with Facebook</a>
       </form>
     </div>

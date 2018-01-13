@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { User } from '../../models/user';
 import { Location } from '../../models/location';
@@ -10,8 +10,6 @@ import { AuthService } from '../../services/authentication/auth.service';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { CustomValidator } from '../../helpers/customValidator';
 
-
-
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -19,6 +17,7 @@ import { CustomValidator } from '../../helpers/customValidator';
 })
 export class UserComponent implements OnInit {
 
+  @Input() addressCompleted: Location;  
   @ViewChild('modal') modalUpdate: ModalComponent;
 
   // ShowHide
@@ -26,6 +25,7 @@ export class UserComponent implements OnInit {
   user: User;
   location: Location;
   allergy: Allergy;
+
   userOriginal;
   currentUser;
   addressForm;
@@ -40,9 +40,11 @@ export class UserComponent implements OnInit {
     this.createForm();
     this.getUser();
     this.getAllergies();
-    this.location = new Location;
-    this.allergy = new Allergy;
-    this.allAllergies = new Array;
+
+    this.location = new Location();
+    this.addressCompleted = new Location();
+    this.allergy = new Allergy();
+    this.allAllergies = new Array();
   }
 
   createForm() {
@@ -121,17 +123,16 @@ export class UserComponent implements OnInit {
   }
 
   private updateAddress() {
-    this.location.locationName = this.addressForm.get('name').value;
-    this.location.address = this.addressForm.get('address').value;
-    this.location.postalCode = this.addressForm.get('postalCode').value;
-    this.location.city = this.addressForm.get('city').value;
-    this.location.country = this.addressForm.get('country').value;
+    this.location = this.addressCompleted;
+    console.log("location saved")
+    console.log(this.location)
     this.user.locations.push(this.location);
     this.addressForm.reset();
     this.updateUser();
     this.changeShowStatus('showAddress');
     this.location = new Location;
   }
+  
 
   deleteAddress() {
     const location = this.address;

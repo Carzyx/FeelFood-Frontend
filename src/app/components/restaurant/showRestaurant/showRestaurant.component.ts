@@ -23,6 +23,7 @@ export class ShowRestaurantComponent implements OnInit {
 
   private myRestaurant: Restaurant;
   private myUser: User;
+  private show = false;
 
   private envHelper: EnvironmentHelper;
   private mapHelper: MapHelper;
@@ -100,5 +101,13 @@ export class ShowRestaurantComponent implements OnInit {
     this.myOrder.restaurant_location = this.myRestaurant.locations[0];
 
     this.authService.sendOrder(this.myOrder).subscribe(data => console.log(data));
+  }
+  showMap(show)
+  {
+    if(show)
+    {
+      this.show = show;
+    }
+    return this.show;
   }
 }

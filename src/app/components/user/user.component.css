@@ -18,3 +18,12 @@ div.component-title{
 div.input-form{
   margin-bottom: 10px;
 }
+
+div.selectedAddressValues {
+  margin-top: 30px;
+  margin-bottom: 30px;  
+}
+
+ul.nav.nav-tabs.form-selector {
+  margin-bottom: -4px;
+}

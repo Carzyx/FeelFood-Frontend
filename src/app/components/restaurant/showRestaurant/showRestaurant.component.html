@@ -2,6 +2,9 @@
 
 <div class="restaurant">
   <app-restaurantSummary [restaurantId]='restaurantId'></app-restaurantSummary>
+  <div *ngIf="myRestaurant?.locations.length > 0">
+    <app-map [latitudeIn]="myRestaurant.locations[0].lat" [longitudeIn]="myRestaurant.locations[0].lng"></app-map>
+  </div>
   <app-restaurantServices [myRestaurant]='myRestaurant' (myOrderOutput)="myOrder=$event"></app-restaurantServices>
 </div>
 

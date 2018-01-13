@@ -6,8 +6,8 @@
     <strong>Are you sure to delete your account?</strong>
   </div>
   <div class="app-modal-footer">
-    <button type="button" class="btn btn-danger" (click)="deleteRestaurant()">Confirm delete</button>
-    <button type="button" class="btn btn-default" (click)="modalDelete.hide()">Close</button>
+    <button type="button" class="btn btn-outline-danger btn-lg" (click)="deleteRestaurant()">Confirm delete</button>
+    <button type="button" class="btn btn-outline-primary btn-lg" (click)="modalDelete.hide()">Close</button>
   </div>
 </app-modal>
 
@@ -19,7 +19,7 @@
     <strong>{{message}}</strong>
   </div>
   <div class="app-modal-footer">
-    <button type="button" class="btn btn-default" (click)="modal.hide()">Close</button>
+    <button type="button" class="btn btn-outline-primary btn-lg" (click)="modal.hide()">Close</button>
   </div>
 </app-modal>
 
@@ -129,64 +129,45 @@
       </div>
 
       <div class="addAddress" [hidden]="!showItemDictionary.showAddAddress">
-        <div class="component-title">
-          <h2 class="display-5">User Address</h2>
-          <p>
-            <i>Edit your address</i>
-          </p>
+          <div class="component-title">
+            <h2 class="display-5">User Address</h2>
+            <p>
+              <i>Edit your address</i>
+            </p>
+          </div>
+          <form (submit)="updateAddress()">
+            <app-map *ngIf="showItemDictionary.showAddAddress" (addressCompletedOut)="addressCompleted=$event"></app-map>
+            <div class="selectedAddressValues">
+              <fieldset>
+                <label for="control-label" for="readOnlyInput-Address">Address name:</label>
+                <input type="email" class="form-control" id="addressName" placeholder="Enter an address name" [(ngModel)]="addressCompleted.locationName" name="locationName">
+              </fieldset>
+              <fieldset>
+                <label class="control-label" for="readOnlyInput-Address">Address</label>
+                <input class="form-control" id="readOnlyInput-Address" type="text" placeholder="{{addressCompleted?.address}}" readonly="">
+              </fieldset>
+              <fieldset>
+                <label class="control-label" for="readOnlyInput-Street">Street number</label>
+                <input class="form-control" id="readOnlyInput-Street" type="text" placeholder="{{addressCompleted?.streetNumber}}" readonly="">
+              </fieldset>
+              <fieldset>
+                <label class="control-label" for="readOnlyInput-City">City</label>
+                <input class="form-control" id="readOnlyInput-City" type="text" placeholder="{{addressCompleted?.city}}" readonly="">
+              </fieldset>
+              <fieldset>
+                <label class="control-label" for="readOnlyInput-Postal">Postal code</label>
+                <input class="form-control" id="readOnlyInput-Postal" type="text" placeholder="{{addressCompleted?.postalCode}}" readonly="">
+              </fieldset>
+              <fieldset>
+                <label class="control-label" for="readOnlyInput-Country">Country</label>
+                <input class="form-control" id="readOnlyInput-Country" type="text" placeholder="{{addressCompleted?.country}}" readonly="">
+              </fieldset>
+            </div>
+            <!--          <input [disabled]="addressCompleted?.route == undefined" type="submit" class="btn btn-outline-primary btn-lg" value="Submit" /> -->
+            <button type="button" class="btn btn-outline-primary btn-lg" [disabled]="addressCompleted?.address == undefined" [disabled]="addressCompleted?.locationName.length == 0" (click)="updateAddress()">Add</button>
+            <button type="button" class="btn btn-outline-danger" (click)="changeShowStatus('showAddress')">Cancel</button>
+          </form>
         </div>
-        <form [formGroup]="addressForm" (submit)="updateAddress()">
-          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.name.errors && addressForm.controls.name.dirty), 'has-success': !addressForm.controls.name.errors}">
-            <label>Name</label>
-            <input type="text" name="username" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.name.errors && addressForm.controls.name.dirty), 'is-valid': !addressForm.controls.name.errors}"
-              autocomplete="off" formControlName="name" />
-            <ul class="help-block">
-              <li *ngIf="addressForm.controls.name.errors?.required && addressForm.controls.name.dirty">This field is required</li>
-              <li *ngIf="addressForm.controls.name.errors?.maxlength && addressForm.controls.name.dirty">Maximum characters: 20</li>
-            </ul>
-          </div>
-          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.address.errors && addressForm.controls.address.dirty) || addressForm.controls.address.dirty, 'has-success': !addressForm.controls.address.errors}">
-            <label>Address</label>
-            <input type="text" name="address" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.address.errors && addressForm.controls.address.dirty), 'is-valid': !addressForm.controls.address.errors}"
-              autocomplete="off" formControlName="address" />
-            <ul class="help-block">
-              <li *ngIf="addressForm.controls.address.errors?.required && addressForm.controls.address.dirty">This field is required</li>
-              <li *ngIf="addressForm.controls.address.errors?.maxlength && addressForm.controls.address.dirty">Maximum characters: 20</li>
-            </ul>
-          </div>
-          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.city.errors && addressForm.controls.city.dirty), 'has-success': !addressForm.controls.city.errors}">
-            <label>City</label>
-            <input type="text" name="city" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.city.errors && addressForm.controls.city.dirty), 'is-valid': !addressForm.controls.city.errors}"
-              autocomplete="off" formControlName="city" />
-            <!-- Validation -->
-            <ul class="help-block">
-              <li *ngIf="addressForm.controls.city.errors?.required && addressForm.controls.city.dirty">This field is required</li>
-              <li *ngIf="addressForm.controls.city.errors?.maxlength && addressForm.controls.city.dirty">Maximum characters: 20</li>
-            </ul>
-          </div>
-          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.postalCode.errors && addressForm.controls.postalCode.dirty), 'has-success': !addressForm.controls.postalCode.errors}">
-            <label>Zip Code</label>
-            <input type="text" name="postalCode" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.postalCode.errors && addressForm.controls.postalCode.dirty), 'is-valid': !addressForm.controls.postalCode.errors}"
-              autocomplete="off" formControlName="postalCode" />
-            <!-- Validation -->
-            <ul class="help-block">
-              <li *ngIf="addressForm.controls.postalCode.errors?.required && addressForm.controls.postalCode.dirty">This field is required</li>
-              <li *ngIf="addressForm.controls.postalCode.errors?.validatePostalCode && addressForm.controls.postalCode.dirty">This must be a valid zip code</li>
-            </ul>
-          </div>
-          <div class="form-group" [ngClass]="{'has-danger': (addressForm.controls.country.errors && addressForm.controls.country.dirty), 'has-success': !addressForm.controls.country.errors}">
-            <label>Country</label>
-            <input type="text" name="country" class="form-control" [ngClass]="{'is-invalid': (addressForm.controls.country.errors && addressForm.controls.country.dirty), 'is-valid': !addressForm.controls.country.errors}"
-              autocomplete="off" formControlName="country" />
-            <!-- Validation -->
-            <ul class="help-block">
-              <li *ngIf="addressForm.controls.country.errors?.required && addressForm.controls.country.dirty">This field is required</li>
-              <li *ngIf="addressForm.controls.country.errors?.maxlength && addressForm.controls.country.dirty">Maximum characters: 20</li>
-            </ul>
-          </div>
-          <input [disabled]="!addressForm.valid" type="submit" class="btn btn-outline-info" value="Submit" />
-        </form>
-      </div>
 
       <div class="update-account" [hidden]="!showItemDictionary.showAccount">
         <div class="component-title">
@@ -244,7 +225,7 @@
             </ul>
           </div>
           <input [disabled]="!emailForm.valid" type="submit" class="btn btn-outline-info" value="Update" />
-          <button type="button" (click)="modalDelete.show()" class="btn btn-danger">Delete</button>
+          <button type="button" (click)="modalDelete.show()" class="btn btn-outline-danger btn-lg">Delete</button>
         </form>
       </div>
 
@@ -293,7 +274,7 @@
             <button (click)="createMenu()" class="btn btn-success">Create</button>
           </th>
           <th>
-            <button (click)="ShowMenu()" class="btn btn-danger">Cancel</button>
+            <button (click)="ShowMenu()" class="btn btn-danger btn-lg">Cancel</button>
           </th>
           <div class="container" align="left">
             <strong>Description</strong>

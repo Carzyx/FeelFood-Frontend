@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
@@ -18,6 +18,8 @@ import { CustomValidator } from '../../helpers/customValidator';
 })
 
 export class RestaurantProfileComponent implements OnInit {
+
+  @Input() addressCompleted: Location;    
   @ViewChild('modal') modalUpdate: ModalComponent;
   // ShowHide
   showItemDictionary = { showProfile: true, showAddress: false, showAddAddress: false, showAccount: false, showMenus: false, showDishes: false };
@@ -37,6 +39,7 @@ export class RestaurantProfileComponent implements OnInit {
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private validator: CustomValidator, private router: Router) {
     this.menu = new Menu();
     this.location = new Location();
+    this.addressCompleted = new Location();
     this.createForm();
     this.createForm();
     this.getRestaurant();
@@ -119,13 +122,8 @@ export class RestaurantProfileComponent implements OnInit {
   }
 
   private updateAddress() {
-    this.location.locationName = this.addressForm.get('name').value;
-    this.location.address = this.addressForm.get('address').value;
-    this.location.postalCode = this.addressForm.get('postalCode').value;
-    this.location.city = this.addressForm.get('city').value;
-    this.location.country = this.addressForm.get('country').value;
+    this.location = this.addressCompleted;   
     this.restaurant.locations.push(this.location);
-    this.addressForm.reset();
     this.updateRestaurant();
     this.changeShowStatus('showAddress');
     this.location = new Location();

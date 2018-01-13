@@ -61,7 +61,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     HttpClientModule,
     AppRoutes,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAPRBVQnnkf9qptCZSrcQ2DExv5A4uzL8o'
+      apiKey: 'AIzaSyAPRBVQnnkf9qptCZSrcQ2DExv5A4uzL8o',
+      libraries: ["places"]
     }),
     FormsModule
   ],
