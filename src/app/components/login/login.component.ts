@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
@@ -18,6 +18,10 @@ import { ModalComponent } from '../../shared/modal/modal.component';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  @Input() loginRestaurantAvailable: boolean = true;
+  @Input() redirectAvailable: boolean = true;
+  @Output() succesLogin: EventEmitter<boolean> = new EventEmitter();
+  @Output() userOut: EventEmitter<User> = new EventEmitter();
   @ViewChild('modal') modal: ModalComponent;
   private user: User;
   private restaurant: Restaurant;
@@ -36,7 +40,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router, private formBuilder: FormBuilder,
     private authService: AuthService, private authGuard: AuthGuard, private navBar: AppNavbar) {
-      
+
     this.createForm();
     this.user = new User();
     this.restaurant = new Restaurant();
@@ -175,6 +179,8 @@ export class LoginComponent implements OnInit {
           this.navBar.profile = '/userProfile';
           this.user = this.mapHelper.map(User, data['user']);
           this.authService.storeUserData(data['token'], data['user']);
+          this.succesLogin.emit(true);
+          this.userOut.emit(this.user);
         } else if (data['restaurant']) {
           this.navBar.profile = '/restaurantProfile';
           this.restaurant = this.mapHelper.map(Restaurant, data['restaurant']);
@@ -182,9 +188,9 @@ export class LoginComponent implements OnInit {
         }
         setTimeout(() => {
           this.modal.hide();
-          if (this.previousUrl) {
+          if (this.previousUrl && this.redirectAvailable) {
             this.router.navigate([this.previousUrl]);
-          } else {
+          } else if (this.redirectAvailable) {
             this.router.navigate(['/home']);
           }
         }, 1000);

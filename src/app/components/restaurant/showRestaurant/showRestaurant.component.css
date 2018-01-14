@@ -10,3 +10,7 @@
 div.selectedLocation {
     margin-top: 1rem;
 }
+
+.deliveryComment.bodyOrder {
+    margin-top: 12%;
+}

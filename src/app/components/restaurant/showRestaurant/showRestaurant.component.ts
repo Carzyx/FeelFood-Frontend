@@ -23,8 +23,9 @@ export class ShowRestaurantComponent implements OnInit {
 
   private myRestaurant: Restaurant;
   private myUser: User;
-  private show = false;
-
+  private show: boolean = false;
+  private showNewAddress: boolean = false;
+  private isLogin : boolean = false;
   private envHelper: EnvironmentHelper;
   private mapHelper: MapHelper;
 
@@ -74,18 +75,25 @@ export class ShowRestaurantComponent implements OnInit {
   getUser() {
     this.myUser = JSON.parse(localStorage.getItem('user'));    
     if (!this.myUser) {
-      alert("you need to be login to create an order")
       return;
     }
 
     this.authService.getProfile(this.myUser._id).subscribe(data => {
       this.myUser = this.mapHelper.map(User, data);
+      this.isLogin = this.myUser ? true : false;
+      console.log("user loaded in showRestaurant")
     });
   }
 
   setUserLocationToOrder(locationName: String) {
     this.myOrder.user_location = this.myUser.locations.find(loc => loc.locationName == locationName);
     return this.myOrder.user_location;
+  }
+
+  setCommentToOrder(commentTextArea){
+
+    this.myOrder.comment = commentTextArea;
+
   }
 
   sendOrder() {
@@ -102,12 +110,25 @@ export class ShowRestaurantComponent implements OnInit {
 
     this.authService.sendOrder(this.myOrder).subscribe(data => console.log(data));
   }
-  showMap(show)
-  {
+
+  showMap(show) {
     if(show)
     {
       this.show = show;
     }
     return this.show;
+  }
+
+  showMapNewAddress(show) {
+    if(show)
+    {
+      this.showNewAddress = show;
+    }
+    return this.showNewAddress;
+  }
+
+  IsUserRegister(){
+    this.showMapNewAddress(this.myUser ? true : false);
+    return this.myUser;
   }
 }

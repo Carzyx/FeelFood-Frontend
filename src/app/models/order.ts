@@ -19,4 +19,5 @@ export class Order {
     menusDetails: Array<Menu>
     dishesDetails: Array<Dish>
     totalPrice: Number
+    comment: String
 }

@@ -51,7 +51,7 @@
     </div>
 
     <div class="form-group login-inputs" [hidden]="!showItemDictionary.showSignup">
-        <div class="type.accoun form-check">
+        <div class="type.accoun form-check" [hidden]="!loginRestaurantAvailable">
             <label class="form-check-label" (change)=setRestaurantOption()>
               <input type="checkbox" class="form-check-input" /> I am a restaurant
             </label>
