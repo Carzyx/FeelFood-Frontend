@@ -191,7 +191,7 @@ export class LoginComponent implements OnInit {
           if (this.previousUrl && this.redirectAvailable) {
             this.router.navigate([this.previousUrl]);
           } else if (this.redirectAvailable) {
-            this.router.navigate(['/home']);
+            this.router.navigate(['/dashboard']);
           }
         }, 1000);
       }

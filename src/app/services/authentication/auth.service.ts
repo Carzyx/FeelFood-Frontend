@@ -132,8 +132,17 @@ export class AuthService {
   }
 
   sendOrder(order) {
-    this.createHeaders();
+    this.createAuthHeaders();
     return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.orders, JSON.stringify(order), this.options)
   }
 
+  getOrder(id) {
+    this.createAuthHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.orderDetail + id, this.options);
+  }
+
+  updateOrder(order) {
+    this.createAuthHeaders();
+    return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.orders, JSON.stringify(order), this.options);
+  }
 }

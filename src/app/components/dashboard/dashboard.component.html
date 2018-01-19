@@ -49,6 +49,17 @@
         <div class="jumbotron" style="background: #E9E9E5;">
           <h4>Orders in progress</h4>
           <hr class="my-4">
+          <div class="list-group" *ngIf="user.orders[0]">
+            <a *ngFor="let order of user.orders" [routerLink]="['/order', order._id]" routerLinkActive="active" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1"><strong>{{order.restaurant}}</strong></h5>
+                <small>Last update: {{order.status[order.status.length - 1].dataState | date : "d/M/y H:mm 'h'"}}</small>
+              </div>
+              <p class="mb-1">{{order.totalPrice}} &euro;</p>
+              <p class="text-muted">{{order.createDate | date : "d'/'M'/'y"}}</p>
+              <p class="mb-1">Current state: <strong>{{order.status[order.status.length - 1].state}}</strong></p>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -74,10 +85,10 @@
           <hr class="my-4">
           <p>My address:</p>
           <ul class="list-group">
-            <li class="list-group-item" *ngIf="!restaurant.location[0]">
+            <li class="list-group-item" *ngIf="!restaurant.locations[0]">
               <em>No address defined.</em>
             </li>
-            <li class="list-group-item" *ngFor="let location of restaurant.location">
+            <li class="list-group-item" *ngFor="let location of restaurant.locations">
               <strong>
                 <em>{{location.locationName}}:</em>
               </strong>
@@ -90,8 +101,37 @@
       </div>
       <div class="col-sm-8">
         <div class="jumbotron" style="background: #E9E9E5;">
-          <h4>Orders in progress</h4>
+          <h4>Orders</h4>
           <hr class="my-4">
+          <div class="list-group" *ngIf="restaurant.orders[0]">
+            <a *ngFor="let order of restaurant.orders" (click)="updateState(order)" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="row">
+                <div class="col-sm-6">
+                  <small>Last update: {{order.status[order.status.length - 1].dataState | date : "d/M/y H:mm"}}</small>
+                  <h6 class="mb-1"><strong>Current state: </strong>{{order.status[order.status.length - 1].state}}</h6>
+                  <hr class="my-4">
+                  <h6 class="mb-1"><strong>Deliver on: </strong>{{order.deliveryDate | date : "d/M/y H:mm"}}</h6>
+                  <h6 class="mb-1"><em>{{order.firstName}} {{order.lastName}}, {{order.userName}}  </em></h6>
+                  <h6 class="text-muted" style="text-align:left;">{{order.user_location.address}}</h6>
+                  <h6 class="text-muted">{{order.user_location.city}}, {{order.user_location.postalCode}} {{order.user_location.country}}</h6>
+                </div>
+                <div class="col-sm-6">
+                  <div class="card text-white bg-success mb-3" style="max-width: 100%;">
+                    <div class="card-header"><strong>Order summary</strong></div>
+                    <div class="card-body">
+                      <h6 style="text-align:left;" *ngFor="let dish of order.dishesDetails">&#9725; {{dish.name}}
+                        <span style="float:right;">{{dish.price}}</span>
+                      </h6>
+                      <hr class="my-4">
+                      <h5 style="text-align:left;"><strong>Total:
+                        <span style="float:right;">{{order.totalPrice}} &euro;</span></strong>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -109,3 +149,38 @@
     <button type="button" class="btn btn-default" (click)="redirect()">Continue</button>
   </div>
 </app-modal>
+
+<app-modal #modalOrder>
+  <div class="app-modal-header">
+    <h5>Order states</h5>
+  </div>
+  <div class="app-modal-body">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="col">State</th>
+        <th scope="col">Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let status of orderStatus">
+        <td class="text-muted">{{status.state}}</td>
+        <td class="text-muted">{{status.dataState | date : "d/M/y H:mm"}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="form-group">
+      <label for="Select">Select state:</label>
+      <select #state class="form-control" id="Select" >
+        <option *ngIf="!isAccepted">Refused</option>
+        <option>Accepted</option>
+        <option>Delivered</option>
+      </select>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="orderUpdate(state.value)">Change</button>
+  </div>
+</app-modal>
+
+<router-outlet></router-outlet>

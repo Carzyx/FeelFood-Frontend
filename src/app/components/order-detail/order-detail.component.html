@@ -1,0 +1,58 @@
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-10">
+      <div class="jumbotron" style="background: #E9E9E5;">
+        <h4>Order detail</h4>
+        <ng-container *ngIf="order">
+          <hr class="my-4">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">{{order.restaurant}}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted" style="text-align:left;">{{order?.restaurant_location.address}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">{{order.restaurant_location.city}}, {{order.restaurant_location.postalCode}} {{order.restaurant_location.country}}</h6>
+                    <p class="card-text"><em>{{order.status[order.status.length - 1].state}} - {{order.status[order.status.length - 1].dataState | date : " d/M/y H:mm 'h'"}}</em></p>
+                    <a routerLink="/restaurant/{{order.restaurant_id}}" class="card-link">Visit restaurant</a>
+                    <hr class="my-4">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <p class="card-text" style="text-align:left;">Delivery address</p>
+                          <h6 class="text-muted" style="text-align:left;">{{order.user_location.address}}</h6>
+                          <h6 class="text-muted">{{order.user_location.city}}, {{order.user_location.postalCode}} {{order.user_location.country}}</h6>
+                        </div>
+                        <div class="col-sm-6">
+                          <p class="card-text" style="text-align:right;">Delivery date</p>
+                          <h6 class="text-muted" style="float:right;">{{order.deliveryDate | date : "d/M/y H:mm 'h'"}}</h6>
+                        </div>
+                      </div>
+                      <hr class="my-4">
+                  <h5>Need help?</h5>
+                  <p class="text-muted">If you have had an incident with your order, we recommend that you call directly to <a href="tel:{{order.restaurantPhone}}">{{order.restaurantPhone}}</a>. You can also contact us if you have any questions.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card bg-light mb-3">
+                <div class="card-header"><strong>Order summary<span style="float:right;">{{order.createDate | date : "d'/'M'/'y"}}</span></strong></div>
+              <div class="card-body">
+                <h6 style="text-align:left;" *ngFor="let dish of order.dishesDetails">&#9725; {{dish.name}}
+                  <span style="float:right;">{{dish.price}}</span>
+                </h6>
+                <hr class="my-4">
+                <h5 style="text-align:left;"><strong>Total:
+                  <span style="float:right;">{{order.totalPrice}} &euro;</span></strong>
+                </h5>
+              </div>
+            </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-sm-1">
+    </div>
+  </div>
+</div>

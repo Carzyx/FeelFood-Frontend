@@ -31,6 +31,7 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 import { CustomValidator } from './helpers/customValidator';
 import { ModalComponent } from './shared/modal/modal.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     AppNavbar,
     AuthFbComponent,
     ModalComponent,
-    DashboardComponent
+    DashboardComponent,
+    OrderDetailComponent
   ],
   imports: [
     ReactiveFormsModule,

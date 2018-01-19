@@ -132,7 +132,7 @@
           <app-map *ngIf="showItemDictionary.showAddAddress" (addressCompletedOut)="addressCompleted=$event"></app-map>
           <div class="selectedAddressValues">
             <fieldset>
-              <label for="control-label" for="readOnlyInput-Address">Address name:</label>
+              <label class="control-label" for="readOnlyInput-Address">Address name:</label>
               <input type="email" class="form-control" id="addressName" placeholder="Enter an address name" [(ngModel)]="addressCompleted.locationName" name="locationName">
             </fieldset>
             <fieldset>

@@ -13,7 +13,7 @@ export class FooterComponent {
 class Contact {
     name: string = 'FeelFood Company'
     address: string = 'Esteve Terradas, 7'
-    phone: string = '+32 000 000 000'
+    phone: string = '+34 123 123 123'
     email: string = 'info@feelfood.es'
     facebook: string = 'https://www.facebook.com/delegacio.eetac/'
     github: string = 'https://github.com/FeelFood'

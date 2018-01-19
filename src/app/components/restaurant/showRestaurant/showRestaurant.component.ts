@@ -73,7 +73,7 @@ export class ShowRestaurantComponent implements OnInit {
   }
 
   getUser() {
-    this.myUser = JSON.parse(localStorage.getItem('user'));    
+    this.myUser = JSON.parse(localStorage.getItem('user'));
     if (!this.myUser) {
       return;
     }
@@ -98,17 +98,16 @@ export class ShowRestaurantComponent implements OnInit {
 
   sendOrder() {
     this.myOrder.deliveryDate = this.deliveryDate;
-    this.myOrder.createDate = new Date();
-
-    this.myOrder.username_id = this.myUser._id;
+    this.myOrder.user_id = this.myUser._id;
+    this.myOrder.userName = this.myUser.username;
     this.myOrder.firstName = this.myUser.firstName;
     this.myOrder.lastName = this.myUser.lastName;
-
+    this.myOrder.restaurantPhone = this.myRestaurant.phone;
     this.myOrder.restaurant_id = this.myRestaurant._id;
     this.myOrder.restaurant = this.myRestaurant.name;
     this.myOrder.restaurant_location = this.myRestaurant.locations[0];
 
-    this.authService.sendOrder(this.myOrder).subscribe(data => console.log(data));
+    this.authService.sendOrder(this.myOrder).subscribe(data => console.log(data['message']));
   }
 
   showMap(show) {

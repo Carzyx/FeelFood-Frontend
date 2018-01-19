@@ -13,3 +13,7 @@ img.rounded-circle{
   margin-right: auto;
   width: 75%;
 }
+
+a:hover {
+  cursor:pointer;
+}

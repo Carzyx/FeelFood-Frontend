@@ -11,6 +11,7 @@ import { AuthFbComponent } from './components/authFb/authFb.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import {OrderDetailComponent} from "./components/order-detail/order-detail.component";
 
 export const Router: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -23,6 +24,7 @@ export const Router: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'auth/:username/:token', component: AuthFbComponent, canActivate: [NotAuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'order/:id', component: OrderDetailComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/home' }
 ];
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(Router);

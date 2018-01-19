@@ -32,7 +32,8 @@ export class EnvironmentHelper {
     ingredients: '/ingredient',
     delete: '/restaurant?id=',
     publicRestaurant: '/restaurant/public?id=',
-    orders: '/orders'
+    orders: '/orders',
+    orderDetail: '/orders?id='
   }
 
   readonly urlDictionary = {

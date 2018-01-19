@@ -4,20 +4,21 @@ import { Location } from './location';
 
 
 export class Order {
-    restaurant_id: String
-    restaurant: String
-    restaurant_location: Location
-
-    username_id: String
-    firstName: String
-    lastName: String
-    user_location: Location
-
-    createDate: Date
-    deliveryDate: Date
-    //status: [{ state: { type: String }, dataState: { type: Date } }],
-    menusDetails: Array<Menu>
-    dishesDetails: Array<Dish>
-    totalPrice: Number
-    comment: String
+    _id: String;
+    restaurant_id: String;
+    restaurant: String;
+    restaurantPhone: String;
+    restaurant_location: Location;
+    user_id: String;
+    userName: String;
+    firstName: String;
+    lastName: String;
+    user_location: Location;
+    createDate: Date;
+    deliveryDate: Date;
+    status: [{ state: String , dataState: Date}];
+    menusDetails: Array<Menu>;
+    dishesDetails: Array<Dish>;
+    totalPrice: Number;
+    comment: String;
 }
