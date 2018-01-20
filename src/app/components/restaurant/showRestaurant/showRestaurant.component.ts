@@ -128,14 +128,9 @@ export class ShowRestaurantComponent implements OnInit {
       });
   }
 
-  updateStock() {
-    console.log("antes de la peticion")
-    console.log(JSON.stringify(this.myRestaurant));
-
+  updateStock() {   
     this.updateDishesToCard();
-    this.updateMenus();
-    console.log("despues de la peticion")
-    console.log(JSON.stringify(this.myRestaurant));
+    this.updateMenus();    
   }
 
   updateDishesToCard() {
@@ -159,39 +154,43 @@ export class ShowRestaurantComponent implements OnInit {
       var menuToUpdate = this.myRestaurant.menus.find(menu => menu.name == menu.name);
 
       menu.starters.forEach(element => {
-        this.updateDishesToMenu(menuToUpdate, element)
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'starters')
       });
 
       menu.firstOptions.forEach(element => {
-        this.updateDishesToMenu(menuToUpdate, element)
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'firstOptions')
       });
       menu.secondOptions.forEach(element => {
-        this.updateDishesToMenu(menuToUpdate, element)
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'secondOptions')
       });
       menu.thirdOptions.forEach(element => {
-        this.updateDishesToMenu(menuToUpdate, element)
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'thirdOptions')
       });
 
       menu.drinksOptions.forEach(element => {
-        this.updateDishesToMenu(menuToUpdate, element)
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'drinksOptions')
       });
 
       menu.othersOptions.forEach(element => {
-        this.updateDishesToMenu(menuToUpdate, element)
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'othersOptions')
       });
+
+      var index = this.myRestaurant.menus.findIndex(menu => menu.name == menu.name);
+      this.myRestaurant.menus[index] = menuToUpdate;
 
     });
   }
 
-  updateDishesToMenu(menuToUpdate, dishConsumed) {
+  updateDishesToMenu(menuToUpdate, dishConsumed, key) {
 
-    var dishToUpdate = menuToUpdate.firstOptions.find(dish => dish.name == dishConsumed.name);
+    var dishToUpdate = menuToUpdate[key].find(dish => dish.name == dishConsumed.name);
 
     if (dishToUpdate) {
       --dishToUpdate.stock;
 
       var index = this.myRestaurant.dishes.findIndex(dish => dish.name == dishConsumed.name);
-      menuToUpdate.firstOptions[index] = dishToUpdate;
+      menuToUpdate[key][index] = dishToUpdate;
+      return menuToUpdate;
     }
   }
 
