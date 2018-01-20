@@ -82,8 +82,8 @@ export class MapComponent implements OnInit {
     this.zoom = 4;
 
     if (!this.latitudeIn && !this.longitudeIn) {
-      this.latitude = 39.8282;
-      this.longitude = -98.5795;
+    //set current position
+    this.setCurrentPosition();
     }
     else {
       this.latitude = this.latitudeIn;
@@ -94,9 +94,6 @@ export class MapComponent implements OnInit {
 
     //create search FormControl
     this.searchControl = new FormControl();
-
-    //set current position
-    this.setCurrentPosition();
 
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {

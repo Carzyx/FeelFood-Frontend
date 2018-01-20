@@ -31,6 +31,8 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 import { CustomValidator } from './helpers/customValidator';
 import { ModalComponent } from './shared/modal/modal.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { RatingModule } from "ngx-rating";
+import { RateComponent } from './shared/rate/rate.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     AppNavbar,
     AuthFbComponent,
     ModalComponent,
-    DashboardComponent
+    DashboardComponent,
+    RateComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -60,6 +63,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     BrowserModule,
     HttpClientModule,
     AppRoutes,
+    RatingModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAPRBVQnnkf9qptCZSrcQ2DExv5A4uzL8o',
       libraries: ["places"]
