@@ -14,11 +14,12 @@ export class Restaurant {
     average: {
       dish: Number,
       menu: Number
-    }};
+    }
   description: [{
     name: String ,
     value: Number
-  }];
+    }];
+  };
   images: Array<String>
   phone: Number
   locations: Array<Location>

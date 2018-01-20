@@ -12,6 +12,7 @@ import { AppNavbar } from '../../shared/navbar/navbar.component';
 import { AuthGuard } from '../../guards/auth.guard';
 import { ModalComponent } from '../../shared/modal/modal.component';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -36,7 +37,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router, private formBuilder: FormBuilder,
     private authService: AuthService, private authGuard: AuthGuard, private navBar: AppNavbar) {
-      
+
     this.createForm();
     this.user = new User();
     this.restaurant = new Restaurant();
