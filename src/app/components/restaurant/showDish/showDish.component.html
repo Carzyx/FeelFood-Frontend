@@ -1,4 +1,4 @@
-<div class="list-group-item list-group-item-action" (click)="setSelected()" [class.selected]="isSelected">
+<div class="list-group-item list-group-item-action" (click)="setSelected()" [class.selected]="isSelected" *ngIf="myDish.stock > 0">
     <table>
         <tr>
             <td>

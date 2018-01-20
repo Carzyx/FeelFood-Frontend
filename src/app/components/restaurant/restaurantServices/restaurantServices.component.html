@@ -118,7 +118,7 @@
                         </tr>
                         <tr>
                             <div class="ingredient-item" *ngFor="let dish of myRestaurant.dishes">
-                                <app-showDish [myDish]="dish" (click)="setOrRemoveDishToList(dish)"></app-showDish>
+                                <app-showDish [myDish]="dish" (click)="addDish(dish)"></app-showDish>
                             </div>
                         </tr>
                     </table>

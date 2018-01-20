@@ -83,6 +83,12 @@ export class RestaurantServicesComponent implements OnInit {
         this.sendOrder();
     }
 
+    addDish(dish: Dish){
+        this.setOrRemoveDishToList(dish);
+        this.updateServiceTotalPrice();
+        this.sendOrder();
+    }
+
     setOrRemoveOptionDishToMenu(myMenu: Menu, dish: Dish, option: string) {
 
         var isDishAdded = myMenu[option].find(myDish => myDish == dish);

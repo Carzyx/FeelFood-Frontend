@@ -34,6 +34,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { RateComponent } from './shared/rate/rate.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,9 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     DashboardComponent,
     OrderDetailComponent,
     ContactComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    OrderDetailComponent,
+    RateComponent
   ],
   imports: [
     ReactiveFormsModule,

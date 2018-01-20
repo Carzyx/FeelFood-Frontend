@@ -2,7 +2,7 @@
 
 <div class="restaurant">
   <app-restaurantSummary [restaurantId]='restaurantId'></app-restaurantSummary>
-  <div *ngIf="myRestaurant?.locations.length > 0">
+  <div *ngIf="myRestaurant?.locations?.length > 0">
     <app-map [latitudeIn]="myRestaurant.locations[0].lat" [longitudeIn]="myRestaurant.locations[0].lng"></app-map>
   </div>
   <app-restaurantServices [myRestaurant]='myRestaurant' (myOrderOutput)="myOrder=$event"></app-restaurantServices>
@@ -86,7 +86,7 @@
     </div>
     <div class="app-modal-footer">
       <button type="button" class="btn btn-outline-danger" (click)="modalDelivery.hide();">Cancel</button>
-      <button type="button" class="btn btn-outline-success" (click)="sendOrder(); modalDelivery.hide();">Delivery</button>
+      <button type="button" class="btn btn-outline-success" (click)="sendOrder(); modalDelivery.hide(); modalMessage.show();">Delivery</button>
     </div>
   </app-modal>
 </div>
@@ -102,3 +102,13 @@
     </div>
   </app-modal>
 </div>
+
+
+<app-modal #modalMessage>
+    <div class="app-modal-header">
+      <h5>Information</h5>
+    </div>
+    <div class="app-modal-body">
+      <h2 class="{{messageClass}}">{{messageResult}}</h2>
+    </div>
+  </app-modal>
