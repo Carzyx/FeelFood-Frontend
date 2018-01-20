@@ -9,6 +9,7 @@ import { AuthService } from '../../services/authentication/auth.service';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { Location } from '../../models/location';
 import { CustomValidator } from '../../helpers/customValidator';
+import io from 'socket.io-client';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class RestaurantProfileComponent implements OnInit {
   tagsForm;
   address;
   message;
+  private socket;
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private validator: CustomValidator, private router: Router) {
     this.menu = new Menu();
@@ -124,7 +126,7 @@ export class RestaurantProfileComponent implements OnInit {
   private updateTags() {
     this.restaurant.tags.homeDelivery = this.tagsForm.get('homeDelivery').value;
     this.restaurant.tags.takeAway = this.tagsForm.get('takeAway').value;
-    console.log(this.restaurant.tags)
+    console.log(this.restaurant.tags);
   }
   private updatePassword() {
     this.restaurant.password = this.passwordForm.get('password').value;
@@ -174,6 +176,15 @@ export class RestaurantProfileComponent implements OnInit {
       this.restaurant = this.restaurantOriginal;
       console.log(this.restaurant);
         this.createForm();
+        if (!this.socket) {
+          this.socket = io.connect('http://localhost:3001');
+          console.log(this.socket);
+          this.socket.emit('id', this.restaurant._id);
+          this.socket.on('update', function () {
+            alert('Yees');
+            // this.getRestaurant();
+          });
+        }
     },
       err => { console.log(err); });
   }

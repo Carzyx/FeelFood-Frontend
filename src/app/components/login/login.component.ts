@@ -12,6 +12,7 @@ import { AppNavbar } from '../../shared/navbar/navbar.component';
 import { AuthGuard } from '../../guards/auth.guard';
 import { ModalComponent } from '../../shared/modal/modal.component';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
