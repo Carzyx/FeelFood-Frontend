@@ -2,6 +2,7 @@ import { Location } from './location';
 import { Menu } from './menu';
 import { Dish } from './dish';
 import {Order} from './order';
+import { Rate } from './rate';
 
 export class Restaurant {
   _id: String;
@@ -15,4 +16,5 @@ export class Restaurant {
   menus: Array<Menu>;
   dishes: Array<Dish>;
   orders: Array<Order>;
+  ratings: Array<Rate>
 }

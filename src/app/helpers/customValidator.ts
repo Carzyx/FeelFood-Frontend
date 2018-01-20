@@ -42,4 +42,13 @@ export class CustomValidator {
       }
     };
   }
+
+  validateUsername(controls) {
+    const regExp = new RegExp(/^[a-zA-Z0-9]+$/);
+    if (regExp.test(controls.value)) {
+      return null; // Return as valid username
+    } else {
+      return { 'validateUsername': true }; // Return as invalid username
+    }
+  }
 }

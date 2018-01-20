@@ -32,6 +32,8 @@ import { CustomValidator } from './helpers/customValidator';
 import { ModalComponent } from './shared/modal/modal.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { OrderDetailComponent } from './components/order-detail/order-detail.com
     AuthFbComponent,
     ModalComponent,
     DashboardComponent,
-    OrderDetailComponent
+    OrderDetailComponent,
+    ContactComponent,
+    ResetPasswordComponent
   ],
   imports: [
     ReactiveFormsModule,

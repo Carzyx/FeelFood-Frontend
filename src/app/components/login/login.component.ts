@@ -11,6 +11,7 @@ import { AuthService } from '../../services/authentication/auth.service';
 import { AppNavbar } from '../../shared/navbar/navbar.component';
 import { AuthGuard } from '../../guards/auth.guard';
 import { ModalComponent } from '../../shared/modal/modal.component';
+import {CustomValidator} from '../../helpers/customValidator';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
   @Output() succesLogin: EventEmitter<boolean> = new EventEmitter();
   @Output() userOut: EventEmitter<User> = new EventEmitter();
   @ViewChild('modal') modal: ModalComponent;
+  @ViewChild('modalPassword') modalPassword: ModalComponent;
   private user: User;
   private restaurant: Restaurant;
   private envHelper: EnvironmentHelper;
@@ -31,6 +33,7 @@ export class LoginComponent implements OnInit {
 
   signupForm: FormGroup;
   loginForm: FormGroup;
+  resetPassForm: FormGroup;
   private mapHelper: MapHelper;
 
   message;
@@ -39,7 +42,7 @@ export class LoginComponent implements OnInit {
   previousUrl;
 
   constructor(private router: Router, private formBuilder: FormBuilder,
-    private authService: AuthService, private authGuard: AuthGuard, private navBar: AppNavbar) {
+    private authService: AuthService, private authGuard: AuthGuard, private navBar: AppNavbar, private validator: CustomValidator) {
 
     this.createForm();
     this.user = new User();
@@ -53,7 +56,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.compose([
         Validators.required,
-        this.validateEmail
+        this.validator.validateEmail
       ])],
       password: ['', Validators.compose([
         Validators.required
@@ -64,50 +67,27 @@ export class LoginComponent implements OnInit {
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(20),
-        this.validateEmail
+        this.validator.validateEmail
       ])],
       username: ['', Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(15),
-        this.validateUsername
+        this.validator.validateUsername
       ])],
       password: ['', Validators.compose([
         Validators.required,
-        Validators.minLength(8)
+        Validators.minLength(8),
+        Validators.maxLength(35),
       ])],
       confirm: ['', Validators.required]
-    }, { validator: this.matchingPasswords('password', 'confirm') });
-  }
-
-  validateEmail(controls) {
-    const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    // Test email against regular expression
-    if (regExp.test(controls.value)) {
-      return null; // Return as valid email
-    } else {
-      return { 'validateEmail': true }; // Return as invalid email
-    }
-  }
-
-  validateUsername(controls) {
-    const regExp = new RegExp(/^[a-zA-Z0-9]+$/);
-    if (regExp.test(controls.value)) {
-      return null; // Return as valid username
-    } else {
-      return { 'validateUsername': true }; // Return as invalid username
-    }
-  }
-
-  matchingPasswords(password, confirm) {
-    return (group: FormGroup) => {
-      // Check if both fields are the same
-      if (group.controls[password].value === group.controls[confirm].value) {
-        return null; // Return as a match
-      } else {
-        return { 'matchingPasswords': true }; // Return as error: do not match
-      }
-    };
+    }, { validator: this.validator.matchingPasswords('password', 'confirm') });
+    this.resetPassForm = this.formBuilder.group({
+      email: ['', Validators.compose([
+        Validators.required,
+        this.validator.validateEmail
+      ])]
+    });
   }
 
   disableForm() {
@@ -246,4 +226,35 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+  showModalPass() {
+    this.modalPassword.show();
+  }
+
+  resetPassword() {
+    const message = {
+      email: this.resetPassForm.get('email').value
+    };
+    this.authService.sendResetPassword(message).subscribe(data => {
+      console.log(JSON.stringify(data));
+      this.modalPassword.hide();
+      this.resetPassForm.reset();
+      if (!data['success']) {
+        this.messageClass = 'text-danger';
+        this.message = data['message'];
+        this.modal.show();
+        setTimeout(() => {
+          this.modal.hide();
+        }, 1000);
+      } else {
+        this.messageClass = 'text-success';
+        this.message = data['message'];
+        this.modal.show();
+        setTimeout(() => {
+          this.modal.hide();
+        }, 1000);
+      }
+    });
+  }
+
 }

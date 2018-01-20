@@ -145,4 +145,20 @@ export class AuthService {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.orders, JSON.stringify(order), this.options);
   }
+
+  sendContact(body: {name; email; subject: any}) {
+    this.createHeaders();
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.contact, body, this.options);
+  }
+
+
+  sendResetPassword(body: { email: any }) {
+    this.createHeaders();
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.forgotPassword, body, this.options);
+  }
+
+  sendNewPassword(body: any) {
+    this.createHeaders();
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.resetPassword, body, this.options);
+  }
 }

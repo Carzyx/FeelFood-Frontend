@@ -25,6 +25,26 @@
       </div>
     </app-modal>
 
+    <app-modal #modalPassword>
+      <div class="app-modal-header">
+        <h5>Reset password</h5>
+      </div>
+      <div class="app-modal-body">
+        <p>Introduce your email.</p>
+        <div class="form-group" [ngClass]="{'has-danger': (resetPassForm.controls.email.errors && resetPassForm.controls.email.dirty), 'has-success': !resetPassForm.controls.email.errors}">
+          <form [formGroup]="resetPassForm" (submit)="resetPassword()">
+            <input type="text" name="email" class="form-control" [ngClass]="{'is-invalid': (resetPassForm.controls.email.errors && resetPassForm.controls.email.dirty), 'is-valid': !resetPassForm.controls.email.errors}"
+                   autocomplete="off" placeholder="example@gmail.com" formControlName="email" />
+            <ul class="help-block">
+              <li *ngIf="resetPassForm.controls.email.errors?.required && resetPassForm.controls.email.dirty">This field is required</li>
+              <li *ngIf="resetPassForm.controls.email.errors?.validateEmail && resetPassForm.controls.email.dirty">This must be a valid e-mail</li>
+            </ul>
+            <input [disabled]="!resetPassForm.valid" type="submit" style="float: right" class="btn btn-outline-primary btn-lg" value="Send" />
+          </form>
+        </div>
+      </div>
+    </app-modal>
+
     <div class="form-group login-inputs" [hidden]="!showItemDictionary.showLogin">
       <form [formGroup]="loginForm" (submit)="loginSubmit(null,null)">
         <div class="form-group" [ngClass]="{'has-danger': (loginForm.controls.email.errors && loginForm.controls.email.dirty), 'has-success': !loginForm.controls.email.errors}">
@@ -43,6 +63,7 @@
           <ul class="help-block">
             <li *ngIf="loginForm.controls.password.errors?.required && loginForm.controls.password.dirty">This field is required</li>
           </ul>
+          <a class="text-primary" (click)="showModalPass()"><em>Forgot password?</em></a>
         </div>
         <input [disabled]="!loginForm.valid || proccessing" type="submit" class="btn btn-outline-primary btn-lg" value="Submit" />
         <a href="http://localhost:3001/auth/facebook" class="btn btn-outline-primary btn-lg">
@@ -84,7 +105,7 @@
           <!-- Validation -->
           <ul class="help-block">
             <li *ngIf="signupForm.controls.password.errors?.required && signupForm.controls.password.dirty">This field is required</li>
-            <li *ngIf="signupForm.controls.password.errors?.minlength && signupForm.controls.password.dirty">Password must have at least 8 characters</li>
+            <li *ngIf="signupForm.controls.password.errors?.minlength && signupForm.controls.password.dirty || signupForm.controls.password.errors?.maxlength && signupForm.controls.password.dirty">Password must have minimum characters: 8, maximum characters: 35</li>
           </ul>
         </div>
         <div class="form-group" [ngClass]="{'has-danger': (signupForm.controls.confirm.errors && signupForm.controls.confirm.dirty) || (signupForm.errors?.matchingPasswords && signupForm.controls.confirm.dirty), 'has-success': !signupForm.controls.confirm.errors && !signupForm.errors?.matchingPasswords}">
