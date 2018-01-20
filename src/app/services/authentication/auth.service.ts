@@ -98,7 +98,7 @@ export class AuthService {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user, JSON.stringify(user), this.options);
   }
-  updateProfilerRestaurant (id) {
+  updateProfileRestaurant (id) {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant, JSON.stringify(user), this.options);
   }
