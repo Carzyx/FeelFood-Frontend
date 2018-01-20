@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { tokenNotExpired } from 'angular2-jwt';
-import { EnvironmentHelper } from '../../../environments/environment';
+import {EnvironmentHelper} from '../../../environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +15,7 @@ export class AuthService {
     this.envHelper = new EnvironmentHelper();
   }
 
-  createAuthHeaders() {
+  createAuthHeaders () {
     this.readToken();
     this.options = {
       headers: new HttpHeaders({
@@ -25,7 +25,7 @@ export class AuthService {
     };
   }
 
-  createHeaders() {
+  createHeaders () {
     this.options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -33,13 +33,13 @@ export class AuthService {
     };
   }
 
-  storeUserData(token, user) {
+  storeUserData (token, user) {
     localStorage.setItem('token', 'JWT ' + token);
     localStorage.setItem('user', JSON.stringify(user));
     this.authToken = token;
     this.user = user;
   }
-  storeRestaurantData(token, restaurant) {
+  storeRestaurantData (token, restaurant) {
     localStorage.setItem('token', 'JWT ' + token);
     localStorage.setItem('restaurant', JSON.stringify(restaurant));
     this.authToken = token;
@@ -93,6 +93,7 @@ export class AuthService {
   getProfileRestaurant(id) {
     this.createAuthHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.profile + id, this.options);
+
   }
   updateProfile(user) {
     this.createAuthHeaders();

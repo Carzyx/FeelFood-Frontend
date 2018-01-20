@@ -17,6 +17,7 @@ import io from 'socket.io-client';
   templateUrl: './restaurantProfile.component.html',
   styleUrls: ['./restaurantProfile.component.css']
 })
+
 export class RestaurantProfileComponent implements OnInit {
   @ViewChild('modal') modalUpdate: ModalComponent;
   // ShowHide
@@ -204,15 +205,10 @@ export class RestaurantProfileComponent implements OnInit {
   }
 
   private deleteRestaurant() {
-    if (this.confirmar()) {
-      this.authService.deleteRestaurantProfile(this.currentRestaurant.id).subscribe(data => {
-        alert('Restaurant deleted.');
-        this.authService.logout();
-        this.router.navigate(['/home']);
-      }, err => {
-        console.log(err);
-      });
-    }
+    this.authService.deleteProfileRestaurant(this.currentRestaurant._id).subscribe(data => {
+      this.authService.logout();
+      this.router.navigate(['/home']);
+    }, err => { console.log(err) });
   }
 
   private ShowMenu() {
