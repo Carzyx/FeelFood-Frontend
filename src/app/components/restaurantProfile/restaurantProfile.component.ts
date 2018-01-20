@@ -113,7 +113,7 @@ export class RestaurantProfileComponent implements OnInit {
     const itemsList = Object.keys(this.showItemDictionary);
     for (let index = 0; index < itemsList.length; index++) {
       const specificKey = itemsList[index];
-      this.showItemDictionary[specificKey] = specificKey == key ? true : false;
+      this.showItemDictionary[specificKey] = specificKey === key ? true : false;
     }
   }
 
@@ -181,7 +181,7 @@ export class RestaurantProfileComponent implements OnInit {
           console.log(this.socket);
           this.socket.emit('id', this.restaurant._id);
           this.socket.on('update', function () {
-            alert('Yees');
+            alert('I do a socket correctoly');
             // this.getRestaurant();
           });
         }
@@ -197,7 +197,7 @@ export class RestaurantProfileComponent implements OnInit {
       this.getRestaurant();
       setTimeout(() => this.modalUpdate.hide(), 1500);
     },
-      err => { console.log(err) });
+      err => { console.log(err); });
   }
 
   private deleteRestaurant() {
@@ -248,7 +248,7 @@ export class RestaurantProfileComponent implements OnInit {
     const average = {
       dish: price,
       menu: menuPrice / this.restaurant.menus.length
-    }
+    };
     this.restaurant.tags.average = average;
   }
 }
