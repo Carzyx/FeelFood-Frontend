@@ -15,7 +15,6 @@ export class User {
     favoriteRestaurants: Array<Restaurant>;
     lastLogin: Date;
     //orders: [Schema.Types.ObjectId, ref: 'orders' }],
-    //isAdmin: Boolean
 }
 
 export function mapNewObject(data) {
