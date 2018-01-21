@@ -199,7 +199,7 @@
     <div class="form-group">
       <label for="Select">New state:</label>
       <select #state class="form-control" id="Select">
-        <option value="na" selected="">Choose One:</option>
+        <option value="" selected="true" disabled="disabled">Choose One:</option>
         <option *ngIf="!isAccepted">Refused</option>
         <option *ngIf="!isAccepted">Accepted</option>
         <option>Delivered</option>

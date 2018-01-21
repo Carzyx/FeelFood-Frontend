@@ -81,25 +81,27 @@ export class DashboardComponent implements OnInit {
   }
 
   orderUpdate(state: String) {
-    let found = false;
-    this.order.status.forEach(function (value) {
-      if (value['state'] === state) {
-        return found = true;
-      }
-    });
-    if (found === false) {
-      this.order.status.push({
-        state: state,
-        dataState: new Date()
+    if (state) {
+      let found = false;
+      this.order.status.forEach(function (value) {
+        if (value['state'] === state) {
+          return found = true;
+        }
       });
-      this.authService.updateOrder(this.order).subscribe(data => {
-          console.log('Status changed');
-        },
-        err => console.log(err));
-      this.modalOrder.hide();
-      this.isAccepted = false;
-    } else {
-      alert('Order already have this state.');
+      if (found === false) {
+        this.order.status.push({
+          state: state,
+          dataState: new Date()
+        });
+        this.authService.updateOrder(this.order).subscribe(data => {
+            console.log('Status changed');
+          },
+          err => console.log(err));
+        this.modalOrder.hide();
+        this.isAccepted = false;
+      } else {
+        alert('Order already have this state.');
+      }
     }
   }
 

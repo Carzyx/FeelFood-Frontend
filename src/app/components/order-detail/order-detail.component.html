@@ -36,17 +36,42 @@
             </div>
             <div class="col-sm-6">
               <div class="card bg-light mb-3">
-                <div class="card-header"><strong>Order summary<span style="float:right;">{{order.createDate | date : "d'/'M'/'y"}}</span></strong></div>
-              <div class="card-body">
-                <h6 style="text-align:left;" *ngFor="let dish of order.dishesDetails">&#9725; {{dish.name}}
-                  <span style="float:right;">{{dish.price}}</span>
-                </h6>
-                <hr class="my-4">
-                <h5 style="text-align:left;"><strong>Total:
-                  <span style="float:right;">{{order.totalPrice}} &euro;</span></strong>
-                </h5>
+                <div class="card-header"><strong>Order summary<span style="float:right;">{{order.createDate | date : "d'/'M'/'y"}}</span></strong>
+                </div>
+                <div class="card-body">
+                  <ng-container *ngFor="let menu of order.menusDetails">
+                    <em style="text-align:left;" >&#9725; Menu: {{menu.name}}
+                      <span style="float:right;">{{menu.price}}</span>
+                    </em>
+                    <h6 style="text-align:left;" *ngFor="let starter of menu.starters">&#9725; {{starter.name}}
+                      <span style="float:right;">{{starter.price}}</span>
+                    </h6>
+                    <h6 style="text-align:left;" *ngFor="let firstOptions of menu.firstOptions">&#9725; {{firstOptions.name}}
+                      <span style="float:right;">{{firstOptions.price}}</span>
+                    </h6>
+                    <h6 style="text-align:left;" *ngFor="let secondOptions of menu.secondOptions">&#9725; {{secondOptions.name}}
+                      <span style="float:right;">{{secondOptions.price}}</span>
+                    </h6>
+                    <h6 style="text-align:left;" *ngFor="let thirdOptions of menu.thirdOptions">&#9725; {{thirdOptions.name}}
+                      <span style="float:right;">{{thirdOptions.price}}</span>
+                    </h6>
+                    <h6 style="text-align:left;" *ngFor="let drinksOptions of menu.drinksOptions">&#9725; {{drinksOptions.name}}
+                      <span style="float:right;">{{drinksOptions.price}}</span>
+                    </h6>
+                    <h6 style="text-align:left;" *ngFor="let othersOptions of menu.othersOptions">&#9725; {{othersOptions.name}}
+                      <span style="float:right;">{{othersOptions.price}}</span>
+                    </h6>
+                  </ng-container>
+                  <em>Others dishes:</em>
+                  <h6 style="text-align:left;" *ngFor="let dish of order.dishesDetails">&#9725; {{dish.name}}
+                    <span style="float:right;">{{dish.price}}</span>
+                  </h6>
+                  <hr class="my-4">
+                  <h5 style="text-align:left;"><strong>Total:
+                    <span style="float:right;">{{order.totalPrice}} &euro;</span></strong>
+                  </h5>
+                </div>
               </div>
-            </div>
             </div>
           </div>
         </ng-container>
