@@ -255,7 +255,7 @@
             <h2>{{menu.name}}</h2>
             <div>
               <i>Price:{{menu.price}}€</i>
-              <button (click)="deleteMenu(menu._id)" class="btn btn-danger">Delete Menu</button>
+              <button (click)="deleteMenu(menu.name)" class="btn btn-danger">Delete Menu</button>
             </div>
             <h3>Starters</h3>
             <app-dish [restaurant]="restaurant" [menuName]="menu.name" [dishes]="menu.starters" [currentList]="'starters'"></app-dish>

@@ -65,6 +65,9 @@ export class AuthService {
     this.authToken = null;
     this.user = null;
   }
+  urlBase(){
+    return this.envHelper.urlbase
+  }
 
   login(body) {
     this.createHeaders();
@@ -98,8 +101,7 @@ export class AuthService {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user, JSON.stringify(user), this.options);
   }
-
-  updateProfileRestaurant(user) {
+  updateProfileRestaurant (user) {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant, JSON.stringify(user), this.options);
   }
@@ -156,7 +158,7 @@ export class AuthService {
 
   sendOrder(order) {
     this.createAuthHeaders();
-    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.orders, JSON.stringify(order), this.options)
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.orders, JSON.stringify(order), this.options);
   }
 
   getOrder(id) {

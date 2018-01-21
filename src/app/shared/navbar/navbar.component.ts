@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { AuthService } from '../../services/authentication/auth.service';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
 export class AppNavbar implements OnInit {
   profile: String;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService, private elementRef: ElementRef ) {
+  }
 
   ngOnInit() {
     if (this.authService.readTypeUser()) {
@@ -27,11 +28,7 @@ export class AppNavbar implements OnInit {
     }, 1000);
   }
   Search(value) {
-    const search = this.router.url
-    console.log(search);
-    if(search.indexOf('search') > 0)
-      //alert('Do it')
-   this.router.navigate(['/search', value]);
+    this.router.navigate(['/home', value]);
   }
 
   selectProfile() {

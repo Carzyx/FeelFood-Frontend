@@ -9,7 +9,6 @@ import { AuthService } from '../../services/authentication/auth.service';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { Location } from '../../models/location';
 import { CustomValidator } from '../../helpers/customValidator';
-import io from 'socket.io-client';
 
 
 @Component({
@@ -20,7 +19,6 @@ import io from 'socket.io-client';
 export class RestaurantProfileComponent implements OnInit {
   @Input() addressCompleted: Location;
   @ViewChild('modal') modalUpdate: ModalComponent;
-  // ShowHide
   showItemDictionary = { showProfile: true, showAddress: false, showAddAddress: false, showAccount: false, showMenus: false, showDishes: false };
   location: Location;
   addMenu = false;
@@ -35,14 +33,11 @@ export class RestaurantProfileComponent implements OnInit {
   tagsForm;
   address;
   message;
-  private socket;
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private validator: CustomValidator, private router: Router) {
     this.menu = new Menu();
     this.location = new Location();
     this.addressCompleted = new Location();
-    this.createForm();
-    this.createForm();
     this.getRestaurant();
   }
 
@@ -176,15 +171,6 @@ export class RestaurantProfileComponent implements OnInit {
       this.restaurant = this.restaurantOriginal;
       console.log(this.restaurant);
         this.createForm();
-        if (!this.socket) {
-          this.socket = io.connect('http://localhost:3001');
-          console.log(this.socket);
-          this.socket.emit('id', this.restaurant._id);
-          this.socket.on('update', function () {
-            alert('I do a socket correctoly');
-            // this.getRestaurant();
-          });
-        }
     },
       err => { console.log(err); });
   }
@@ -217,38 +203,46 @@ export class RestaurantProfileComponent implements OnInit {
   }
 
   private createMenu() {
-    this.restaurant.menus.push(this.menu);
-    this.getAveragePrice();
+    var find = false;
+    for (var i=0; i<this.restaurant.menus.length; i++) {
+      if(this.menu.name === this.restaurant.menus[i].name)
+        find = true;
+    }
+    if (find)
+      alert('These menu name is in use');
+    else
+      this.restaurant.menus.push(this.menu);
+    // this.getAveragePrice();
     this.updateRestaurant();
     this.ShowMenu();
     this.menu = new Menu();
   }
-  private deleteMenu(id) {
+  private deleteMenu(name) {
 
     if (this.confirmar()) {
       this.restaurant.menus.forEach(function (value, index, array) {
-        if (value['_id'] === id) {
+        if (value['name'] === name) {
           array.splice(index, 1);
           return;
         }
       });
-      this.getAveragePrice();
+      // this.getAveragePrice();
       this.updateRestaurant();
     }
   }
   private confirmar() {
     return confirm('Estas seguro?');
   }
-  private getAveragePrice() {
-    const price = this.restaurant.tags.average.dish ? this.restaurant.tags.average.dish : 0;
-    let menuPrice = 0;
-    this.restaurant.menus.forEach(function (value) {
-      menuPrice = menuPrice + value.price;
-    });
-    const average = {
-      dish: price,
-      menu: menuPrice / this.restaurant.menus.length
-    };
-    this.restaurant.tags.average = average;
-  }
+  // private getAveragePrice() {
+  //   const price = this.restaurant.tags.average.dish ? this.restaurant.tags.average.dish : 0;
+  //   let menuPrice = 0;
+  //   this.restaurant.menus.forEach(function (value) {
+  //     menuPrice = menuPrice + value.price;
+  //   });
+  //   const average = {
+  //     dish: price,
+  //     menu: menuPrice / this.restaurant.menus.length
+  //   };
+  //   this.restaurant.tags.average = average;
+  // }
 }
