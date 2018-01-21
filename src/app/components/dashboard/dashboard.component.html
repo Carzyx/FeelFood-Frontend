@@ -199,10 +199,9 @@
     <div class="form-group">
       <label for="Select">New state:</label>
       <select #state class="form-control" id="Select">
-        <option value="na" selected="">Choose One:</option>
-        <option *ngIf="!isAccepted">Refused</option>
-        <option *ngIf="!isAccepted">Accepted</option>
-        <option>Delivered</option>
+        <option *ngIf="!isProcessed">Refused</option>
+        <option *ngIf="!isProcessed">Accepted</option>
+        <option *ngIf="isProcessed">Delivered</option>
       </select>
     </div>
   </div>
@@ -210,5 +209,14 @@
     <button type="button" class="btn btn-default" (click)="orderUpdate(state.value)">Change</button>
   </div>
 </app-modal>
+
+<app-modal #modalOrderEnd>
+    <div class="app-modal-header">
+      <h5>Order states</h5>
+    </div>
+    <div class="app-modal-body">
+      <h5>The order was {{orderNow}}</h5>
+    </div>
+  </app-modal>
 
 <router-outlet></router-outlet>
