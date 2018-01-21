@@ -17,6 +17,7 @@ export class Order {
     createDate: Date;
     deliveryDate: Date;
     status: [{ state: String , dataState: Date}];
+    isRated: Boolean;
     menusDetails: Array<Menu>;
     dishesDetails: Array<Dish>;
     totalPrice: Number;
