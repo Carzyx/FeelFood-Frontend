@@ -1,4 +1,4 @@
-<div class="jumbotron">
+<div class="jumbotron order-detai">
   <div class="row">
     <div class="col-sm-1">
     </div>
@@ -12,35 +12,42 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">{{order.restaurant}}</h4>
-                    <h6 class="card-subtitle mb-2 text-muted" style="text-align:left;">{{order?.restaurant_location.address}}</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">{{order.restaurant_location.city}}, {{order.restaurant_location.postalCode}} {{order.restaurant_location.country}}</h6>
-                    <p class="card-text"><em>{{order.status[order.status.length - 1].state}} - {{order.status[order.status.length - 1].dataState | date : " d/M/y H:mm 'h'"}}</em></p>
-                    <a routerLink="/restaurant/{{order.restaurant_id}}" class="card-link">Visit restaurant</a>
-                    <hr class="my-4">
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <p class="card-text" style="text-align:left;">Delivery address</p>
-                          <h6 class="text-muted" style="text-align:left;">{{order.user_location.address}}</h6>
-                          <h6 class="text-muted">{{order.user_location.city}}, {{order.user_location.postalCode}} {{order.user_location.country}}</h6>
-                        </div>
-                        <div class="col-sm-6">
-                          <p class="card-text" style="text-align:right;">Delivery date</p>
-                          <h6 class="text-muted" style="float:right;">{{order.deliveryDate | date : "d/M/y H:mm 'h'"}}</h6>
-                        </div>
-                      </div>
-                      <hr class="my-4">
+                  <h6 class="card-subtitle mb-2 text-muted" style="text-align:left;">{{order?.restaurant_location?.address}}</h6>
+                  <h6 class="card-subtitle mb-2 text-muted">{{order.restaurant_location?.city}}, {{order.restaurant_location?.postalCode}} {{order.restaurant_location?.country}}</h6>
+                  <p class="card-text">
+                    <em>{{order.status[order.status.length - 1].state}} - {{order.status[order.status.length - 1].dataState |
+                      date : " d/M/y H:mm 'h'"}}</em>
+                  </p>
+                  <a routerLink="/restaurant/{{order.restaurant_id}}" class="card-link">Visit restaurant</a>
+                  <hr class="my-4">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <p class="card-text" style="text-align:left;">Delivery address</p>
+                      <h6 class="text-muted" style="text-align:left;">{{order.user_location?.address}}</h6>
+                      <h6 class="text-muted">{{order.user_location?.city}}, {{order.user_location?.postalCode}} {{order.user_location?.country}}</h6>
+                    </div>
+                    <div class="col-sm-6">
+                      <p class="card-text" style="text-align:right;">Delivery date</p>
+                      <h6 class="text-muted" style="float:right;">{{order.deliveryDate | date : "d/M/y H:mm 'h'"}}</h6>
+                    </div>
+                  </div>
+                  <hr class="my-4">
                   <h5>Need help?</h5>
-                  <p class="text-muted">If you have had an incident with your order, we recommend that you call directly to <a href="tel:{{order.restaurantPhone}}">{{order.restaurantPhone}}</a>. You can also contact us if you have any questions.</p>
+                  <p class="text-muted">If you have had an incident with your order, we recommend that you call directly to
+                    <a href="tel:{{order.restaurantPhone}}">{{order.restaurantPhone}}</a>. You can also contact us if you have any questions.</p>
                 </div>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="card bg-light mb-3">
-                <div class="card-header"><strong>Order summary<span style="float:right;">{{order.createDate | date : "d'/'M'/'y"}}</span></strong>
+                <div class="card-header">
+                  <strong>Order summary
+                    <span style="float:right;">{{order.createDate | date : "d'/'M'/'y"}}</span>
+                  </strong>
                 </div>
                 <div class="card-body">
                   <ng-container *ngFor="let menu of order.menusDetails">
-                    <em style="text-align:left;" >&#9725; Menu: {{menu.name}}
+                    <em style="text-align:left;">&#9725; Menu: {{menu.name}}
                       <span style="float:right;">{{menu.price}}</span>
                     </em>
                     <h6 style="text-align:left;" *ngFor="let starter of menu.starters">&#9725; {{starter.name}}
@@ -67,11 +74,24 @@
                     <span style="float:right;">{{dish.price}}</span>
                   </h6>
                   <hr class="my-4">
-                  <h5 style="text-align:left;"><strong>Total:
-                    <span style="float:right;">{{order.totalPrice}} &euro;</span></strong>
+                  <h5 style="text-align:left;">
+                    <strong>Total:
+                      <span style="float:right;">{{order.totalPrice}} &euro;</span>
+                    </strong>
                   </h5>
-                </div>
+                </div>                
               </div>
+              <div class="card bg-light mb-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5>Evaluate our service</h5>
+                      <p class="text-muted">Can you evaluate our service? We highly appreciate your time and feedback. Your feedback will help us continue improving
+                        our products and services.
+                        <a href="javascript:void(0)" (click)="modalRateService.show()">Evaluate our service.</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
             </div>
           </div>
         </ng-container>
@@ -80,4 +100,29 @@
     <div class="col-sm-1">
     </div>
   </div>
+  
 </div>
+
+<app-modal #modalRateService>
+  <div class="app-modal-header">
+    <h5>Rate our service</h5>
+  </div>
+  <div class="app-modal-body">
+    <div [hidden]="order?.isRated" *ngFor="let rate of ratings; let i = index">
+      <app-rating 
+       [max]="5"
+       [ratedValue]=rate.value
+       [disabled]="false"
+       [readonly]="false"
+       [iconClass]=rate.key
+       (modelOut)="ratings[i].value=$event">
+      </app-rating>
+    </div>
+    <div [hidden]="!order?.isRated">
+      <p>Your rating was created correctly</p>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" [disabled]="order?.isRated" class="btn btn-outline-primary btn-lg" (click)="sendRating(); modalRateService.hide()">Send valoration</button>
+  </div>
+</app-modal>
