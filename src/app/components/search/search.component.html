@@ -51,7 +51,3 @@
 </datalist>
 <button (click)="searchByName(serach.value)" class="btn btn-info">Search</button>
 
-<div class="item-restaurant" *ngFor="let restaurant of restaurants">
-  <app-restaurantSummary [restaurantId]="restaurant._id" [routerLink]="['restaurant',restaurant._id]"></app-restaurantSummary>
-</div>
-

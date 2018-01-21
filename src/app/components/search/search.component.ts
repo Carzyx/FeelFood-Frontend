@@ -2,13 +2,13 @@ import {Component, Input, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import { EnvironmentHelper } from '../../../environments/environment';
 import { AuthService } from '../../services/authentication/auth.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationStart, ResolveStart, Router} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
 import {forEach} from '@angular/router/src/utils/collection';
 
 
 @Component({
-  selector: 'app-menu',
+  selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
@@ -41,14 +41,22 @@ export class SearchComponent implements OnInit {
     this.showItemDictionary[key] = ! this.showItemDictionary[key];
   }
   ngOnInit() {
-    console.log('INIT');
-    this.ngOnChanges();
+    // this.router.events.forEach((event) => {
+    //   if(event instanceof NavigationStart) {
+    //     const url = event.url.split('search/').pop();
+    //     this.image = url;
+    //     this.upateSearch(url);
+    //     return;
+    //   }
+    // });
+    this.updateInitSeach();
   }
-
-  ngOnChanges() {
-    console.log('Change');
+  updateInitSeach() {
     const search = this.route.snapshot.paramMap.get('search');
-    this.searchByName(search);
+    this.upateSearch(search);
+  }
+  upateSearch(url) {
+    this.searchByName(url);
   }
   ChangeStatus() {
     this.search = !this.search;
@@ -74,8 +82,11 @@ export class SearchComponent implements OnInit {
     });
   }
   searchByName(name) {
+    console.log(name);
     this.authservice.searchReastaurantByName(name).subscribe(data => {
-    this.restaurants = data;
+      this.restaurants = data;
+      console.log('Search by name');
+      console.log(this.restaurants);
     });
   }
   searchByDetails() {
@@ -102,7 +113,5 @@ export class SearchComponent implements OnInit {
     this.authservice.searchReastaurantByConditions(details).subscribe(data => {
       this.restaurants = data;
     });
-  }
-  onChange(event) {
   }
 }

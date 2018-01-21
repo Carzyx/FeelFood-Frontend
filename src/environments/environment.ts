@@ -41,12 +41,6 @@ export class EnvironmentHelper {
     byName : '/search?name=',
     ingredient: '/ingredient?byName='
   }
-  private readonly searchDictionary = {
-    search: '/search',
-    name: '/speedSearch?name=',
-    byName : '/search?name=',
-    ingredient: '/ingredient?byName='
-  }
 
   readonly urlDictionary = {
     user: this.userDictionary,

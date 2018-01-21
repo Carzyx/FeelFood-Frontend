@@ -32,7 +32,6 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 import { CustomValidator } from './helpers/customValidator';
 import { ModalComponent } from './shared/modal/modal.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { NouisliderModule } from 'ng2-nouislider';
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { RateComponent } from './shared/rate/rate.component';
 import { NouisliderModule } from 'ng2-nouislider';
@@ -57,7 +56,6 @@ import { NouisliderModule } from 'ng2-nouislider';
     SearchComponent,
     AppNavbar,
     AuthFbComponent,
-
     ModalComponent,
     DashboardComponent,
     OrderDetailComponent,

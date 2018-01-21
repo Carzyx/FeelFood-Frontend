@@ -23,7 +23,7 @@ export class Restaurant {
     }];
   };
   images: Array<String>
-  phone: Number
+  phone: String
   locations: Array<Location>
   menus: Array<Menu>
   dishes: Array<Dish>;
