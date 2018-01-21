@@ -66,8 +66,8 @@ export class AuthService {
     this.authToken = null;
     this.user = null;
   }
-  urlBase(){
-    return this.envHelper.urlbase
+  urlBase() {
+    return this.envHelper.urlbase;
   }
 
   login(body) {

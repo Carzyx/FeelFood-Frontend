@@ -229,7 +229,7 @@ export class DishComponent implements OnInit {
       this.ingredients = data;
       for (let i = 0; i < this.dish.ingredients.length; i++) {
         for (let j = 0; j < this.ingredients.length; j++) {
-          if (this.ingredients[j].byName === this.dish.ingredients[i].ingredient)
+          if (this.ingredients[j].name === this.dish.ingredients[i].ingredient)
             this.ingredients.splice(j, 1);
         }
       }

@@ -42,7 +42,7 @@ export class EnvironmentHelper {
     search: '/search',
     name: '/speedSearch?name=',
     byName : '/search?name=',
-    ingredient: '/ingredient?byName='
+    ingredient: '/ingredient?name='
   }
 
   readonly urlDictionary = {

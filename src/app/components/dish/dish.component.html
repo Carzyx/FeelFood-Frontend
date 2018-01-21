@@ -82,10 +82,10 @@
           <th>Weight (g)</th>
         </thead>
         <tr *ngFor="let ingredient of ingredients">
-          <th>{{ingredient?.byName}}</th>
+          <th>{{ingredient?.name}}</th>
           <th>{{ingredient?.calories}}</th>
           <input #weight type="number">
-          <button type="button" class="btn success disabled " (click)="AddIngredient(ingredient.byName,weight.value)">Add</button>
+          <button type="button" class="btn success disabled " (click)="AddIngredient(ingredient.name,weight.value)">Add</button>
         </tr>
       </table>
     </div>
@@ -110,7 +110,7 @@
   <select class="form-control" #impdishes (change)="GetImport(impdishes.value)">
     <option>Select one</option>
     <option *ngFor="let dish of currentImport">
-      <strong>{{dish.byName}}</strong>
+      <strong>{{dish.name}}</strong>
     </option>
   </select>
 </div>
