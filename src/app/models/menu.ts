@@ -7,12 +7,12 @@ export class Menu {
   comments: String
   visible: boolean
   price: number
-  starters: Dish[]
-  firstOptions: Dish[]
-  secondOptions: Dish[]
-  thirdOptions: Dish[]
-  drinksOptions: Dish[]
-  othersOptions: Dish[]
+  starters: Array<Dish>
+  firstOptions: Array<Dish>
+  secondOptions: Array<Dish>
+  thirdOptions: Array<Dish>
+  drinksOptions: Array<Dish>
+  othersOptions: Array<Dish>
   constructor() {
     this._id = ''
     this.name = ''

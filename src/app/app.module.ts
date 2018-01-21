@@ -34,6 +34,8 @@ import { ModalComponent } from './shared/modal/modal.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NouisliderModule } from 'ng2-nouislider';
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { RateComponent } from './shared/rate/rate.component';
 import { NouisliderModule } from 'ng2-nouislider';
 
@@ -60,6 +62,9 @@ import { NouisliderModule } from 'ng2-nouislider';
 
     ModalComponent,
     DashboardComponent,
+    OrderDetailComponent,
+    ContactComponent,
+    ResetPasswordComponent,
     OrderDetailComponent,
     RateComponent
   ],

@@ -5,10 +5,10 @@ import { LoginComponent } from '../login/login.component';
 import { Allergy } from '../../models/allergy';
 import { Location } from '../../models/location';
 import { ModalComponent } from '../../shared/modal/modal.component';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { Restaurant } from '../../models/restaurant';
 import { AppNavbar } from '../../shared/navbar/navbar.component';
-import {Order} from "../../models/order";
+import { Order } from "../../models/order";
 
 @Component({
   selector: 'app-dashboard',
@@ -19,6 +19,8 @@ import {Order} from "../../models/order";
 export class DashboardComponent implements OnInit {
   @ViewChild('modal') modal: ModalComponent;
   @ViewChild('modalOrder') modalOrder: ModalComponent;
+  @ViewChild('modalOrderEnd') modalOrderEnd: ModalComponent;
+
   currentUser;
   user;
   restaurant;
@@ -26,7 +28,9 @@ export class DashboardComponent implements OnInit {
   lastLogin;
   orderStatus;
   order: Order;
-  isAccepted: Boolean;
+  isProcessed: Boolean;
+  isEndProcess: Boolean;
+  orderNow: String;
   constructor(private authService: AuthService, private router: Router, private navbar: AppNavbar) {
     this.user = new User;
     this.user.locations = new Array(Location);
@@ -34,7 +38,7 @@ export class DashboardComponent implements OnInit {
     this.restaurant = new Restaurant;
     this.restaurant.location = new Array(Location);
     this.orderStatus = new Array();
-    this.isAccepted = false;
+    this.isProcessed = false;
     this.getUser();
   }
 
@@ -81,40 +85,34 @@ export class DashboardComponent implements OnInit {
   }
 
   orderUpdate(state: String) {
-    let found = false;
-    this.order.status.forEach(function (value) {
-      if (value['state'] === state) {
-        return found = true;
-      }
+    var haveState = this.order.status.find(o => o.state === state) ? true : false;
+    if (haveState) {
+      return;
+    } 
+
+    this.order.status.push({
+      state: state,
+      dataState: new Date()
     });
-    if (found === false) {
-      this.order.status.push({
-        state: state,
-        dataState: new Date()
-      });
-      this.authService.updateOrder(this.order).subscribe(data => {
-          console.log('Status changed');
-        },
-        err => console.log(err));
-      this.modalOrder.hide();
-      this.isAccepted = false;
-    } else {
-      alert('Order already have this state.');
-    }
+    this.authService.updateOrder(this.order).subscribe(data => {
+      console.log('Status changed');
+    },
+      err => console.log(err));
+    this.modalOrder.hide();
+    this.isProcessed = false;
   }
 
   updateState(order: Order) {
-    let found;
     this.order = order;
-    this.order.status.forEach(function (value) {
-      if (value['state'] === 'Accepted') {
-        return found = true;
-      }
-    });
-    if (found) {
-      this.isAccepted = true;
-    }
+    this.isProcessed = this.order.status.find(o => o.state === 'Accepted' || o.state === 'Refused') ? true : false;
+    this.isEndProcess = this.order.status.find(o => o.state === 'Delivered' || o.state === 'Refused') ? true : false;
     this.orderStatus = order.status;
-    this.modalOrder.show();
+    
+    var lasIndex = order.status.length -1;
+    this.orderNow = order.status[lasIndex].state.toLowerCase();
+
+    this.isEndProcess ? this.modalOrderEnd.show() : this.modalOrder.show();
   }
+
 }
+

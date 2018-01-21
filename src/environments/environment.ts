@@ -19,8 +19,11 @@ export class EnvironmentHelper {
     user: '/user',
     profile: '/user?id=',
     delete: '/user?id=',
-    allergies: '/allergies'
-  }
+    allergies: '/allergies',
+    contact: '/contact',
+    forgotPassword: '/resetPassword',
+    resetPassword: '/resetPassword/new'
+  };
 
   private readonly restaurantDictionary = {
     signup: '/restaurant/signup',

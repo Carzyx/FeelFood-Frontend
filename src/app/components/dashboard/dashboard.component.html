@@ -114,11 +114,38 @@
                   <h6 class="mb-1"><em>{{order.firstName}} {{order.lastName}}, {{order.userName}}  </em></h6>
                   <h6 class="text-muted" style="text-align:left;">{{order.user_location.address}}</h6>
                   <h6 class="text-muted">{{order.user_location.city}}, {{order.user_location.postalCode}} {{order.user_location.country}}</h6>
+                  <hr class="my-4">
+                  <h6 class="mb-1"><strong>Comments:</strong></h6>
+                  <h6 class="mb-1">{{order.comment}}</h6>
                 </div>
                 <div class="col-sm-6">
                   <div class="card text-white bg-success mb-3" style="max-width: 100%;">
                     <div class="card-header"><strong>Order summary</strong></div>
                     <div class="card-body">
+                      <ng-container *ngFor="let menu of order.menusDetails">
+                        <em style="text-align:left;" >&#9725; Menu: {{menu.name}}
+                          <span style="float:right;">{{menu.price}}</span>
+                        </em>
+                        <h6 style="text-align:left;" *ngFor="let starter of menu.starters">&#9725; {{starter.name}}
+                          <span style="float:right;">{{starter.price}}</span>
+                        </h6>
+                        <h6 style="text-align:left;" *ngFor="let firstOptions of menu.firstOptions">&#9725; {{firstOptions.name}}
+                          <span style="float:right;">{{firstOptions.price}}</span>
+                        </h6>
+                        <h6 style="text-align:left;" *ngFor="let secondOptions of menu.secondOptions">&#9725; {{secondOptions.name}}
+                          <span style="float:right;">{{secondOptions.price}}</span>
+                        </h6>
+                        <h6 style="text-align:left;" *ngFor="let thirdOptions of menu.thirdOptions">&#9725; {{thirdOptions.name}}
+                          <span style="float:right;">{{thirdOptions.price}}</span>
+                        </h6>
+                        <h6 style="text-align:left;" *ngFor="let drinksOptions of menu.drinksOptions">&#9725; {{drinksOptions.name}}
+                          <span style="float:right;">{{drinksOptions.price}}</span>
+                        </h6>
+                        <h6 style="text-align:left;" *ngFor="let othersOptions of menu.othersOptions">&#9725; {{othersOptions.name}}
+                          <span style="float:right;">{{othersOptions.price}}</span>
+                        </h6>
+                      </ng-container>
+                      <em>Others dishes:</em>
                       <h6 style="text-align:left;" *ngFor="let dish of order.dishesDetails">&#9725; {{dish.name}}
                         <span style="float:right;">{{dish.price}}</span>
                       </h6>
@@ -170,11 +197,11 @@
       </tbody>
     </table>
     <div class="form-group">
-      <label for="Select">Select state:</label>
-      <select #state class="form-control" id="Select" >
-        <option *ngIf="!isAccepted">Refused</option>
-        <option>Accepted</option>
-        <option>Delivered</option>
+      <label for="Select">New state:</label>
+      <select #state class="form-control" id="Select">
+        <option *ngIf="!isProcessed">Refused</option>
+        <option *ngIf="!isProcessed">Accepted</option>
+        <option *ngIf="isProcessed">Delivered</option>
       </select>
     </div>
   </div>
@@ -182,5 +209,14 @@
     <button type="button" class="btn btn-default" (click)="orderUpdate(state.value)">Change</button>
   </div>
 </app-modal>
+
+<app-modal #modalOrderEnd>
+    <div class="app-modal-header">
+      <h5>Order states</h5>
+    </div>
+    <div class="app-modal-body">
+      <h5>The order was {{orderNow}}</h5>
+    </div>
+  </app-modal>
 
 <router-outlet></router-outlet>

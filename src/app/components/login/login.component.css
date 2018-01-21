@@ -22,3 +22,6 @@ div.input-form{
     color: red !important;
 }
 
+a:hover {
+  cursor:pointer;
+}

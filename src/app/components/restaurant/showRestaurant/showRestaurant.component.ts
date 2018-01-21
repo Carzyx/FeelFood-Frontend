@@ -25,9 +25,11 @@ export class ShowRestaurantComponent implements OnInit {
   private myUser: User;
   private show: boolean = false;
   private showNewAddress: boolean = false;
-  private isLogin : boolean = false;
+  private isLogin: boolean = false;
   private envHelper: EnvironmentHelper;
   private mapHelper: MapHelper;
+  private messageResult: String;
+  private messageClass: String;
 
   //DateTime Picker Configuration
   deliveryDate: Date = new Date();
@@ -66,8 +68,6 @@ export class ShowRestaurantComponent implements OnInit {
     this.authService.getPublicRestaurant(this.restaurantId).subscribe(data => {
       if (data) {
         this.myRestaurant = this.mapHelper.map(Restaurant, data);
-        console.log("ShowRestaurantComponent:")
-        console.log(JSON.stringify(this.myRestaurant))
       }
     });
   }
@@ -90,7 +90,7 @@ export class ShowRestaurantComponent implements OnInit {
     return this.myOrder.user_location;
   }
 
-  setCommentToOrder(commentTextArea){
+  setCommentToOrder(commentTextArea) {
 
     this.myOrder.comment = commentTextArea;
 
@@ -107,26 +107,108 @@ export class ShowRestaurantComponent implements OnInit {
     this.myOrder.restaurant = this.myRestaurant.name;
     this.myOrder.restaurant_location = this.myRestaurant.locations[0];
 
-    this.authService.sendOrder(this.myOrder).subscribe(data => console.log(data['message']));
+    this.authService.sendOrder(this.myOrder).subscribe(data => {
+
+      //Update restaurant
+      this.authService.getPublicRestaurant(this.restaurantId).subscribe(data => {
+
+        this.myRestaurant = this.mapHelper.map(Restaurant, data);
+        // Update restaurant stock
+        this.updateStock()
+
+        this.authService.updateProfileRestaurant(this.myRestaurant).subscribe(data => {
+        });
+      });
+      this.messageResult ="Delivery successfully";
+      this.messageClass = 'success-delivery-action';
+    },
+      err => {
+        this.messageResult = "An error occurred please try again later";
+        this.messageClass = 'error-delivery-action';
+      });
+  }
+
+  updateStock() {   
+    this.updateDishesToCard();
+    this.updateMenus();    
+  }
+
+  updateDishesToCard() {
+
+    //Update dish stock
+    this.myOrder.dishesDetails.forEach(element => {
+      var dishToUpdate = this.myRestaurant.dishes.find(dish => dish.name == element.name);
+
+      if (dishToUpdate) {
+        --dishToUpdate.stock;
+
+        var index = this.myRestaurant.dishes.findIndex(dish => dish.name == element.name);
+        this.myRestaurant.dishes[index] = dishToUpdate;
+      }
+    });
+  }
+
+  updateMenus() {
+
+    this.myOrder.menusDetails.forEach(menu => {
+      var menuToUpdate = this.myRestaurant.menus.find(menu => menu.name == menu.name);
+
+      menu.starters.forEach(element => {
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'starters')
+      });
+
+      menu.firstOptions.forEach(element => {
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'firstOptions')
+      });
+      menu.secondOptions.forEach(element => {
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'secondOptions')
+      });
+      menu.thirdOptions.forEach(element => {
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'thirdOptions')
+      });
+
+      menu.drinksOptions.forEach(element => {
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'drinksOptions')
+      });
+
+      menu.othersOptions.forEach(element => {
+        menuToUpdate = this.updateDishesToMenu(menuToUpdate, element, 'othersOptions')
+      });
+
+      var index = this.myRestaurant.menus.findIndex(menu => menu.name == menu.name);
+      this.myRestaurant.menus[index] = menuToUpdate;
+
+    });
+  }
+
+  updateDishesToMenu(menuToUpdate, dishConsumed, key) {
+
+    var dishToUpdate = menuToUpdate[key].find(dish => dish.name == dishConsumed.name);
+
+    if (dishToUpdate) {
+      --dishToUpdate.stock;
+
+      var index = this.myRestaurant.dishes.findIndex(dish => dish.name == dishConsumed.name);
+      menuToUpdate[key][index] = dishToUpdate;
+      return menuToUpdate;
+    }
   }
 
   showMap(show) {
-    if(show)
-    {
+    if (show) {
       this.show = show;
     }
     return this.show;
   }
 
   showMapNewAddress(show) {
-    if(show)
-    {
+    if (show) {
       this.showNewAddress = show;
     }
     return this.showNewAddress;
   }
 
-  IsUserRegister(){
+  IsUserRegister() {
     this.showMapNewAddress(this.myUser ? true : false);
     return this.myUser;
   }

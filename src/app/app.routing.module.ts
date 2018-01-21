@@ -12,23 +12,24 @@ import { AuthFbComponent } from './components/authFb/authFb.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import {OrderDetailComponent} from "./components/order-detail/order-detail.component";
+import {OrderDetailComponent} from './components/order-detail/order-detail.component';
+import {ContactComponent} from './components/contact/contact.component';
+import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
 
 export const Router: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full'},
-  { path: 'home/restaurant/:_id', redirectTo: '/restaurant/:_id', pathMatch: 'full'},
-  { path: 'search/:search/restaurant/:_id', redirectTo: '/restaurant/:_id', pathMatch: 'full'},
-  { path: '*/search/:search', redirectTo: 'search/:search', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard]},
-  { path: 'userProfile', component: UserComponent, canActivate: [AuthGuard]},
-  { path: 'restaurant/:_id', component: ShowRestaurantComponent},
-  { path: 'restaurantProfile', component: RestaurantProfileComponent },
-  { path: 'search/:search', component: SearchComponent },
-  { path: 'menu', component: MenuComponent},
-  { path: 'home', component: HomeComponent},
-  { path: 'auth/:username/:token', component: AuthFbComponent, canActivate: [NotAuthGuard]},
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home/restaurant/:_id', redirectTo: '/restaurant/:_id', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
+  { path: 'userProfile', component: UserComponent, canActivate: [AuthGuard] },
+  { path: 'restaurant/:_id', component: ShowRestaurantComponent },
+  { path: 'restaurantProfile', component: RestaurantProfileComponent, canActivate: [AuthGuard] },
+  { path: 'menu', component: MenuComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'auth/:username/:token', component: AuthFbComponent, canActivate: [NotAuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'order/:id', component: OrderDetailComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: '/home'}
+  { path: 'contact', component: ContactComponent },
+  { path: 'resetPassword/:token', component: ResetPasswordComponent, canActivate: [NotAuthGuard] },
+  { path: '**', redirectTo: '/home' }
 ];
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(Router);

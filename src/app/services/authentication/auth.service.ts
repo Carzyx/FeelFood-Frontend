@@ -98,7 +98,8 @@ export class AuthService {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user, JSON.stringify(user), this.options);
   }
-  updateProfileRestaurant (id) {
+
+  updateProfileRestaurant(user) {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant, JSON.stringify(user), this.options);
   }
@@ -167,25 +168,20 @@ export class AuthService {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.orders, JSON.stringify(order), this.options);
   }
-  getIngredients() {
+
+  sendContact(body: {name; email; subject: any}) {
     this.createHeaders();
-    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.ingredients, this.options);
-  }
-  searchIngredient(name) {
-    this.createHeaders();
-    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.ingredient + name, this.options);
-  }
-  speedSerachRestaurantByName(name) {
-    this.createHeaders();
-    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.name + name, this.options);
-  }
-  searchReastaurantByName(name) {
-    this.createHeaders();
-    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.byName + name, this.options);
-  }
-  searchReastaurantByConditions(conditions) {
-    this.createHeaders();
-    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.search.search, JSON.stringify(conditions), this.options);
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.contact, body, this.options);
   }
 
+
+  sendResetPassword(body: { email: any }) {
+    this.createHeaders();
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.forgotPassword, body, this.options);
+  }
+
+  sendNewPassword(body: any) {
+    this.createHeaders();
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.resetPassword, body, this.options);
+  }
 }

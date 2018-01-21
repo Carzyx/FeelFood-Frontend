@@ -14,3 +14,11 @@ div.selectedLocation {
 .deliveryComment.bodyOrder {
     margin-top: 12%;
 }
+
+.success-delivery-action{
+    color:red;
+}
+
+.success-delivery-action{
+    color:green
+}
