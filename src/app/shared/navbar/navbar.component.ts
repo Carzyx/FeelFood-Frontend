@@ -9,8 +9,9 @@ import { Router } from '@angular/router';
 })
 export class AppNavbar implements OnInit {
   profile: String;
+  namesList;
 
-  constructor(private router: Router, private authService: AuthService, private elementRef: ElementRef ) {
+  constructor(private router: Router, private authservice: AuthService, private authService: AuthService, private elementRef: ElementRef ) {
   }
 
   ngOnInit() {
@@ -30,7 +31,12 @@ export class AppNavbar implements OnInit {
   Search(value) {
     this.router.navigate(['/home', value]);
   }
-
+  speedSearch(name) {
+    this.authservice.speedSerachRestaurantByName(name).subscribe(data => {
+      this.namesList = data;
+      console.log(data);
+    });
+  }
   selectProfile() {
     if (JSON.parse(localStorage.getItem('user'))) {
       this.profile = 'userProfile';

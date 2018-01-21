@@ -15,6 +15,7 @@ import 'rxjs/add/operator/filter';
 export class HomeComponent implements OnInit, OnDestroy {
   envHelper: EnvironmentHelper;
   restaurants;
+  @Input() inRestaurants;
   eventChangeRoute;
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private authservice: AuthService ) {
     this.envHelper = new EnvironmentHelper();
@@ -29,12 +30,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.eventChangeRoute = this.router.events.filter(event => event instanceof NavigationStart)
       .subscribe((event: NavigationStart) => {
         const url = event.url.split('home/').pop();
-        if(url !== isNullOrUndefined() && url !== '') {
-          console.log('Nav')
+        if(url !== isNullOrUndefined()) {
           this.searchByName(url);
           return;
         }
     });
+  }
+  search(data) {
+    this.restaurants = data;
   }
   ngOnDestroy() {
     this.eventChangeRoute.unsubscribe();

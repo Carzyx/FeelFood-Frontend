@@ -17,7 +17,7 @@ import { CustomValidator } from '../../helpers/customValidator';
 })
 export class UserComponent implements OnInit {
 
-  @Input() addressCompleted: Location;  
+  @Input() addressCompleted: Location;
   @ViewChild('modal') modalUpdate: ModalComponent;
 
   // ShowHide
@@ -37,7 +37,6 @@ export class UserComponent implements OnInit {
   message;
 
   constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder, private validator: CustomValidator) {
-    this.createForm();
     this.getUser();
     this.getAllergies();
 
@@ -82,8 +81,8 @@ export class UserComponent implements OnInit {
       ])]
     });
     this.profileForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
+      firstName: [this.user.firstName ? this.user.firstName : '', Validators.required],
+      lastName: [this.user.lastName ? this.user.lastName : '', Validators.required]
     });
   }
 
@@ -132,7 +131,7 @@ export class UserComponent implements OnInit {
     this.changeShowStatus('showAddress');
     this.location = new Location;
   }
-  
+
 
   deleteAddress() {
     const location = this.address;
@@ -198,6 +197,7 @@ export class UserComponent implements OnInit {
     this.authService.getProfile(this.currentUser._id).subscribe(data => {
       this.userOriginal = data;
       this.user = this.userOriginal;
+        this.createForm();
       console.log(this.user);
     },
       err => { console.log(err) });

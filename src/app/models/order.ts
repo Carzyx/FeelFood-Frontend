@@ -4,7 +4,6 @@ import { Location } from './location';
 
 
 export class Order {
-    _id: String;
     restaurant_id: String;
     restaurant: String;
     restaurantPhone: String;

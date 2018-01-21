@@ -73,8 +73,8 @@
     </div>
     <div align="left">
       <strong>Select your ingredients</strong>
-      <input (change)="SearchIngredient(search.value)" #search>
-      <button (click)="ShowImport()" class="btn btn-info">Import dish</button>
+      <button (click)="ShowImport()" class="btn btn-info right">Import dish</button>
+      <input class="form-control" (keyup)="SearchIngredient(search.value)" #search placeholder="Find Ingredient">
       <table class="table table-striped table-hover table-bordered">
         <thead>
           <th>Name</th>
@@ -84,7 +84,7 @@
         <tr *ngFor="let ingredient of ingredients">
           <th>{{ingredient?.name}}</th>
           <th>{{ingredient?.calories}}</th>
-          <input #weight type="number">
+          <input #weight type="number" placeholder="1 and 3000">
           <button type="button" class="btn success disabled " (click)="AddIngredient(ingredient.name,weight.value)">Add</button>
         </tr>
       </table>
