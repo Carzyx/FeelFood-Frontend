@@ -1,9 +1,9 @@
-<div class="jumbotron">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12 col-lg-12">
-        <h1 class="h2">FeelFood <small style="float: right"> feel free to contact us</small></h1>
-      </div>
+<div class="jumbotron contact-item">
+  <div class="row">
+    <div class="col-sm-12 col-lg-12">
+      <h2>FeelFood</h2>
+      <p class="lead">Feel free to contact us</p>
+      <hr class="my-4">
     </div>
   </div>
   <div class="jumbotron" style="background: #E9E9E5;">
@@ -15,7 +15,7 @@
               <label for="name">
                 Name</label>
               <input type="text" id="name" name="name" placeholder="Your name" class="form-control" [ngClass]="{'is-invalid': (contactForm.controls.name.errors && contactForm.controls.name.dirty), 'is-valid': !contactForm.controls.name.errors}"
-                     autocomplete="off" formControlName="name" />
+                autocomplete="off" formControlName="name" />
               <ul class="help-block">
                 <li *ngIf="contactForm.controls.name.errors?.required && contactForm.controls.name.dirty">This field is required</li>
                 <li *ngIf="(contactForm.controls.name.errors?.maxlength && contactForm.controls.name.dirty ) && contactForm.controls.name.dirty">Maximum characters: 15</li>
@@ -25,10 +25,12 @@
               Email</label>
             <div class="input-group mb-3" id="email">
               <div class="input-group-prepend">
-                <span class="input-group-text"><span class="fa fa-envelope"></span></span>
+                <span class="input-group-text">
+                  <span class="fa fa-envelope"></span>
+                </span>
               </div>
               <input type="text" name="email" class="form-control" [ngClass]="{'is-invalid': (contactForm.controls.email.errors && contactForm.controls.email.dirty), 'is-valid': !contactForm.controls.email.errors}"
-                     autocomplete="off" placeholder="example@gmail.com" formControlName="email" />
+                autocomplete="off" placeholder="example@gmail.com" formControlName="email" />
             </div>
             <ul class="help-block">
               <li *ngIf="contactForm.controls.email.errors?.required && contactForm.controls.email.dirty">This field is required</li>
@@ -51,15 +53,16 @@
       <div class="col-md-6">
         <div class="input-form">
           <form [formGroup]="contactForm">
-          <div class="form-group" [ngClass]="{'has-danger': (contactForm.controls.message.errors && contactForm.controls.message.dirty), 'has-success': !contactForm.controls.message.errors}">
-            <label for="message">
-              Message</label>
-            <textarea name="message" id="message" class="form-control" [ngClass]="{'is-invalid': (contactForm.controls.message.errors && contactForm.controls.name.dirty), 'is-valid': !contactForm.controls.message.errors}" rows="9" cols="25" required="required" placeholder="Max 1000 characters" formControlName="message"></textarea>
-            <ul class="help-block">
-              <li *ngIf="contactForm.controls.message.errors?.required && contactForm.controls.message.dirty">Message is required</li>
-              <li *ngIf="(contactForm.controls.message.errors?.maxlength && contactForm.controls.message.dirty ) && contactForm.controls.message.dirty">Maximum characters: 1000</li>
-            </ul>
-          </div>
+            <div class="form-group" [ngClass]="{'has-danger': (contactForm.controls.message.errors && contactForm.controls.message.dirty), 'has-success': !contactForm.controls.message.errors}">
+              <label for="message">
+                Message</label>
+              <textarea name="message" id="message" class="form-control" [ngClass]="{'is-invalid': (contactForm.controls.message.errors && contactForm.controls.name.dirty), 'is-valid': !contactForm.controls.message.errors}"
+                rows="9" cols="25" required="required" placeholder="Max 1000 characters" formControlName="message"></textarea>
+              <ul class="help-block">
+                <li *ngIf="contactForm.controls.message.errors?.required && contactForm.controls.message.dirty">Message is required</li>
+                <li *ngIf="(contactForm.controls.message.errors?.maxlength && contactForm.controls.message.dirty ) && contactForm.controls.message.dirty">Maximum characters: 1000</li>
+              </ul>
+            </div>
           </form>
         </div>
       </div>
