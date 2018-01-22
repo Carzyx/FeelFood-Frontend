@@ -41,7 +41,6 @@ export class UserComponent implements OnInit {
   message;
 
   constructor(private envHelper: EnvironmentHelper, private authService: AuthService, private router: Router, private formBuilder: FormBuilder, private validator: CustomValidator) {
-    this.createForm();
     this.getUser();
     this.getAllergies();
 
