@@ -2,7 +2,7 @@
 <div class="item-restaurant" *ngFor="let restaurant of restaurants">
   <app-restaurantSummary [restaurantId]="restaurant._id" [routerLink]="['restaurant',restaurant._id]"></app-restaurantSummary>
 </div>
-<div class="item-restaurant" [hidden]="anyRestaurant > 0">
+<div class="item-restaurant" *ngIf="anyRestaurant = 0">
   <table>
     <tr>
       <td>
