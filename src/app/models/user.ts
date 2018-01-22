@@ -1,8 +1,8 @@
 
 import { Location } from './location';
 import { Restaurant } from './restaurant';
-import { Allergy } from "./allergy";
-import {Order} from "./order";
+import { Allergy } from './allergy';
+import {Order} from './order';
 
 export class User {
     _id: String;

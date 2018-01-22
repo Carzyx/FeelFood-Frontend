@@ -65,7 +65,7 @@
             <div class="form-group" [ngClass]="{'has-danger': (profileForm.controls.firstName.errors && profileForm.controls.firstName.dirty), 'has-success': !profileForm.controls.firstName.errors}">
               <input type="text" name="firstName" class="form-control" [ngClass]="{'is-invalid': (profileForm.controls.firstName.errors && profileForm.controls.firstName.dirty), 'is-valid': !profileForm.controls.firstName.errors}"
                 autocomplete="off" formControlName="firstName" />
-              <ul class="help-block">
+              <ul class="HELP-BLOCK">
                 <li *ngIf="profileForm.controls.firstName.errors?.required && profileForm.controls.firstName.dirty">This field is required</li>
               </ul>
             </div>
