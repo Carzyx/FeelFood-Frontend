@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
 import { Restaurant } from '../../models/restaurant';
 import {AuthService} from '../../services/authentication/auth.service';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 import 'rxjs/add/operator/filter';
 
 @Component({
@@ -48,17 +48,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchByName(name) {
     this.authservice.searchReastaurantByName(name).subscribe(data => {
       this.restaurants = data;
-      this.anyRestaurant = this.restaurants.length
+      this.anyRestaurant = this.restaurants.length;
     });
   }
   private getRandomResturants() {
-    var url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.allRestaurants;
+    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.allRestaurants;
     this.http.get(url, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
     }).subscribe(data => {
       this.restaurants = data;
-      this.restaurants
     });
   }
 }

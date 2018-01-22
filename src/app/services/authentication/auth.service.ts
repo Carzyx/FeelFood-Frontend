@@ -10,7 +10,6 @@ export class AuthService {
   user;
   options;
   envHelper: EnvironmentHelper;
-  updatedRestaurant;
 
   constructor(private http: HttpClient) {
     this.envHelper = new EnvironmentHelper();

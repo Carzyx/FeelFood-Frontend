@@ -6,11 +6,11 @@
 export class EnvironmentHelper {
 
   readonly environment = {
-    production: false,
-    developer: true
+    production: true,
+    developer: false
   };
 
-  readonly urlbase: string = this.environment.developer ? 'http://localhost:3001' : 'http://147.83.7.157:3001';
+  readonly urlbase: string = this.environment.developer ? 'http://localhost:3001' : 'http://147.83.7.156:3001';
   // readonly urlbase: string = 'http://147.83.7.157:3001';
   private readonly userDictionary = {
     signup: '/user/signup',
