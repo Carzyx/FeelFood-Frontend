@@ -234,7 +234,7 @@ export class UserComponent implements OnInit {
     this.authHeader = {
       'Authorization': token
     };
-    this.avatarUrl = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.avatar + this.user._id;
+    this.avatarUrl = this.envHelper.urlbase + this.envHelper.urlDictionary.user.avatar + this.user._id;
   }
 
   onUploadFinished($event: FileHolder) {
