@@ -80,7 +80,7 @@
               </ul>
             </div>
             <label><strong>Avatar</strong></label>
-            <image-upload *ngIf="!imageUpload" [avatarUrl]="imageUrl" [max]="1" [extensions]="['jpeg','png','jpg']" buttonCaption="Select" dropBoxMessage="Drop your avatar here!" [headers]="authHeader" (uploadFinished)="onUploadFinished($event)"></image-upload>
+            <image-upload *ngIf="!imageUpload" [url]="avatarUrl" [max]="1" [extensions]="['jpeg','png','jpg']" buttonCaption="Select" dropBoxMessage="Drop your avatar here!" [headers]="authHeader" (uploadFinished)="onUploadFinished($event)"></image-upload>
             <br><input [disabled]="!profileForm.valid" type="submit" class="btn btn-outline-primary btn-lg" value="Update" />
           </form>
         </div>
