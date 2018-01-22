@@ -9,6 +9,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/authentication/auth.service';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { CustomValidator } from '../../helpers/customValidator';
+import {FileHolder} from 'angular2-image-upload';
+import {EnvironmentHelper} from '../../../environments/environment';
 
 @Component({
   selector: 'app-user',
@@ -17,7 +19,7 @@ import { CustomValidator } from '../../helpers/customValidator';
 })
 export class UserComponent implements OnInit {
 
-  @Input() addressCompleted: Location;  
+  @Input() addressCompleted: Location;
   @ViewChild('modal') modalUpdate: ModalComponent;
 
   // ShowHide
@@ -25,7 +27,9 @@ export class UserComponent implements OnInit {
   user: User;
   location: Location;
   allergy: Allergy;
-
+  avatarUrl: String;
+  imageUpload = false;
+  authHeader: { [name: string]: any };
   userOriginal;
   currentUser;
   addressForm;
@@ -36,7 +40,7 @@ export class UserComponent implements OnInit {
   address;
   message;
 
-  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder, private validator: CustomValidator) {
+  constructor(private envHelper: EnvironmentHelper, private authService: AuthService, private router: Router, private formBuilder: FormBuilder, private validator: CustomValidator) {
     this.createForm();
     this.getUser();
     this.getAllergies();
@@ -132,7 +136,7 @@ export class UserComponent implements OnInit {
     this.changeShowStatus('showAddress');
     this.location = new Location;
   }
-  
+
 
   deleteAddress() {
     const location = this.address;
@@ -198,6 +202,7 @@ export class UserComponent implements OnInit {
     this.authService.getProfile(this.currentUser._id).subscribe(data => {
       this.userOriginal = data;
       this.user = this.userOriginal;
+      this.onBeforeUpload();
       console.log(this.user);
     },
       err => { console.log(err) });
@@ -221,5 +226,23 @@ export class UserComponent implements OnInit {
       this.authService.logout();
       this.router.navigate(['/home']);
     }, err => { console.log(err) });
+  }
+
+  private onBeforeUpload() {
+    const token = localStorage.getItem('token');
+    this.authHeader = {
+      'Authorization': token
+    };
+    this.avatarUrl = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.avatar + this.user._id;
+  }
+
+  onUploadFinished($event: FileHolder) {
+    console.log($event.serverResponse);
+    if ($event.serverResponse.status === 201) {
+      this.message = 'User avatar update success.';
+      this.modalUpdate.show();
+      this.imageUpload = true;
+      setTimeout(() => this.modalUpdate.hide(), 1500);
+    }
   }
 }

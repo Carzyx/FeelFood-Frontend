@@ -9,6 +9,10 @@ import { AuthService } from '../../services/authentication/auth.service';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { Location } from '../../models/location';
 import { CustomValidator } from '../../helpers/customValidator';
+import {FileHolder} from 'angular2-image-upload';
+import {EnvironmentHelper} from '../../../environments/environment';
+import {forEach} from "@angular/router/src/utils/collection";
+import {ArgumentOutOfRangeError} from "rxjs/Rx";
 
 
 @Component({
@@ -19,7 +23,7 @@ import { CustomValidator } from '../../helpers/customValidator';
 
 export class RestaurantProfileComponent implements OnInit {
 
-  @Input() addressCompleted: Location;    
+  @Input() addressCompleted: Location;
   @ViewChild('modal') modalUpdate: ModalComponent;
   // ShowHide
   showItemDictionary = { showProfile: true, showAddress: false, showAddAddress: false, showAccount: false, showMenus: false, showDishes: false };
@@ -35,8 +39,16 @@ export class RestaurantProfileComponent implements OnInit {
   emailForm;
   address;
   message;
+  currentImages;
+  currentAvatar;
+  avatarUpload = false;
+  avatarUrl: String;
+  imagesUpload = false;
+  imagesUrl: String;
+  imageCounter = 0;
+  authHeader: { [name: string]: any };
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private validator: CustomValidator, private router: Router) {
+  constructor(private envHelper: EnvironmentHelper, private authService: AuthService, private formBuilder: FormBuilder, private validator: CustomValidator, private router: Router) {
     this.menu = new Menu();
     this.location = new Location();
     this.addressCompleted = new Location();
@@ -122,7 +134,7 @@ export class RestaurantProfileComponent implements OnInit {
   }
 
   private updateAddress() {
-    this.location = this.addressCompleted;   
+    this.location = this.addressCompleted;
     this.restaurant.locations.push(this.location);
     this.updateRestaurant();
     this.changeShowStatus('showAddress');
@@ -155,6 +167,7 @@ export class RestaurantProfileComponent implements OnInit {
     this.authService.getProfileRestaurant(this.currentRestaurant._id).subscribe(data => {
       this.restaurantOriginal = data;
       this.restaurant = this.restaurantOriginal;
+      this.onBeforeUpload();
       console.log(this.restaurant);
     },
       err => { console.log(err); });
@@ -201,6 +214,48 @@ export class RestaurantProfileComponent implements OnInit {
     }
   }
   private confirmar() {
-    return confirm('Estas seguro?');
+    return confirm('Are you sure?');
+  }
+
+  private onBeforeUpload() {
+    this.currentAvatar = new Array(this.restaurant.avatar);
+    let images = new Array();
+    this.restaurant.images.forEach(function (value) {
+      images.push(value['url']);
+    });
+    this.currentImages = images;
+
+    const token = localStorage.getItem('token');
+    this.authHeader = {
+      'Authorization': token
+    };
+    this.avatarUrl = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.avatar + this.restaurant._id;
+    this.imagesUrl = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.images + this.restaurant._id;
+  }
+
+  onUploadFinished($event: FileHolder) {
+    if ($event.serverResponse.status === 201) {
+      this.message = 'Avatar upload success.';
+      this.modalUpdate.show();
+      this.avatarUpload = true;
+      setTimeout(() => this.modalUpdate.hide(), 1500);
+    }
+  }
+
+  onUploadFinishedImages($event: FileHolder) {
+    if ($event.serverResponse.status === 201) {
+      this.imageCounter ++;
+      console.log('N-images: ' + this.imageCounter);
+      if (this.imageCounter >= 4) {
+        this.message = 'Images upload success.';
+        this.modalUpdate.show();
+        this.imagesUpload = true;
+        setTimeout(() => this.modalUpdate.hide(), 1500);
+      }
+    } else if ($event.serverResponse.status === 202) {
+      this.message = 'You can upload only 4 restaurant images.';
+      this.modalUpdate.show();
+      setTimeout(() => this.modalUpdate.hide(), 1500);
+    }
   }
 }

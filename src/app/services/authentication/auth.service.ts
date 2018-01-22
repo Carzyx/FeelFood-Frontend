@@ -54,6 +54,7 @@ export class AuthService {
 
   readToken() {
     this.authToken = localStorage.getItem('token');
+    return this.authToken;
   }
 
   loggedIn() {

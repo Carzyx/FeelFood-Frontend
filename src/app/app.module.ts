@@ -35,6 +35,8 @@ import { OrderDetailComponent } from './components/order-detail/order-detail.com
 import { ContactComponent } from './components/contact/contact.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { RateComponent } from './shared/rate/rate.component';
+import { ImageUploadModule } from 'angular2-image-upload';
+import {EnvironmentHelper} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -73,13 +75,15 @@ import { RateComponent } from './shared/rate/rate.component';
       apiKey: 'AIzaSyAPRBVQnnkf9qptCZSrcQ2DExv5A4uzL8o',
       libraries: ["places"]
     }),
-    FormsModule
+    FormsModule,
+    ImageUploadModule.forRoot()
   ],
   providers: [
     AuthService,
     AuthGuard,
     NotAuthGuard,
-    CustomValidator
+    CustomValidator,
+    EnvironmentHelper
   ],
   bootstrap: [
     AppNavbar,

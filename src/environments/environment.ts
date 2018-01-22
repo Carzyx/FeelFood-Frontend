@@ -22,7 +22,8 @@ export class EnvironmentHelper {
     allergies: '/allergies',
     contact: '/contact',
     forgotPassword: '/resetPassword',
-    resetPassword: '/resetPassword/new'
+    resetPassword: '/resetPassword/new',
+    avatar: '/images/avatar/?id='
   };
 
   private readonly restaurantDictionary = {
@@ -36,7 +37,9 @@ export class EnvironmentHelper {
     delete: '/restaurant?id=',
     publicRestaurant: '/restaurant/public?id=',
     orders: '/orders',
-    orderDetail: '/orders?id='
+    orderDetail: '/orders?id=',
+    avatar: '/images/avatar/?id=',
+    images: '/images/restaurant/?id='
   }
 
   readonly urlDictionary = {

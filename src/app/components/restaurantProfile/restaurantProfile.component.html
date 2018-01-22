@@ -85,7 +85,15 @@
                 <li *ngIf="profileForm.controls.phone.errors?.validatePhoneNumber && profileForm.controls.phone.dirty">This must be a valid phone number</li>
               </ul>
             </div>
-            <input [disabled]="!profileForm.valid" type="submit" class="btn btn-outline-info" value="Update" />
+            <ng-container *ngIf="!avatarUpload">
+                <label><strong>Avatar</strong></label>
+                <image-upload [url]="avatarUrl" [max]="1" [fileTooLargeMessage] [maxFileSize]="5000000" [extensions]="['jpeg','png','jpg']" buttonCaption="Select" dropBoxMessage="Drop here!" [headers]="authHeader" (uploadFinished)="onUploadFinished($event)" [uploadedFiles]="currentAvatar"></image-upload>
+            </ng-container>
+            <ng-container *ngIf="!imagesUpload">
+              <br><label><strong>Restaurant images</strong></label>
+              <image-upload [url]="imagesUrl" [max]="4" [fileTooLargeMessage] [maxFileSize]="5000000" [extensions]="['jpeg','png','jpg']" buttonCaption="Select" dropBoxMessage="Drop here! Max.4 images" [headers]="authHeader" (uploadFinished)="onUploadFinishedImages($event)" [uploadedFiles]="currentImages"></image-upload>
+            </ng-container>
+            <br><input [disabled]="!profileForm.valid" type="submit" class="btn btn-outline-info" value="Update" />
           </form>
         </div>
       </div>

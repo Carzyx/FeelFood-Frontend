@@ -23,7 +23,7 @@
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" *ngIf="restaurant.images" style="margin-top: -80px">
           <div class="carousel-inner" role="listbox">
             <div class="carousel-item" *ngFor="let image of restaurant.images; let i = index" [class.active]="i == 0">
-              <img class="d-block img-fluid" src="{{image}}" alt="{{i}}">
+              <img class="d-block img-fluid" src="{{image['url']}}" alt="{{i}}">
             </div>
           </div>
           <div class="btn-control-carousel" [hidden]="this.route.component['name'] == 'HomeComponent'">

@@ -3,6 +3,7 @@ import { Menu } from './menu';
 import { Dish } from './dish';
 import {Order} from './order';
 import { Rate } from './rate';
+import {Images} from './images';
 
 export class Restaurant {
   _id: String;
@@ -10,11 +11,12 @@ export class Restaurant {
   password: String;
   email: String;
   name: String;
-  images: Array<String>;
+  images: Array<Images>;
   phone: String;
   locations: Array<Location>;
   menus: Array<Menu>;
   dishes: Array<Dish>;
   orders: Array<Order>;
-  ratings: Array<Rate>
+  ratings: Array<Rate>;
+  avatar: String;
 }

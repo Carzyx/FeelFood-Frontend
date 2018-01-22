@@ -12,7 +12,6 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="jumbotron" style="background: #E9E9E5;">
-          <img *ngIf="!user.avatar" src="assets/defaultAvatar.png" class="rounded-circle" alt="Avatar">
           <img *ngIf="user.avatar" src="{{user.avatar}}" class="rounded-circle" alt="Avatar">
           <hr class="my-4">
           <h4 *ngIf="user.firstName || user.lastName">{{user.firstName}} {{user.lastName}}, {{user.username}}</h4>
@@ -72,7 +71,6 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="jumbotron" style="background: #E9E9E5;">
-          <img *ngIf="!restaurant.avatar" src="assets/defaultAvatar.png" class="rounded-circle" alt="Avatar">
           <img *ngIf="restaurant.avatar" src="{{restaurant.avatar}}" class="rounded-circle" alt="Avatar">
           <hr class="my-4">
           <h4 *ngIf="restaurant.name">{{restaurant.name}}</h4>

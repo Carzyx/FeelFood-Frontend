@@ -14,6 +14,7 @@ export class User {
     allergies: Array<Allergy>;
     favoriteRestaurants: Array<Restaurant>;
     lastLogin: Date;
+    avatar: String;
     //orders: [Schema.Types.ObjectId, ref: 'orders' }],
 }
 
