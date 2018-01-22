@@ -2,6 +2,7 @@
 import { Location } from './location';
 import { Restaurant } from './restaurant';
 import { Allergy } from "./allergy";
+import {Order} from "./order";
 
 export class User {
     _id: String;
@@ -15,7 +16,7 @@ export class User {
     favoriteRestaurants: Array<Restaurant>;
     lastLogin: Date;
     avatar: String;
-    //orders: [Schema.Types.ObjectId, ref: 'orders' }],
+    orders: Array<Order>;
 }
 
 export function mapNewObject(data) {

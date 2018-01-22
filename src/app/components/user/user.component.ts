@@ -238,7 +238,6 @@ export class UserComponent implements OnInit {
   }
 
   onUploadFinished($event: FileHolder) {
-    console.log($event.serverResponse);
     if ($event.serverResponse.status === 201) {
       this.message = 'User avatar update success.';
       this.modalUpdate.show();
