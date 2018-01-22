@@ -1,5 +1,5 @@
 export class Rate {
     key: String;
-    value : Number;
+    value : number;
   }
   

@@ -10,6 +10,7 @@ export class AuthService {
   user;
   options;
   envHelper: EnvironmentHelper;
+  updatedRestaurant;
 
   constructor(private http: HttpClient) {
     this.envHelper = new EnvironmentHelper();
@@ -66,6 +67,9 @@ export class AuthService {
     this.authToken = null;
     this.user = null;
   }
+  urlBase() {
+    return this.envHelper.urlbase;
+  }
 
   login(body) {
     this.createHeaders();
@@ -91,18 +95,15 @@ export class AuthService {
     this.createAuthHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.user.profile + name, this.options);
   }
-
   getProfileRestaurant(id) {
     this.createAuthHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.profile + id, this.options);
   }
-
   updateProfile(user) {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.user.user, JSON.stringify(user), this.options);
   }
-
-  updateProfileRestaurant(user) {
+  updateProfileRestaurant (user) {
     this.createAuthHeaders();
     return this.http.put(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant, JSON.stringify(user), this.options);
   }
@@ -110,6 +111,10 @@ export class AuthService {
   deleteProfile(id) {
     this.createAuthHeaders();
     return this.http.delete(this.envHelper.urlbase + this.envHelper.urlDictionary.user.delete + id, this.options);
+  }
+  deleteRestaurantProfile (id) {
+    this.createAuthHeaders();
+    return this.http.delete(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.delete + id, this.options);
   }
 
   deleteProfileRestaurant (id) {
@@ -131,10 +136,9 @@ export class AuthService {
     this.createHeaders();
     return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.user.allergies, this.options);
   }
-
   sendOrder(order) {
     this.createAuthHeaders();
-    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.orders, JSON.stringify(order), this.options)
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.orders, JSON.stringify(order), this.options);
   }
 
   getOrder(id) {
@@ -161,5 +165,25 @@ export class AuthService {
   sendNewPassword(body: any) {
     this.createHeaders();
     return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.user.resetPassword, body, this.options);
+  }
+  getIngredients() {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.ingredients, this.options);
+  }
+  searchIngredient(name) {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.ingredient + name, this.options);
+  }
+  speedSerachRestaurantByName(name) {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.name + name, this.options);
+  }
+  searchReastaurantByName(name) {
+    this.createHeaders();
+    return this.http.get(this.envHelper.urlbase + this.envHelper.urlDictionary.search.byName + name, this.options);
+  }
+  searchReastaurantByConditions(conditions) {
+    this.createHeaders();
+    return this.http.post(this.envHelper.urlbase + this.envHelper.urlDictionary.search.search, JSON.stringify(conditions), this.options);
   }
 }

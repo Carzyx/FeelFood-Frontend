@@ -1,7 +1,6 @@
 import { Dish } from './dish';
 
 export class Menu {
-  _id: String
   name: String
   description: String
   comments: String
@@ -14,7 +13,6 @@ export class Menu {
   drinksOptions: Array<Dish>
   othersOptions: Array<Dish>
   constructor() {
-    this._id = ''
     this.name = ''
     this.description = ''
     this.comments = ''

@@ -86,8 +86,8 @@ export class UserComponent implements OnInit {
       ])]
     });
     this.profileForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
+      firstName: [this.user.firstName ? this.user.firstName : '', Validators.required],
+      lastName: [this.user.lastName ? this.user.lastName : '', Validators.required]
     });
   }
 
@@ -202,6 +202,7 @@ export class UserComponent implements OnInit {
     this.authService.getProfile(this.currentUser._id).subscribe(data => {
       this.userOriginal = data;
       this.user = this.userOriginal;
+      this.createForm();
       this.onBeforeUpload();
       console.log(this.user);
     },

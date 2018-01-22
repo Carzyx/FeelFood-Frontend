@@ -38,9 +38,12 @@
         </a>
       </li>
     </ul>
-    <form class="form-inline">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search">
-      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    <form class="form-inline" (submit)="Search(search.value)">
+      <input class="form-control " list="nameList" type="search" placeholder="Search" #search (keyup)="speedSearch(search.value)" (submit)="searchByName(search.value)">
+      <datalist id="nameList">
+        <option *ngFor="let name of namesList" value="{{name.name}}">
+      </datalist>
+      <button class="btn btn-secondary my-2 my-sm-0" type="button" (click)="Search(search.value)" >Search</button>
     </form>
   </div>
 </nav>

@@ -17,3 +17,7 @@ div.component-title{
 div.input-form{
   margin-bottom: 10px;
 }
+input.checkbox
+{
+  min-width: 0px;
+}

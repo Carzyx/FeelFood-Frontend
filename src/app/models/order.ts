@@ -4,7 +4,6 @@ import { Location } from './location';
 
 
 export class Order {
-    _id: String;
     restaurant_id: String;
     restaurant: String;
     restaurantPhone: String;
@@ -17,6 +16,7 @@ export class Order {
     createDate: Date;
     deliveryDate: Date;
     status: [{ state: String , dataState: Date}];
+    isRated: Boolean;
     menusDetails: Array<Menu>;
     dishesDetails: Array<Dish>;
     totalPrice: Number;

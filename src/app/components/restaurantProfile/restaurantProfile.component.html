@@ -85,16 +85,28 @@
                 <li *ngIf="profileForm.controls.phone.errors?.validatePhoneNumber && profileForm.controls.phone.dirty">This must be a valid phone number</li>
               </ul>
             </div>
+            <form [formGroup]="tagsForm" (submit)="updateTags()">
+              <div>
+                  <div class="form-group">
+                      <input type="checkbox" name="homeDelivery" formControlName="homeDelivery" (change)="updateTags()">
+                      <label >Home delivery</label>
+                  </div>
+
+                  <div class="form-group" >
+                      <input type="checkbox"  name="takeAway" formControlName="takeAway" (change)="updateTags()">
+                      <label >Take away</label>
+                  </div>
+              </div>
+            </form>
             <ng-container *ngIf="!avatarUpload">
-                <label><strong>Avatar</strong></label>
-                <image-upload [url]="avatarUrl" [max]="1" [fileTooLargeMessage] [maxFileSize]="5000000" [extensions]="['jpeg','png','jpg']" buttonCaption="Select" dropBoxMessage="Drop here!" [headers]="authHeader" (uploadFinished)="onUploadFinished($event)" [uploadedFiles]="currentAvatar"></image-upload>
+              <label><strong>Avatar</strong></label>
+              <image-upload [url]="avatarUrl" [max]="1" [fileTooLargeMessage] [maxFileSize]="5000000" [extensions]="['jpeg','png','jpg']" buttonCaption="Select" dropBoxMessage="Drop here!" [headers]="authHeader" (uploadFinished)="onUploadFinished($event)" [uploadedFiles]="currentAvatar"></image-upload>
             </ng-container>
             <ng-container *ngIf="!imagesUpload">
               <br><label><strong>Restaurant images</strong></label>
               <image-upload [url]="imagesUrl" [max]="4" [fileTooLargeMessage] [maxFileSize]="5000000" [extensions]="['jpeg','png','jpg']" buttonCaption="Select" dropBoxMessage="Drop here! Max.4 images" [headers]="authHeader" (uploadFinished)="onUploadFinishedImages($event)" [uploadedFiles]="currentImages"></image-upload>
             </ng-container>
-            <br><input [disabled]="!profileForm.valid" type="submit" class="btn btn-outline-info" value="Update" />
-          </form>
+            <br><input [disabled]="!profileForm.valid" type="submit" class="btn btn-outline-info" value="Update" />          </form>
         </div>
       </div>
 
@@ -250,7 +262,7 @@
             <h2>{{menu.name}}</h2>
             <div>
               <i>Price:{{menu.price}}€</i>
-              <button (click)="deleteMenu(menu._id)" class="btn btn-danger">Delete Menu</button>
+              <button (click)="deleteMenu(menu.name)" class="btn btn-danger">Delete Menu</button>
             </div>
             <h3>Starters</h3>
             <app-dish [restaurant]="restaurant" [menuName]="menu.name" [dishes]="menu.starters" [currentList]="'starters'"></app-dish>

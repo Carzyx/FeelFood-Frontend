@@ -1,3 +1,16 @@
+<app-search (outRestaurants)="search($event)"></app-search>
 <div class="item-restaurant" *ngFor="let restaurant of restaurants">
   <app-restaurantSummary [restaurantId]="restaurant._id" [routerLink]="['restaurant',restaurant._id]"></app-restaurantSummary>
+</div>
+<div class="item-restaurant" [hidden]="anyRestaurant > 0">
+  <table>
+    <tr>
+      <td>
+        <img class="d-block img-fluid" src="assets/noRestaurant.png"/>
+      </td>
+      <td>
+        <h3 class="lead">No results found. Try change your search.</h3>
+      </td>
+    </tr>
+  </table>
 </div>

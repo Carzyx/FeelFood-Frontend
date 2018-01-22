@@ -21,6 +21,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { HomeComponent } from './components/home/home.component';
 import { RestaurantProfileComponent } from './components/restaurantProfile/restaurantProfile.component';
 import { DishComponent } from './components/dish/dish.component';
+import {SearchComponent} from './components/search/search.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { AppNavbar } from './shared/navbar/navbar.component';
 import { AuthFbComponent } from './components/authFb/authFb.component';
@@ -35,6 +36,8 @@ import { OrderDetailComponent } from './components/order-detail/order-detail.com
 import { ContactComponent } from './components/contact/contact.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { RateComponent } from './shared/rate/rate.component';
+import { NouisliderModule } from 'ng2-nouislider';
+
 import { ImageUploadModule } from 'angular2-image-upload';
 import {EnvironmentHelper} from '../environments/environment';
 
@@ -54,6 +57,7 @@ import {EnvironmentHelper} from '../environments/environment';
     HomeComponent,
     RestaurantProfileComponent,
     DishComponent,
+    SearchComponent,
     AppNavbar,
     AuthFbComponent,
     ModalComponent,
@@ -69,6 +73,7 @@ import {EnvironmentHelper} from '../environments/environment';
     AngularDateTimePickerModule,
     FormsModule,
     BrowserModule,
+    NouisliderModule,
     HttpClientModule,
     AppRoutes,
     AgmCoreModule.forRoot({

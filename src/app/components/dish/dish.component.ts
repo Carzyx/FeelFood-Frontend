@@ -1,13 +1,14 @@
-import { Component, Input, OnInit, Directive } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentHelper } from '../../../environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// import { AuthService} from '../../services/auth.service';
-import { Router } from '@angular/router';
-import { Restaurant } from '../../models/restaurant';
-import { Ingredient } from '../../models/ingredient';
-import { Dish } from '../../models/dish';
+import { AuthService } from '../../services/authentication/auth.service';
+
+import {Router} from '@angular/router';
+import {Restaurant} from '../../models/restaurant';
+import {Ingredient} from '../../models/ingredient';
+import {Dish} from '../../models/dish';
+import {forEach} from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -30,10 +31,11 @@ export class DishComponent implements OnInit {
   dish: Dish;
   envHelper: EnvironmentHelper;
   ingredients;
+  currentIngredients;
   currentImport;
 
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
     this.dish = new Dish();
     this.envHelper = new EnvironmentHelper();
     this.currentList = 'Dishes';
@@ -48,8 +50,7 @@ export class DishComponent implements OnInit {
 
   // TODO Add update method.
   private updateRestaurant() {
-    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.restaurant;
-    this.http.put(url, this.restaurant, { headers: new HttpHeaders().set('Content-Type', 'application/json') }).subscribe(data => {
+    this.authService.updateProfileRestaurant(this.restaurant).subscribe(data => {
       this.dish = new Dish();
       if (!this.menuName)
         this.dishes = this.restaurant.dishes;
@@ -64,9 +65,9 @@ export class DishComponent implements OnInit {
   private AddDish(value) {
     this.addDish = this.addDish ? false : true;
     if ((!this.addDish) && (value === 'Dishes')) {
-      console.log('ADDING TO DISHES');
       this.restaurant.dishes.push(this.dish);
-      console.log(this.dish);
+      this.getAveragePrice();
+      this.getTotalCalories()
       this.updateRestaurant();
       this.getIngredients();
     }
@@ -100,6 +101,7 @@ export class DishComponent implements OnInit {
         this.restaurant.dishes = this.dishes;
       else
         this.restaurant.menus[this.positionMenu][this.currentList] = this.dishes;
+      this.getAveragePrice();
       this.updateRestaurant();
     }
   }
@@ -111,6 +113,7 @@ export class DishComponent implements OnInit {
           const ingredient = new Ingredient(name, (this.ingredients[i].calories * weigth) / 100, weigth);
           this.dish.ingredients.push(ingredient);
           this.ingredients.splice(i, 1);
+          this.SearchIngredient(null);
         }
       }
     }
@@ -129,8 +132,7 @@ export class DishComponent implements OnInit {
 
   }
   private getIngredients() {
-    const url = this.envHelper.urlbase + this.envHelper.urlDictionary.restaurant.ingredients;
-    this.http.get(url).subscribe(data => {
+    this.authService.getIngredients().subscribe(data => {
       this.ingredients = data;
       for (let i = 0; i < this.dish.ingredients.length; i++) {
         for (let j = 0; j < this.ingredients.length; j++) {
@@ -206,6 +208,39 @@ export class DishComponent implements OnInit {
     for (let i = 0; i < this.restaurant.menus.length; i++) {
       if (this.restaurant.menus[i].name === this.menuName)
         this.positionMenu = i;
+    }
+  }
+  private getAveragePrice() {
+    let price = 0;
+    const menuPrice = this.restaurant.tags.average.menu ? this.restaurant.tags.average.menu : 0;
+    this.restaurant.dishes.forEach(function (value) {
+      price = price + value.price;
+    });
+    const average = {
+      dish: price / this.restaurant.dishes.length,
+      menu: menuPrice
+    };
+    this.restaurant.tags.average = average;
+  }
+
+  SearchIngredient(value) {
+    // this.currentIngredients = this.ingredients;
+
+    this.authService.searchIngredient(value).subscribe(data => {
+      this.ingredients = data;
+      for (let i = 0; i < this.dish.ingredients.length; i++) {
+        for (let j = 0; j < this.ingredients.length; j++) {
+          if (this.ingredients[j].name === this.dish.ingredients[i].ingredient)
+            this.ingredients.splice(j, 1);
+        }
+      }
+    });
+  }
+
+  private getTotalCalories() {
+    this.dish.totalCalories = 0;
+    for (let i = 0; i < this.dish.ingredients.length; i++) {
+      this.dish.totalCalories = this.dish.totalCalories + this.dish.ingredients[i].calories;
     }
   }
 }

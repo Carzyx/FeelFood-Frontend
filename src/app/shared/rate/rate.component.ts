@@ -70,6 +70,9 @@ export class RateComponent implements OnInit, ControlValueAccessor, Validator {
     @Output()
     onLeave = new EventEmitter();
 
+    @Output()
+    modelOut: EventEmitter<number> = new EventEmitter();
+
     // -------------------------------------------------------------------------
     // Public properties
     // -------------------------------------------------------------------------
@@ -102,7 +105,7 @@ export class RateComponent implements OnInit, ControlValueAccessor, Validator {
     }
 
     registerOnChange(fn: any): void {
-        this.onChange = fn;
+        //this.onChange = fn;
     }
 
     registerOnTouched(fn: any): void {
@@ -186,8 +189,8 @@ export class RateComponent implements OnInit, ControlValueAccessor, Validator {
     rate(value: number) {
         if (!this.readonly && !this.disabled && value >= 0 && value <= this.ratingRange.length) {
             const newValue = this.hoveredPercent ? (value - 1) + this.hoveredPercent / 100 : value;
-            this.onChange(newValue);
             this.model = newValue;
+            this.modelOut.emit(this.model)
         }
     }
 

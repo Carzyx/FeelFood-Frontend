@@ -8,7 +8,8 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { Router } from '@angular/router';
 import { Restaurant } from '../../models/restaurant';
 import { AppNavbar } from '../../shared/navbar/navbar.component';
-import { Order } from "../../models/order";
+import {Order} from '../../models/order';
+import io from 'socket.io-client';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,9 +17,11 @@ import { Order } from "../../models/order";
   styleUrls: ['./dashboard.component.css'],
   providers: [LoginComponent]
 })
+
 export class DashboardComponent implements OnInit {
   @ViewChild('modal') modal: ModalComponent;
   @ViewChild('modalOrder') modalOrder: ModalComponent;
+  @ViewChild('modalNofityNewOrder') modalNofityNewOrder: ModalComponent;
   @ViewChild('modalOrderEnd') modalOrderEnd: ModalComponent;
 
   currentUser;
@@ -28,6 +31,7 @@ export class DashboardComponent implements OnInit {
   lastLogin;
   orderStatus;
   order: Order;
+  socket;
   isProcessed: Boolean;
   isEndProcess: Boolean;
   orderNow: String;
@@ -45,7 +49,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   }
 
-  private getUser() {
+  public getUser() {
     if (this.navbar.profile === '/userProfile') {
       this.currentUser = JSON.parse(localStorage.getItem('user'));
       this.authService.getProfile(this.currentUser._id).subscribe(data => {
@@ -70,11 +74,30 @@ export class DashboardComponent implements OnInit {
           this.modal.block();
         }
         console.log(this.restaurant);
+          if (!this.socket) {
+            this.socket = io.connect(this.authService.urlBase());
+            console.log(this.socket);
+            this.socket.emit('id', this.restaurant._id);
+            this.socket.on('update',() => {
+              this.updateUser();
+            });
+          }
       },
         err => { console.log(err) });
     }
   }
 
+private updateUser() {
+  this.authService.getProfileRestaurant(this.currentUser._id).subscribe(data => {
+    this.restaurant = data;
+    this.notifyNewOrder();
+  });
+}
+
+private notifyNewOrder() {
+  this.modalNofityNewOrder.show();
+  setTimeout(() => this.modal.hide(), 1500);
+}
   private redirect() {
     if (this.navbar.profile === '/restaurantProfile') {
       this.router.navigate(['restaurantProfile']);
@@ -88,7 +111,7 @@ export class DashboardComponent implements OnInit {
     var haveState = this.order.status.find(o => o.state === state) ? true : false;
     if (haveState) {
       return;
-    } 
+    }
 
     this.order.status.push({
       state: state,
@@ -107,7 +130,7 @@ export class DashboardComponent implements OnInit {
     this.isProcessed = this.order.status.find(o => o.state === 'Accepted' || o.state === 'Refused') ? true : false;
     this.isEndProcess = this.order.status.find(o => o.state === 'Delivered' || o.state === 'Refused') ? true : false;
     this.orderStatus = order.status;
-    
+
     var lasIndex = order.status.length -1;
     this.orderNow = order.status[lasIndex].state.toLowerCase();
 

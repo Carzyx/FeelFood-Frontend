@@ -9,10 +9,7 @@ import { AuthService } from '../../services/authentication/auth.service';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { Location } from '../../models/location';
 import { CustomValidator } from '../../helpers/customValidator';
-import {FileHolder} from 'angular2-image-upload';
 import {EnvironmentHelper} from '../../../environments/environment';
-import {forEach} from "@angular/router/src/utils/collection";
-import {ArgumentOutOfRangeError} from "rxjs/Rx";
 
 
 @Component({
@@ -20,12 +17,9 @@ import {ArgumentOutOfRangeError} from "rxjs/Rx";
   templateUrl: './restaurantProfile.component.html',
   styleUrls: ['./restaurantProfile.component.css']
 })
-
 export class RestaurantProfileComponent implements OnInit {
-
   @Input() addressCompleted: Location;
   @ViewChild('modal') modalUpdate: ModalComponent;
-  // ShowHide
   showItemDictionary = { showProfile: true, showAddress: false, showAddAddress: false, showAccount: false, showMenus: false, showDishes: false };
   location: Location;
   addMenu = false;
@@ -37,6 +31,7 @@ export class RestaurantProfileComponent implements OnInit {
   addressForm;
   passwordForm;
   emailForm;
+  tagsForm;
   address;
   message;
   currentImages;
@@ -52,8 +47,6 @@ export class RestaurantProfileComponent implements OnInit {
     this.menu = new Menu();
     this.location = new Location();
     this.addressCompleted = new Location();
-    this.createForm();
-    this.createForm();
     this.getRestaurant();
   }
 
@@ -77,10 +70,10 @@ export class RestaurantProfileComponent implements OnInit {
         Validators.maxLength(20)])]
     });
     this.profileForm = this.formBuilder.group({
-      restaurantName: ['', Validators.compose([
+      restaurantName: [this.restaurant.name ? this.restaurant.name : '', Validators.compose([
         Validators.required,
         Validators.maxLength(20)])],
-      phone: ['', Validators.compose([
+      phone: [this.restaurant.phone ? this.restaurant.phone : '', Validators.compose([
         Validators.required,
         this.validator.validatePhoneNumber
       ])]
@@ -100,6 +93,20 @@ export class RestaurantProfileComponent implements OnInit {
         this.validator.validateEmail
       ])]
     });
+    this.tagsForm = this.formBuilder.group({
+      homeDelivery: [this.restaurant.tags.homeDelivery ? this.restaurant.tags.homeDelivery : false],
+      takeAway: [this.restaurant.tags.takeAway ? this.restaurant.tags.takeAway : false],
+      dish: [0],
+      menu: [0],
+      description: [{
+        name: ['', Validators.required ],
+        value: ['', Validators.compose([
+          Validators.required,
+          Validators.min(0),
+          Validators.max(100)]
+        )]
+      }, Validators.max(3)],
+    });
   }
 
   ngOnInit() {
@@ -110,7 +117,7 @@ export class RestaurantProfileComponent implements OnInit {
     const itemsList = Object.keys(this.showItemDictionary);
     for (let index = 0; index < itemsList.length; index++) {
       const specificKey = itemsList[index];
-      this.showItemDictionary[specificKey] = specificKey == key ? true : false;
+      this.showItemDictionary[specificKey] = specificKey === key ? true : false;
     }
   }
 
@@ -120,7 +127,11 @@ export class RestaurantProfileComponent implements OnInit {
     this.profileForm.reset();
     this.updateRestaurant();
   }
-
+  private updateTags() {
+    this.restaurant.tags.homeDelivery = this.tagsForm.get('homeDelivery').value;
+    this.restaurant.tags.takeAway = this.tagsForm.get('takeAway').value;
+    console.log(this.restaurant.tags);
+  }
   private updatePassword() {
     this.restaurant.password = this.passwordForm.get('password').value;
     this.passwordForm.reset();
@@ -168,6 +179,7 @@ export class RestaurantProfileComponent implements OnInit {
       this.restaurantOriginal = data;
       this.restaurant = this.restaurantOriginal;
       this.onBeforeUpload();
+      this.createForm();
       console.log(this.restaurant);
     },
       err => { console.log(err); });
@@ -181,14 +193,19 @@ export class RestaurantProfileComponent implements OnInit {
       this.getRestaurant();
       setTimeout(() => this.modalUpdate.hide(), 1500);
     },
-      err => { console.log(err) });
+      err => { console.log(err); });
   }
 
   private deleteRestaurant() {
-    this.authService.deleteProfileRestaurant(this.currentRestaurant._id).subscribe(data => {
-      this.authService.logout();
-      this.router.navigate(['/home']);
-    }, err => { console.log(err) });
+    if (this.confirmar()) {
+      this.authService.deleteRestaurantProfile(this.currentRestaurant.id).subscribe(data => {
+        alert('Restaurant deleted.');
+        this.authService.logout();
+        this.router.navigate(['/home']);
+      }, err => {
+        console.log(err);
+      });
+    }
   }
 
   private ShowMenu() {
@@ -196,16 +213,25 @@ export class RestaurantProfileComponent implements OnInit {
   }
 
   private createMenu() {
-    this.restaurant.menus.push(this.menu);
+    var find = false;
+    for (var i=0; i<this.restaurant.menus.length; i++) {
+      if(this.menu.name === this.restaurant.menus[i].name)
+        find = true;
+    }
+    if (find)
+      alert('These menu name is in use');
+    else
+      this.restaurant.menus.push(this.menu);
+    // this.getAveragePrice();
     this.updateRestaurant();
     this.ShowMenu();
     this.menu = new Menu();
   }
-  private deleteMenu(id) {
+  private deleteMenu(name) {
 
     if (this.confirmar()) {
       this.restaurant.menus.forEach(function (value, index, array) {
-        if (value['_id'] === id) {
+        if (value['name'] === name) {
           array.splice(index, 1);
           return;
         }
