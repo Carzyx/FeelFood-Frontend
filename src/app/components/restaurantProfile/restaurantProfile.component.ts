@@ -10,6 +10,7 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { Location } from '../../models/location';
 import { CustomValidator } from '../../helpers/customValidator';
 import {EnvironmentHelper} from '../../../environments/environment';
+import {FileHolder} from 'angular2-image-upload';
 
 
 @Component({
