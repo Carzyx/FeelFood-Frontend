@@ -16,7 +16,7 @@ export class User {
     favoriteRestaurants: Array<Restaurant>;
     lastLogin: Date;
     avatar: String;
-    orders: Array<Order>,
+    orders: Array<Order>;
 }
 
 export function mapNewObject(data) {
