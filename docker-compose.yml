@@ -1,9 +1,0 @@
-version: '2'
-
-services:
-
-  # Build the container using the client Dockerfile
-  client:
-     build: ../../NessemuT/Desktop/frontend
-     ports:
-      - "4200:4200"

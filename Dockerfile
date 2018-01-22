@@ -3,11 +3,10 @@ FROM node:8.5.0
 WORKDIR /usr/src/frontend
 
 COPY package.json /usr/src/frontend
-
-RUN npm update
+COPY package-lock.json /usr/src/frontend
 RUN npm install
 
-COPY ../../NessemuT/Desktop/frontend /usr/src/frontend
+COPY . /usr/src/frontend
 
 EXPOSE 4200
 
