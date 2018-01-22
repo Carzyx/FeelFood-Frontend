@@ -67,6 +67,7 @@ export class DishComponent implements OnInit {
     if ((!this.addDish) && (value === 'Dishes')) {
       this.restaurant.dishes.push(this.dish);
       this.getAveragePrice();
+      this.getTotalCalories()
       this.updateRestaurant();
       this.getIngredients();
     }
@@ -234,5 +235,12 @@ export class DishComponent implements OnInit {
         }
       }
     });
+  }
+
+  private getTotalCalories() {
+    this.dish.totalCalories = 0;
+    for (let i = 0; i < this.dish.ingredients.length; i++) {
+      this.dish.totalCalories = this.dish.totalCalories + this.dish.ingredients[i].calories;
+    }
   }
 }
