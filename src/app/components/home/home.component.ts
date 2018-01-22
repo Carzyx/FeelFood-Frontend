@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   restaurants;
   @Input() inRestaurants;
   eventChangeRoute;
+  anyRestaurant;
+
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private authservice: AuthService ) {
     this.envHelper = new EnvironmentHelper();
     const url = route.snapshot.paramMap.get('search');
@@ -46,8 +48,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchByName(name) {
     this.authservice.searchReastaurantByName(name).subscribe(data => {
       this.restaurants = data;
-      console.log('Search by name');
-      console.log(this.restaurants);
+      this.anyRestaurant = this.restaurants.length
     });
   }
   private getRandomResturants() {
@@ -57,7 +58,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         .set('Content-Type', 'application/json')
     }).subscribe(data => {
       this.restaurants = data;
-      console.log(this.restaurants);
+      this.restaurants
     });
   }
 }
